@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Student,db
+from src.database import Student, User,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 
 
@@ -27,6 +27,13 @@ def complete_profile():
     programme_category = request.json['programme_category']
     programme = request.json['programme']
     affiliation_status=request.json['affiliation_status']
+    summer_only=request.json['summer_only']
+
+    one_user = Student.query.filter_by(student_id=student_id).first()
+    
+    if one_user:
+        db.session.delete(one_user)     
+        db.session.commit()
 
     student=Student(student_id=student_id,sex=sex,date_of_birth=date_of_birth,
     phone_number=phone_number,ledger_no=ledger_no,
@@ -34,7 +41,7 @@ def complete_profile():
     country_of_origin=country_of_origin,denomination=denomination,local_church=local_church,
     name_of_pastor=name_of_pastor,work_fulltime=work_fulltime,admission_year=admission_year,
     programme_category=programme_category,programme=programme,
-    affiliation_status=affiliation_status,ministry=ministry)
+    affiliation_status=affiliation_status,ministry=ministry,summer_only=summer_only)
     db.session.add(student)        
     db.session.commit()
 
@@ -50,33 +57,39 @@ def complete_profile():
 # @jwt_required()
 def get_student(studentId):
     
+    student = Student.query.filter_by(student_id=studentId).first()
+    user = User.query.filter_by(username=studentId).first()
 
-    user = Student.query.filter_by(student_id=studentId).first()
 
-    if not user:
+    if not student:
         return jsonify({
             "message": 'Record not found'
         }), HTTP_404_NOT_FOUND
 
     return jsonify({
         'data': {
-        'sex': user.sex,
-        'date_of_birth': user.date_of_birth,
-        'phone_number': user.phone_number,
-        'email': user.email,
-        'ledger_no': user.ledger_no,
-        'matric_number': user.matric_number,
-        'state_of_origin': user.state_of_origin,
-        'country_of_origin': user.country_of_origin,
-        'local_church': user.local_church,
-        'name_of_pastor': user.name_of_pastor,
-        'ministry': user.ministry,
-        'work_fulltime': user.work_fulltime,
-        'admission_year': user.admission_year,
-        'programme_category': user.programme_category,
-        'programme': user.programme,
-        'affiliation_status': user.affiliation_status,
-        'special_student_category': user.special_student_category,
-        'id': user.id,
+        'first_name': user.first_name,
+        'middle_name': user.middle_name,
+        'last_name': user.last_name,
+        'denomination': student.denomination,
+        'sex': student.sex,
+        'date_of_birth': student.date_of_birth,
+        'phone_number': student.phone_number,
+        'email': student.email,
+        'ledger_no': student.ledger_no,
+        'matric_number': student.matric_number,
+        'state_of_origin': student.state_of_origin,
+        'country_of_origin': student.country_of_origin,
+        'local_church': student.local_church,
+        'name_of_pastor': student.name_of_pastor,
+        'ministry': student.ministry,
+        'work_fulltime': student.work_fulltime,
+        'admission_year': student.admission_year,
+        'programme_category': student.programme_category,
+        'programme': student.programme,
+        'affiliation_status': student.affiliation_status,
+        'special_student_category': student.special_student_category,
+        'summer_only': student.summer_only,
+        'id': student.id,
          }
     }), HTTP_200_OK

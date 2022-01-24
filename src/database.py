@@ -1,17 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-from sqlalchemy.orm import backref
+from sqlalchemy.dialects.postgresql import ARRAY
 
 db = SQLAlchemy()
+
 
 
 class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.Text, unique=True, nullable=False)
-    first_name=db.Column(db.Text, unique=True, nullable=False)
-    middle_name=db.Column(db.Text, unique=True, nullable=False)
-    last_name=db.Column(db.Text, unique=True, nullable=False)
+    first_name=db.Column(db.Text, nullable=False)
+    middle_name=db.Column(db.Text)
+    last_name=db.Column(db.Text, nullable=False)
     user_category=db.Column(db.String(100), nullable=False)
     password=db.Column(db.Text, nullable=False)
     profile_status=db.Column(db.Text,default='incomplete')
@@ -20,6 +20,7 @@ class User(db.Model):
     
     def __repr__(self) -> str:
         return 'User>>>{self.username}'
+
 
 class Student(db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -42,6 +43,7 @@ class Student(db.Model):
     programme=db.Column(db.Text, nullable=False)
     status=db.Column(db.Text, default='active')
     affiliation_status=db.Column(db.Text, nullable=False)
+    summer_only=db.Column(db.Text, nullable=False)
     special_student_category=db.Column(db.Text)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
@@ -83,7 +85,7 @@ class Student(db.Model):
         if self.programme_category == 'PGDT Programme' or self.programme_category == 'Masters Programme':
             level = "PG"
 
-        string = self.admission_year
+        string = str(self.admission_year)
         yr = string[-2:]
 
 
@@ -100,15 +102,41 @@ class Student(db.Model):
 
 
 
+class Staff(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    email=db.Column(db.Text, unique=True, nullable=False)
+    office=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    def __repr__(self) -> str:
+        return 'Staff>>>{self.id}'
+
+
+class Period(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    semester=db.Column(db.Text, nullable=False)
+    session=db.Column(db.Text, nullable=False)
+    season=db.Column(db.Text, nullable=False)
+    late=db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Period>>>{self.id}'
+
+
 class Registration(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     student_id=db.Column(db.Text, unique=True, nullable=False)
     fresh=db.Column(db.Text)
     level=db.Column(db.Text)
-    affiliation=db.Column(db.Text)
-    semester=db.Column(db.String(100), default='2nd')
-    session=db.Column(db.Text, default='2021/2022')
-    season=db.Column(db.Text,default='regular')
+    semester=db.Column(db.String(100), nullable=False)
+    session=db.Column(db.Text, nullable=False)
+    season=db.Column(db.Text, nullable=False)
+    started=db.Column(db.Text, default='yes')
+    denomination=db.Column(db.Text, nullable=False)
     dean=db.Column(db.Text)
     bursar=db.Column(db.Text)
     registrar=db.Column(db.Text)
@@ -123,28 +151,100 @@ class Registration(db.Model):
         return 'Registration>>>{self.id}'
 
 
-class Charges(db.Model):
+class Newstudentcharges(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    student_id=db.Column(db.Text, unique=True, nullable=False)
-    matriculation=db.Column(db.Text)
-    late_reg=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    matriculation_postgraduate=db.Column(db.Text)
+    matriculation_undergraduate=db.Column(db.Text)
     id_card=db.Column(db.Text)
-    admin=db.Column(db.Text)
-    exam=db.Column(db.Text)
-    sug=db.Column(db.Text)
-    depart=db.Column(db.Text)
-    insurance=db.Column(db.Text)
-    campus_dev=db.Column(db.Text)
-    ecwa_levy=db.Column(db.Text)
-    ict=db.Column(db.Text)
-    library=db.Column(db.Text)
     actea=db.Column(db.Text)
-    semester=db.Column(db.String(100), default='2nd')
-    session=db.Column(db.Text, default='2021/2022')
-    season=db.Column(db.Text,default='regular')
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
 
     
     def __repr__(self) -> str:
-        return 'Charges>>>{self.id}'
+        return 'Newstudentcharges>>>{self.id}'
+
+
+class Returningstudentcharges(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    admin=db.Column(db.Text)
+    exam=db.Column(db.Text)
+    library=db.Column(db.Text)
+    ict=db.Column(db.Text)
+    ecwa_dev=db.Column(db.Text)
+    campus_dev=db.Column(db.Text)
+    insurance=db.Column(db.Text)
+    late=db.Column(db.Text)
+    department=db.Column(db.Text)
+    sug=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Returningstudentcharges>>>{self.id}'
+
+
+class Affiliationfees(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    student_id=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    amount=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Newstudentcharges>>>{self.id}'
+
+
+class Courses(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    year=db.Column(db.Text)
+    title=db.Column(db.Text)
+    code=db.Column(db.Text)
+    hours=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Courses>>>{self.id}'
+
+class Pickedcourses(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    student_id=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    course_code=db.Column(ARRAY(db.Text))
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Pickedcourses>>>{self.id}'
+
+
+class Costperhour(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    denomination=db.Column(db.Text)
+    level=db.Column(db.Text)
+    amount=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Costperhour>>>{self.id}'
