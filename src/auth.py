@@ -52,7 +52,7 @@ def login():
     username=request.json.get('username','')
     password=request.json.get('password','')
 
-    user=User.query.filter_by(username=username).first()
+    user=User.query.filter(User.username==username).first()
 
     if user:
         is_password_correct=check_password_hash(user.password, password)
