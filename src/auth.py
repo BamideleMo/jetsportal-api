@@ -49,8 +49,11 @@ def create_profile():
 
 @auth.post('/login') #Login a user
 def login():
-    username=request.json.get('username','')
-    password=request.json.get('password','')
+    # username=request.json.get('username','')
+    # password=request.json.get('password','')
+    
+    username = request.json['username']
+    password = request.json['password']
 
     user=User.query.filter(User.username==username).first()
 
