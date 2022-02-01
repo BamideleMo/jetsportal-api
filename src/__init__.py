@@ -18,7 +18,7 @@ def create_app(test_config=None):
 
     my_env = os.getenv("FLASK_ENV")
     if(my_env=="development"):
-        uri = "postgresql://postgres:Foluke89@localhost/jetsv3"
+        uri = "postgresql://postgres:Foluke89@localhost/jets"
     else:
         uri = os.getenv("DATABASE_URL")
         if uri.startswith("postgres://"):
@@ -35,7 +35,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
     
 
-    @app.get("/hello")
+    @app.get("/")
     def hello():
         return {"Hello":"This was authored by Moses Bamidele"}
 

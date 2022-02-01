@@ -90,6 +90,7 @@ def get_student(studentId):
         'affiliation_status': student.affiliation_status,
         'special_student_category': student.special_student_category,
         'summer_only': student.summer_only,
+        'studentid': user.username,
         'id': student.id,
          }
     }), HTTP_200_OK

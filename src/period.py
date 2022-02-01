@@ -11,7 +11,7 @@ period = Blueprint("period", __name__,url_prefix="/api/v1/period")
 @period.get('/current')
 def get_current_period():
     
-    max_id_period = Period.query.order_by(Period.id).first()
+    max_id_period = Period.query.order_by(Period.id.desc()).first()
     return jsonify({
         'id': max_id_period.id,
         'semester': max_id_period.semester,

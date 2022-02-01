@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy import JSON
 from sqlalchemy.dialects.postgresql import ARRAY
 
 db = SQLAlchemy()
@@ -140,10 +141,12 @@ class Registration(db.Model):
     dean=db.Column(db.Text)
     bursar=db.Column(db.Text)
     registrar=db.Column(db.Text)
+    seminary_charges=db.Column(JSON)
     add_drop_dean=db.Column(db.Text)
     add_drop_bursar=db.Column(db.Text)
     add_drop_registrar=db.Column(db.Text)
     comment=db.Column(db.Text)
+    percentage_to_pay=db.Column(db.Integer,default=100)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
     
@@ -203,7 +206,7 @@ class Affiliationfees(db.Model):
 
     
     def __repr__(self) -> str:
-        return 'Newstudentcharges>>>{self.id}'
+        return 'Affiliationfees>>>{self.id}'
 
 
 class Courses(db.Model):
@@ -214,10 +217,10 @@ class Courses(db.Model):
     hours=db.Column(db.Text)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
-
     
     def __repr__(self) -> str:
         return 'Courses>>>{self.id}'
+
 
 class Pickedcourses(db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -248,3 +251,15 @@ class Costperhour(db.Model):
     
     def __repr__(self) -> str:
         return 'Costperhour>>>{self.id}'
+
+
+class Wallet(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    amount=db.Column(db.Text)
+    student_id=db.Column(db.String(5),unique=True, nullable=False)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Wallet>>>{self.id}'

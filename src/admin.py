@@ -11,7 +11,7 @@ admin = Blueprint("admin", __name__,url_prefix="/api/v1/admin")
 
 @admin.get('/count-awaiting-approval-dean')
 def count_awaiting_approval_dean():
-    max_id_period = Period.query.order_by(Period.id).first()
+    max_id_period = Period.query.order_by(Period.id.desc()).first()
 
     count_awaiting = Registration.query.filter(db.and_(Registration.dean=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
@@ -22,7 +22,7 @@ def count_awaiting_approval_dean():
 
 @admin.get('/count-awaiting-approval-bursar')
 def count_awaiting_approval_bursar():
-    max_id_period = Period.query.order_by(Period.id).first()
+    max_id_period = Period.query.order_by(Period.id.desc()).first()
 
     count_awaiting = Registration.query.filter(db.and_(Registration.bursar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
@@ -31,10 +31,9 @@ def count_awaiting_approval_bursar():
         'count': count_awaiting,
     }),HTTP_201_CREATED
 
-
 @admin.get('/count-awaiting-approval-registrar')
 def count_awaiting_approval_registrar():
-    max_id_period = Period.query.order_by(Period.id).first()
+    max_id_period = Period.query.order_by(Period.id.desc()).first()
 
     count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
@@ -42,7 +41,6 @@ def count_awaiting_approval_registrar():
         # 'message': "Profile completed successfully",
         'count': count_awaiting,
     }),HTTP_201_CREATED
-
 
 @admin.get("/get-awaiting-dean")
 # @jwt_required()
@@ -129,8 +127,6 @@ def get_awaiting_registrar():
         "awaitings_registrar": data,
     }), HTTP_200_OK
 
-
-
 @admin.post('/approve')
 def approve():
     max_id_period = Period.query.order_by(desc(Period.id)).first()
@@ -178,4 +174,26 @@ def update_from_dean():
     return jsonify({
         # 'message': "Attended to by Dean",
         'dean': registration_query.dean,
+        'student_id': student_id,
+    }),HTTP_201_CREATED
+
+
+@admin.post('/update-from-bursar')
+def update_from_bursar():
+    student_id = request.json['student_id']
+    period_id = request.json['period_id']
+    
+    period_query = Period.query.filter(Period.id==period_id).first()
+
+    registration_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
+    Registration.session==period_query.session,Registration.season==period_query.season)).first()
+
+    registration_query.bursar = 'approved'
+    registration_query.registrar = 'awaiting'
+    db.session.commit()
+
+    return jsonify({
+        # 'message': "Attended to by Dean",
+        'bursar': registration_query.bursar,
+        'student_id': student_id,
     }),HTTP_201_CREATED

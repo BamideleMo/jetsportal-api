@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student,db
+from src.database import Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from sqlalchemy import desc
@@ -20,7 +20,8 @@ def start_registration():
     session = request.json['session']
     season = request.json['season']
 
-    one_user = Registration.query.filter(Registration.student_id==student_id).first()
+    one_user = Registration.query.filter(db.and_(Registration.student_id==student_id,
+    Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
     if one_user:
         db.session.delete(one_user)     
@@ -29,9 +30,79 @@ def start_registration():
     denomination_query = Student.query.filter(Student.student_id==student_id).first()
     denomination = denomination_query.denomination
 
-    registration=Registration(student_id=student_id,fresh=fresh,level=level,semester=semester,session=session,season=season,denomination=denomination)
+    # get student's seminary charges
+
+    newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==semester,Newstudentcharges.session==session,
+    Newstudentcharges.season==season)).first()
+
+    returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==semester,
+    Returningstudentcharges.session==session,Returningstudentcharges.season==season)).first()
+
+
+    if(int(level) <= 4 and fresh=='new'):
+        total = int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+        seminary_charges = {
+            'matric': newstudentcharges_query.matriculation_undergraduate,
+            'id_card': newstudentcharges_query.id_card,
+            'actea': newstudentcharges_query.actea,
+            'admin': returning_student_charges_query.admin,
+            'exam': returning_student_charges_query.exam,
+            'library': returning_student_charges_query.library,
+            'ict': returning_student_charges_query.ict,
+            'ecwa_dev': returning_student_charges_query.ecwa_dev,
+            'campus_dev': returning_student_charges_query.campus_dev,
+            'insurance': returning_student_charges_query.insurance,
+            'late': returning_student_charges_query.late,
+            'department': returning_student_charges_query.department,
+            'sug': returning_student_charges_query.sug,
+            'total': total,
+        }
+    elif (int(level) >=5 and fresh =='new'):
+        total = int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+        seminary_charges = {
+            'matric': newstudentcharges_query.matriculation_postgraduate,
+            'id_card': newstudentcharges_query.id_card,
+            'actea': newstudentcharges_query.actea,
+            'admin': returning_student_charges_query.admin,
+            'exam': returning_student_charges_query.exam,
+            'library': returning_student_charges_query.library,
+            'ict': returning_student_charges_query.ict,
+            'ecwa_dev': returning_student_charges_query.ecwa_dev,
+            'campus_dev': returning_student_charges_query.campus_dev,
+            'insurance': returning_student_charges_query.insurance,
+            'late': returning_student_charges_query.late,
+            'department': returning_student_charges_query.department,
+            'sug': returning_student_charges_query.sug,
+            'total': total,
+        }
+    else:
+        total = 0 + 0 + 0 + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+        seminary_charges = {
+            'matric': 0,
+            'id_card': 0,
+            'actea': 0,
+            'admin': returning_student_charges_query.admin,
+            'exam': returning_student_charges_query.exam,
+            'library': returning_student_charges_query.library,
+            'ict': returning_student_charges_query.ict,
+            'ecwa_dev': returning_student_charges_query.ecwa_dev,
+            'campus_dev': returning_student_charges_query.campus_dev,
+            'insurance': returning_student_charges_query.insurance,
+            'late': returning_student_charges_query.late,
+            'department': returning_student_charges_query.department,
+            'sug': returning_student_charges_query.sug,
+            'total': total,
+        }
+
+
+    registration=Registration(student_id=student_id,fresh=fresh,level=level,semester=semester,session=session,season=season,denomination=denomination,seminary_charges=seminary_charges)
     db.session.add(registration)     
     db.session.commit()
+
+    if (fresh == 'new'):
+        wallet=Wallet(student_id=student_id,amount=0)
+        db.session.add(wallet)     
+        db.session.commit()
 
     return jsonify({
         'message': "Registration started!",
@@ -116,85 +187,92 @@ def get_charges():
     session = period_query.session
     season = period_query.season
 
-    programme_category_query = Student.query.filter(Student.student_id==studentid).first()
-    programme_category = programme_category_query.programme_category
+    # programme_category_query = Student.query.filter(Student.student_id==studentid).first()
+    # programme_category = programme_category_query.programme_category
 
-    returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==semester,
-    Returningstudentcharges.session==session,Returningstudentcharges.season==season)).first()
+    # returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==semester,
+    # Returningstudentcharges.session==session,Returningstudentcharges.season==season)).first()
     
-    new_or_returning_query = Registration.query.filter(db.and_(Registration.student_id==studentid,
-    Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
-    new_or_returning = new_or_returning_query.fresh
+    # new_or_returning_query = Registration.query.filter(db.and_(Registration.student_id==studentid,
+    # Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
+    # new_or_returning = new_or_returning_query.fresh
 
-    newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==semester,Newstudentcharges.session==session,
-    Newstudentcharges.season==season)).first()
+    # newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==semester,Newstudentcharges.session==session,
+    # Newstudentcharges.season==season)).first()
 
-    if (programme_category == 'Bachelor of Arts Programme' or  programme_category == 'Diploma Programme') and new_or_returning == 'new':
-        total=int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-        return jsonify({
-            'matriculation':newstudentcharges_query.matriculation_undergraduate,
-            'id_card':newstudentcharges_query.id_card,
-            'actea':newstudentcharges_query.actea,
-            'admin':returning_student_charges_query.admin,
-            'exam':returning_student_charges_query.exam,
-            'library':returning_student_charges_query.library,
-            'ict':returning_student_charges_query.ict,
-            'ecwa_dev':returning_student_charges_query.ecwa_dev,
-            'campus_dev':returning_student_charges_query.campus_dev,
-            'insurance':returning_student_charges_query.insurance,
-            'late':returning_student_charges_query.late,
-            'department':returning_student_charges_query.department,
-            'sug':returning_student_charges_query.sug,
-            'total':total,
-            'new_or_returning':new_or_returning
-            }), HTTP_200_OK
+    # if (programme_category == 'Bachelor of Arts Programme' or  programme_category == 'Diploma Programme') and new_or_returning == 'new':
+    #     total=int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+    #     return jsonify({
+    #         'matriculation':newstudentcharges_query.matriculation_undergraduate,
+    #         'id_card':newstudentcharges_query.id_card,
+    #         'actea':newstudentcharges_query.actea,
+    #         'admin':returning_student_charges_query.admin,
+    #         'exam':returning_student_charges_query.exam,
+    #         'library':returning_student_charges_query.library,
+    #         'ict':returning_student_charges_query.ict,
+    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
+    #         'campus_dev':returning_student_charges_query.campus_dev,
+    #         'insurance':returning_student_charges_query.insurance,
+    #         'late':returning_student_charges_query.late,
+    #         'department':returning_student_charges_query.department,
+    #         'sug':returning_student_charges_query.sug,
+    #         'total':total,
+    #         'new_or_returning':new_or_returning
+    #         }), HTTP_200_OK
     
-    elif (programme_category == 'PGDT Programme' or programme_category == 'Masters Programme') and new_or_returning == 'new':
-      total=int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-      return jsonify({
-            'matriculation':newstudentcharges_query.matriculation_postgraduate,
-            'id_card':newstudentcharges_query.id_card,
-            'actea':newstudentcharges_query.actea,
-            'admin':returning_student_charges_query.admin,
-            'exam':returning_student_charges_query.exam,
-            'library':returning_student_charges_query.library,
-            'ict':returning_student_charges_query.ict,
-            'ecwa_dev':returning_student_charges_query.ecwa_dev,
-            'campus_dev':returning_student_charges_query.campus_dev,
-            'insurance':returning_student_charges_query.insurance,
-            'late':returning_student_charges_query.late,
-            'department':returning_student_charges_query.department,
-            'sug':returning_student_charges_query.sug,
-            'total':total,
-            'new_or_returning':new_or_returning
-            }), HTTP_200_OK
-    else:
-        total=int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-        return jsonify({
-            'matriculation':0,
-            'id_card':0,
-            'actea':0,
-            'admin':returning_student_charges_query.admin,
-            'exam':returning_student_charges_query.exam,
-            'library':returning_student_charges_query.library,
-            'ict':returning_student_charges_query.ict,
-            'ecwa_dev':returning_student_charges_query.ecwa_dev,
-            'campus_dev':returning_student_charges_query.campus_dev,
-            'insurance':returning_student_charges_query.insurance,
-            'late':returning_student_charges_query.late,
-            'department':returning_student_charges_query.department,
-            'sug':returning_student_charges_query.sug,
-            'total':total,
-            'new_or_returning':new_or_returning
-            }), HTTP_200_OK
+    # elif (programme_category == 'PGDT Programme' or programme_category == 'Masters Programme') and new_or_returning == 'new':
+    #   total=int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+    #   return jsonify({
+    #         'matriculation':newstudentcharges_query.matriculation_postgraduate,
+    #         'id_card':newstudentcharges_query.id_card,
+    #         'actea':newstudentcharges_query.actea,
+    #         'admin':returning_student_charges_query.admin,
+    #         'exam':returning_student_charges_query.exam,
+    #         'library':returning_student_charges_query.library,
+    #         'ict':returning_student_charges_query.ict,
+    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
+    #         'campus_dev':returning_student_charges_query.campus_dev,
+    #         'insurance':returning_student_charges_query.insurance,
+    #         'late':returning_student_charges_query.late,
+    #         'department':returning_student_charges_query.department,
+    #         'sug':returning_student_charges_query.sug,
+    #         'total':total,
+    #         'new_or_returning':new_or_returning
+    #         }), HTTP_200_OK
+    # else:
+    #     total=int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
+    #     return jsonify({
+    #         'matriculation':0,
+    #         'id_card':0,
+    #         'actea':0,
+    #         'admin':returning_student_charges_query.admin,
+    #         'exam':returning_student_charges_query.exam,
+    #         'library':returning_student_charges_query.library,
+    #         'ict':returning_student_charges_query.ict,
+    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
+    #         'campus_dev':returning_student_charges_query.campus_dev,
+    #         'insurance':returning_student_charges_query.insurance,
+    #         'late':returning_student_charges_query.late,
+    #         'department':returning_student_charges_query.department,
+    #         'sug':returning_student_charges_query.sug,
+    #         'total':total,
+    #         'new_or_returning':new_or_returning
+    #         }), HTTP_200_OK
     
 
-@registration.get('/<string:studentId>')
+@registration.get('/')
 # @jwt_required()
-def get_student(studentId):
+def get_student():
     
+    studentid = request.args.get('studentid')
+    periodid = request.args.get('periodid')
 
-    user = Registration.query.filter(Registration.student_id==studentId).first()
+    
+    period = Period.query.filter(Period.id==periodid).first()
+
+    user = Registration.query.filter(db.and_(Registration.student_id==studentid,
+    Registration.semester==period.semester,Registration.session==period.session,
+    Registration.season==period.season)).first()
 
     if not user:
         return jsonify({
@@ -202,26 +280,13 @@ def get_student(studentId):
         }), HTTP_404_NOT_FOUND
 
     return jsonify({
-        'data': {
-        'sex': user.sex,
-        'date_of_birth': user.date_of_birth,
-        'phone_number': user.phone_number,
-        'email': user.email,
-        'ledger_no': user.ledger_no,
-        'matric_number': user.matric_number,
-        'state_of_origin': user.state_of_origin,
-        'country_of_origin': user.country_of_origin,
-        'local_church': user.local_church,
-        'name_of_pastor': user.name_of_pastor,
-        'ministry': user.ministry,
-        'work_fulltime': user.work_fulltime,
-        'admission_year': user.admission_year,
-        'programme_category': user.programme_category,
-        'programme': user.programme,
-        'affiliation_status': user.affiliation_status,
-        'special_student_category': user.special_student_category,
-        'id': user.id,
-         }
+        'student_id': user.student_id,
+        'seminary_charges': user.seminary_charges,
+        'dean': user.dean,
+        'bursar': user.bursar,
+        'registrar': user.registrar,
+        'level': user.level,
+        'percentage_to_pay': user.percentage_to_pay,
     }), HTTP_200_OK
 
 
@@ -423,3 +488,25 @@ def forward_to_dean():
         'message': "Forwarded to Dean",
         'student_id': student_id,
     }),HTTP_201_CREATED
+
+
+@registration.get('/get-wallet')
+# @jwt_required()
+def get_wallet():
+    studentid = request.args.get('studentid')
+
+    one_user_query = Wallet.query.filter(Wallet.student_id==studentid).first()
+    # one_user_query2 = Wallet.query.filter(Wallet.student_id != '').all()
+    
+    # for user in one_user_query2:
+    #     if len(user.student_id) == 4:
+    #         user.student_id = '0'+ user.student_id
+    #         db.session.commit()
+    #         # print ('0'+user.student_id)
+        # else:
+        #     pass
+
+    return jsonify({
+        'wallet': one_user_query.amount,
+        'student_id': studentid,
+    }),HTTP_200_OK
