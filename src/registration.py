@@ -262,11 +262,10 @@ def get_charges():
 
 @registration.get('/')
 # @jwt_required()
-def get_student():
+def get_registration():
     
     studentid = request.args.get('studentid')
     periodid = request.args.get('periodid')
-
     
     period = Period.query.filter(Period.id==periodid).first()
 

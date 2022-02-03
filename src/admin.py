@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Period, Registration, Student, User,db
+from src.database import Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 
@@ -189,7 +189,6 @@ def update_from_bursar():
     Registration.session==period_query.session,Registration.season==period_query.season)).first()
 
     registration_query.bursar = 'approved'
-    registration_query.registrar = 'awaiting'
     db.session.commit()
 
     return jsonify({
@@ -197,3 +196,81 @@ def update_from_bursar():
         'bursar': registration_query.bursar,
         'student_id': student_id,
     }),HTTP_201_CREATED
+
+
+@admin.post('/change-seminary-charges')
+def change_seminary_charges():
+    student_id = request.json['student_id']
+    period_id = request.json['period_id']
+    item = request.json['item']
+    amount = request.json['amount']
+    
+    period_query = Period.query.filter(Period.id==period_id).first()
+
+    registration_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
+    Registration.session==period_query.session,Registration.season==period_query.season)).first()
+
+    dic = {}
+    new_total = 0
+    i = 1
+    for (an_item,value) in registration_query.seminary_charges.items():
+        if an_item == item:
+            dic[item] = amount
+            new_amount = int(amount)
+        else:
+            if an_item == 'total':
+                new_amount = 0
+                dic[an_item] = 0
+            else:
+                dic[an_item] = value
+                new_amount = int(value)
+
+        i = i + 1
+        new_total += new_amount
+    
+    dic['total'] = new_total
+
+    registration_query.seminary_charges = dic
+    db.session.commit()
+    
+    return jsonify({
+        'message': "Changed sem charge item",
+        'student_id': student_id,
+    }),HTTP_200_OK
+    
+
+@admin.post('/change-portal-wallet')
+def change_portal_wallet():
+    student_id = request.json['student_id']
+    amount = request.json['amount']
+    
+    wallet_query = Wallet.query.filter(Wallet.student_id==student_id).first()
+
+    wallet_query.amount = amount
+    db.session.commit()
+    
+    return jsonify({
+        'message': "Changed portal wallet",
+        'student_id': student_id,
+    }),HTTP_200_OK
+
+
+@admin.post('/change-percentage-to-pay')
+def change_percentage_to_pay():
+    student_id = request.json['student_id']
+    percent = request.json['percent']
+    period_id = request.json['period_id']
+    
+    period_query = Period.query.filter(Period.id==period_id).first()
+    
+    percentage_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
+    Registration.session==period_query.session,Registration.season==period_query.season)).first()
+
+    percentage_query.percentage_to_pay = percent
+    db.session.commit()
+    
+    return jsonify({
+        'message': "Changed percentage to pay",
+        'student_id': student_id,
+    }),HTTP_200_OK
+    
