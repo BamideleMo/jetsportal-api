@@ -76,9 +76,15 @@ def login():
                 'profile_status': user.profile_status,
                 'id': user.id
             })
-    return jsonify({
-        'error':'Wrong Login details'
-    }), HTTP_401_UNAUTHORIZED
+        else:
+            return jsonify({
+                'error':'Password is NOT correct.'
+            }), HTTP_401_UNAUTHORIZED
+    
+    else:
+        return jsonify({
+            'error':'Profile with ' + username + ' has not been created.'
+        }), HTTP_401_UNAUTHORIZED
 
 
 @auth.put("/<string:id>")

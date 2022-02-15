@@ -46,6 +46,7 @@ class Student(db.Model):
     affiliation_status=db.Column(db.Text, nullable=False)
     summer_only=db.Column(db.Text, nullable=False)
     special_student_category=db.Column(db.Text)
+    passport=db.Column(db.Text, default='dummy')
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
 

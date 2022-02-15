@@ -7,6 +7,7 @@ from src.registration import registration
 from src.charges import charges
 from src.period import period
 from src.admin import admin
+from src.wallet import wallet
 from src.database import db
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -50,5 +51,6 @@ def create_app(test_config=None):
     app.register_blueprint(charges)
     app.register_blueprint(period)
     app.register_blueprint(admin)
+    app.register_blueprint(wallet)
 
     return app

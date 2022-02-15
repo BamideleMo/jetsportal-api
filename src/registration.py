@@ -149,7 +149,8 @@ def check_if_registration_started():
     print(one_user)
     if one_user:
         return jsonify({'started':one_user.started,'level':one_user.level, 'dean':one_user.dean, 'bursar':one_user.bursar,
-        'student_id':one_user.student_id,'created_at':one_user.created_at,'updated_at':one_user.updated_at}), HTTP_200_OK
+        'student_id':one_user.student_id,'created_at':one_user.created_at,'updated_at':one_user.updated_at,
+        'comment': one_user.comment,}), HTTP_200_OK
     else:
         return jsonify({
             "message": 'Record not found',
@@ -285,7 +286,7 @@ def get_registration():
         'bursar': user.bursar,
         'registrar': user.registrar,
         'level': user.level,
-        'percentage_to_pay': user.percentage_to_pay,
+        'percentage_to_pay': user.percentage_to_pay
     }), HTTP_200_OK
 
 
@@ -389,6 +390,7 @@ def post_courses():
     
     if one_user:
         for a_course in courses_selected:
+            one_user = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id==student_id,Pickedcourses.semester==semester,Pickedcourses.session==session,Pickedcourses.season==season)).first()
             exists = a_course in one_user.course_code
             print(a_course)
             print(one_user.course_code)
@@ -495,15 +497,6 @@ def get_wallet():
     studentid = request.args.get('studentid')
 
     one_user_query = Wallet.query.filter(Wallet.student_id==studentid).first()
-    # one_user_query2 = Wallet.query.filter(Wallet.student_id != '').all()
-    
-    # for user in one_user_query2:
-    #     if len(user.student_id) == 4:
-    #         user.student_id = '0'+ user.student_id
-    #         db.session.commit()
-    #         # print ('0'+user.student_id)
-        # else:
-        #     pass
 
     return jsonify({
         'wallet': one_user_query.amount,

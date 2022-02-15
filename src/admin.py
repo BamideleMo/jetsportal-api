@@ -238,23 +238,6 @@ def change_seminary_charges():
         'student_id': student_id,
     }),HTTP_200_OK
     
-
-@admin.post('/change-portal-wallet')
-def change_portal_wallet():
-    student_id = request.json['student_id']
-    amount = request.json['amount']
-    
-    wallet_query = Wallet.query.filter(Wallet.student_id==student_id).first()
-
-    wallet_query.amount = amount
-    db.session.commit()
-    
-    return jsonify({
-        'message': "Changed portal wallet",
-        'student_id': student_id,
-    }),HTTP_200_OK
-
-
 @admin.post('/change-percentage-to-pay')
 def change_percentage_to_pay():
     student_id = request.json['student_id']
