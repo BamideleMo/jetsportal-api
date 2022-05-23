@@ -101,28 +101,29 @@ def get_awaiting_bursar():
 # @jwt_required()
 def get_awaiting_registrar():
 
-    awaitings_registrar = Registration.query.filter(Registration.registrar == 'awaiting' ).order_by(Registration.id.asc())
+    # awaitings_registrar = Registration.query.filter(Registration.registrar == 'awaiting' ).order_by(Registration.id.asc())
     
-    data=[]
+    # data=[]
     
-    for awaiting_registrar in awaitings_registrar:
-        one_student3 = Student.query.filter(Student.student_id ==  awaiting_registrar.student_id).first()
-        one_user3 = User.query.filter(User.username ==  awaiting_registrar.student_id).first()
-        period3 = Period.query.filter(db.and_(Period.semester ==  awaiting_registrar.semester,Period.session ==  awaiting_registrar.session,Period.season ==  awaiting_registrar.season)).first()
-        data.append({
-            'id': awaiting_registrar.id,
-            'period_id': period3.id,
-            'student_id': awaiting_registrar.student_id,
-            'first_name': one_user3.first_name,
-            'middle_name': one_user3.middle_name,
-            'last_name': one_user3.last_name,
-            'programme': one_student3.programme,
-            'current_level': awaiting_registrar.level,
-            'who': 'registrar',
-        })
+    # for awaiting_registrar in awaitings_registrar:
+    #     one_student3 = Student.query.filter(Student.student_id ==  awaiting_registrar.student_id).first()
+    #     one_user3 = User.query.filter(User.username ==  awaiting_registrar.student_id).first()
+    #     period3 = Period.query.filter(db.and_(Period.semester ==  awaiting_registrar.semester,Period.session ==  awaiting_registrar.session,Period.season ==  awaiting_registrar.season)).first()
+    #     data.append({
+    #         'id': awaiting_registrar.id,
+    #         'period_id': period3.id,
+    #         'student_id': awaiting_registrar.student_id,
+    #         'first_name': one_user3.first_name,
+    #         'middle_name': one_user3.middle_name,
+    #         'last_name': one_user3.last_name,
+    #         'programme': one_student3.programme,
+    #         'current_level': awaiting_registrar.level,
+    #         'who': 'registrar',
+    #     })
 
     return jsonify({
-        "awaitings_registrar": data,
+        "awaitings_registrar": 'data',
+        # "awaitings_registrar": data,
     }), HTTP_200_OK
 
 @admin.post('/approve')
