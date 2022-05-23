@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Period, Registration, Student, User, Wallet,db
+from src.database import Courses, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 
@@ -68,7 +68,6 @@ def get_awaiting_dean():
     return jsonify({
         "awaitings_dean": data,
     }), HTTP_200_OK
-
 
 @admin.get("/get-awaiting-bursar")
 # @jwt_required()
@@ -255,5 +254,27 @@ def change_percentage_to_pay():
     return jsonify({
         'message': "Changed percentage to pay",
         'student_id': student_id,
+    }),HTTP_200_OK
+    
+    
+@admin.post('/input-course')
+def input_course():
+    year = request.json['year']
+    title = request.json['title']
+    code = request.json['code'].upper()
+    hours = request.json['hours']
+    
+    query = Courses.query.filter(Courses.code==code).first()
+    
+    if query:
+        pass
+    else:
+        course = Courses(year=year,title=title,code=code,hours=hours)
+        db.session.add(course)    
+        db.session.commit() 
+    
+    return jsonify({
+        'message': "Course Inputed",
+        'code': code,
     }),HTTP_200_OK
     

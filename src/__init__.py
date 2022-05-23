@@ -19,7 +19,7 @@ def create_app(test_config=None):
 
     my_env = os.getenv("FLASK_ENV")
     if(my_env=="development"):
-        uri = "postgresql://postgres:Foluke89@localhost/jets"
+        uri = "postgresql://postgres:1234@localhost/jets"
     else:
         uri = os.getenv("DATABASE_URL")
         if uri.startswith("postgres://"):

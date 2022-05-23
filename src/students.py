@@ -135,3 +135,41 @@ def get_students():
     return jsonify({
         'students': data
     }), HTTP_200_OK
+
+@student.get('/')
+@jwt_required()
+def get_logged_in_student():
+
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+
+    studentId = user.username
+    
+    student = Student.query.filter_by(student_id=studentId).first()
+    
+    return jsonify({
+        'first_name': user.first_name,
+        'middle_name': user.middle_name,
+        'last_name': user.last_name,
+        'denomination': student.denomination,
+        'sex': student.sex,
+        'date_of_birth': student.date_of_birth,
+        'phone_number': student.phone_number,
+        'email': student.email,
+        'ledger_no': student.ledger_no,
+        'matric_number': student.matric_number,
+        'state_of_origin': student.state_of_origin,
+        'country_of_origin': student.country_of_origin,
+        'local_church': student.local_church,
+        'name_of_pastor': student.name_of_pastor,
+        'ministry': student.ministry,
+        'work_fulltime': student.work_fulltime,
+        'admission_year': student.admission_year,
+        'programme_category': student.programme_category,
+        'programme': student.programme,
+        'affiliation_status': student.affiliation_status,
+        'special_student_category': student.special_student_category,
+        'summer_only': student.summer_only,
+        'studentid': user.username,
+        'id': student.id,
+    }), HTTP_200_OK

@@ -103,7 +103,6 @@ class Student(db.Model):
         return 'Student>>>{self.id}'
 
 
-
 class Staff(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     email=db.Column(db.Text, unique=True, nullable=False)
@@ -120,7 +119,8 @@ class Period(db.Model):
     semester=db.Column(db.Text, nullable=False)
     session=db.Column(db.Text, nullable=False)
     season=db.Column(db.Text, nullable=False)
-    late=db.Column(db.Text, nullable=False)
+    registration_status=db.Column(db.Text, nullable=False)
+    add_drop_status=db.Column(db.Text, nullable=False)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
 

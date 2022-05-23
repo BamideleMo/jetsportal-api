@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
 from src.database import User,db
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
+# from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
 import datetime
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
@@ -83,7 +83,7 @@ def login():
     
     else:
         return jsonify({
-            'error':'Profile with ' + username + ' has not been created.'
+            'error':'Profile of student with ID: ' + username + ' is NOT created.'
         }), HTTP_401_UNAUTHORIZED
 
 
@@ -117,7 +117,6 @@ def update_user(id):
 @jwt_required()
 def user():
     user_id = get_jwt_identity()
-    print(user_id)
 
     user = User.query.filter_by(id=user_id).first()
 

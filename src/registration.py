@@ -20,6 +20,10 @@ def start_registration():
     session = request.json['session']
     season = request.json['season']
 
+    print(semester)
+    print(session)
+    print(season)
+
     one_user = Registration.query.filter(db.and_(Registration.student_id==student_id,
     Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
@@ -100,6 +104,12 @@ def start_registration():
     db.session.commit()
 
     if (fresh == 'new'):
+        one_user = Wallet.query.filter_by(student_id=student_id).first()
+        
+        if one_user:
+            db.session.delete(one_user)     
+            db.session.commit()
+
         wallet=Wallet(student_id=student_id,amount=0)
         db.session.add(wallet)     
         db.session.commit()

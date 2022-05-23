@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
 from src.database import Student, User, Wallet,db
-
+from flask_jwt_extended import get_jwt_identity,jwt_required
 
 wallet = Blueprint("wallet", __name__,url_prefix="/api/v1/wallet")
 
@@ -42,3 +42,18 @@ def change_portal_wallet():
         'student_id': student_id,
     }),HTTP_200_OK
 
+@wallet.get('/')
+@jwt_required()
+def get_student_wallet():
+
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+
+    studentId = user.username
+    
+    wallet_query = Wallet.query.filter_by(student_id=studentId).first()
+    return jsonify({
+        'id': wallet_query.id,
+        'amount': wallet_query.amount,
+        'student_id': wallet_query.student_id,
+    }), HTTP_200_OK
