@@ -14,6 +14,7 @@ CORS(auth)
 @auth.post('/create-profile') #Create a user profile
 def create_profile():
     username = request.json['username']
+    ledger_no = request.json['ledger_no']
     first_name = request.json['first_name']
     middle_name = request.json['middle_name']
     last_name = request.json['last_name']
@@ -120,17 +121,22 @@ def user():
 
     user = User.query.filter_by(id=user_id).first()
 
-    return jsonify({
-        'data': {
-        'first_name': user.first_name,
-        'middle_name': user.middle_name,
-        'last_name': user.last_name,
-        'username': user.username,
-        'profile_status': user.profile_status,
-        'user_category': user.user_category,
-        'id': user.id,
-         }
-    }), HTTP_200_OK
+    if user:
+        return jsonify({
+            'data': {
+            'first_name': user.first_name,
+            'middle_name': user.middle_name,
+            'last_name': user.last_name,
+            'username': user.username,
+            'profile_status': user.profile_status,
+            'user_category': user.user_category,
+            'id': user.id,
+            }
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            'message': 'No access'
+        }), HTTP_401_UNAUTHORIZED
 
 
 

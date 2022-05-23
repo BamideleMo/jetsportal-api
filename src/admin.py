@@ -31,16 +31,16 @@ def count_awaiting_approval_bursar():
         'count': count_awaiting,
     }),HTTP_201_CREATED
 
-@admin.get('/count-awaiting-approval-registrar')
-def count_awaiting_approval_registrar():
-    max_id_period = Period.query.order_by(Period.id.desc()).first()
+# @admin.get('/count-awaiting-approval-registrar')
+# def count_awaiting_approval_registrar():
+#     max_id_period = Period.query.order_by(Period.id.desc()).first()
 
-    count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
+#     count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    return jsonify({
-        # 'message': "Profile completed successfully",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
+#     return jsonify({
+#         # 'message': "Profile completed successfully",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
 
 @admin.get("/get-awaiting-dean")
 # @jwt_required()
@@ -96,7 +96,6 @@ def get_awaiting_bursar():
     return jsonify({
         "awaitings_bursar": data,
     }), HTTP_200_OK
-
 
 @admin.get("/get-awaiting-registrar")
 # @jwt_required()
