@@ -14,7 +14,7 @@ def count_awaiting_approval_dean():
     max_id_period = Period.query.order_by(Period.id.desc()).first()
 
     count_awaiting = Registration.query.filter(db.and_(Registration.dean=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
-    
+    print(count_awaiting+"XXXXXXXX")
     return jsonify({
         # 'message': "Profile completed successfully",
         'count': count_awaiting,
