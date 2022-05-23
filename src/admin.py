@@ -12,7 +12,7 @@ admin = Blueprint("admin", __name__,url_prefix="/api/v1/admin")
 @admin.get('/count-awaiting-approval-dean')
 def count_awaiting_approval_dean():
     max_id_period = Period.query.order_by(Period.id.desc()).first()
-
+    print('YYYYYYYY'+max_id_period)
     count_awaiting = Registration.query.filter(db.and_(Registration.dean=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     print(count_awaiting+"XXXXXXXX")
     return jsonify({
