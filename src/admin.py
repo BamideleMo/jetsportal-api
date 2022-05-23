@@ -42,88 +42,88 @@ def count_awaiting_approval_registrar():
         'count': count_awaiting,
     }),HTTP_201_CREATED
 
-# @admin.get("/get-awaiting-dean")
-# # @jwt_required()
-# def get_awaiting_dean():
+@admin.get("/get-awaiting-dean")
+# @jwt_required()
+def get_awaiting_dean():
 
-#     awaitings_dean = Registration.query.filter(Registration.dean == 'awaiting' ).order_by(Registration.id.asc())
+    awaitings_dean = Registration.query.filter(Registration.dean == 'awaiting' ).order_by(Registration.id.asc())
     
-#     data=[]
+    data=[]
 
-#     for awaiting_dean in awaitings_dean:
-#         one_student = Student.query.filter(Student.student_id ==  awaiting_dean.student_id).first()
-#         one_user = User.query.filter(User.username ==  awaiting_dean.student_id).first()
-#         period = Period.query.filter(db.and_(Period.semester ==  awaiting_dean.semester,Period.session ==  awaiting_dean.session,Period.season ==  awaiting_dean.season)).first()
-#         data.append({
-#             'id': awaiting_dean.id,
-#             'period_id': period.id,
-#             'student_id': awaiting_dean.student_id,
-#             'first_name': one_user.first_name,
-#             'middle_name': one_user.middle_name,
-#             'last_name': one_user.last_name,
-#             'programme': one_student.programme,
-#             'current_level': awaiting_dean.level,
-#             'who': 'dean',
-#         })
-#     return jsonify({
-#         "awaitings_dean": data,
-#     }), HTTP_200_OK
+    for awaiting_dean in awaitings_dean:
+        one_student = Student.query.filter(Student.student_id ==  awaiting_dean.student_id).first()
+        one_user = User.query.filter(User.username ==  awaiting_dean.student_id).first()
+        period = Period.query.filter(db.and_(Period.semester ==  awaiting_dean.semester,Period.session ==  awaiting_dean.session,Period.season ==  awaiting_dean.season)).first()
+        data.append({
+            'id': awaiting_dean.id,
+            'period_id': period.id,
+            'student_id': awaiting_dean.student_id,
+            'first_name': one_user.first_name,
+            'middle_name': one_user.middle_name,
+            'last_name': one_user.last_name,
+            'programme': one_student.programme,
+            'current_level': awaiting_dean.level,
+            'who': 'dean',
+        })
+    return jsonify({
+        "awaitings_dean": data,
+    }), HTTP_200_OK
 
-# @admin.get("/get-awaiting-bursar")
-# # @jwt_required()
-# def get_awaiting_bursar():
+@admin.get("/get-awaiting-bursar")
+# @jwt_required()
+def get_awaiting_bursar():
 
-#     awaitings_bursar = Registration.query.filter(Registration.bursar == 'awaiting' ).order_by(Registration.id.asc())
+    awaitings_bursar = Registration.query.filter(Registration.bursar == 'awaiting' ).order_by(Registration.id.asc())
     
-#     data=[]
+    data=[]
     
-#     for awaiting_bursar in awaitings_bursar:
-#         one_student2 = Student.query.filter(Student.student_id ==  awaiting_bursar.student_id).first()
-#         one_user2 = User.query.filter(User.username ==  awaiting_bursar.student_id).first()
-#         period2 = Period.query.filter(db.and_(Period.semester ==  awaiting_bursar.semester,Period.session ==  awaiting_bursar.session,Period.season ==  awaiting_bursar.season)).first()
-#         data.append({
-#             'id': awaiting_bursar.id,
-#             'period_id': period2.id,
-#             'student_id': awaiting_bursar.student_id,
-#             'first_name': one_user2.first_name,
-#             'middle_name': one_user2.middle_name,
-#             'last_name': one_user2.last_name,
-#             'programme': one_student2.programme,
-#             'current_level': awaiting_bursar.level,
-#             'who': 'bursar',
-#         })
+    for awaiting_bursar in awaitings_bursar:
+        one_student2 = Student.query.filter(Student.student_id ==  awaiting_bursar.student_id).first()
+        one_user2 = User.query.filter(User.username ==  awaiting_bursar.student_id).first()
+        period2 = Period.query.filter(db.and_(Period.semester ==  awaiting_bursar.semester,Period.session ==  awaiting_bursar.session,Period.season ==  awaiting_bursar.season)).first()
+        data.append({
+            'id': awaiting_bursar.id,
+            'period_id': period2.id,
+            'student_id': awaiting_bursar.student_id,
+            'first_name': one_user2.first_name,
+            'middle_name': one_user2.middle_name,
+            'last_name': one_user2.last_name,
+            'programme': one_student2.programme,
+            'current_level': awaiting_bursar.level,
+            'who': 'bursar',
+        })
     
-#     return jsonify({
-#         "awaitings_bursar": data,
-#     }), HTTP_200_OK
+    return jsonify({
+        "awaitings_bursar": data,
+    }), HTTP_200_OK
 
-# @admin.get("/get-awaiting-registrar")
-# # @jwt_required()
-# def get_awaiting_registrar():
+@admin.get("/get-awaiting-registrar")
+# @jwt_required()
+def get_awaiting_registrar():
 
-#     awaitings_registrar = Registration.query.filter(Registration.registrar == 'awaiting' ).order_by(Registration.id.asc())
+    awaitings_registrar = Registration.query.filter(Registration.registrar == 'awaiting' ).order_by(Registration.id.asc())
     
-#     data=[]
+    data=[]
     
-#     for awaiting_registrar in awaitings_registrar:
-#         one_student3 = Student.query.filter(Student.student_id ==  awaiting_registrar.student_id).first()
-#         one_user3 = User.query.filter(User.username ==  awaiting_registrar.student_id).first()
-#         period3 = Period.query.filter(db.and_(Period.semester ==  awaiting_registrar.semester,Period.session ==  awaiting_registrar.session,Period.season ==  awaiting_registrar.season)).first()
-#         data.append({
-#             'id': awaiting_registrar.id,
-#             'period_id': period3.id,
-#             'student_id': awaiting_registrar.student_id,
-#             'first_name': one_user3.first_name,
-#             'middle_name': one_user3.middle_name,
-#             'last_name': one_user3.last_name,
-#             'programme': one_student3.programme,
-#             'current_level': awaiting_registrar.level,
-#             'who': 'registrar',
-#         })
+    for awaiting_registrar in awaitings_registrar:
+        one_student3 = Student.query.filter(Student.student_id ==  awaiting_registrar.student_id).first()
+        one_user3 = User.query.filter(User.username ==  awaiting_registrar.student_id).first()
+        period3 = Period.query.filter(db.and_(Period.semester ==  awaiting_registrar.semester,Period.session ==  awaiting_registrar.session,Period.season ==  awaiting_registrar.season)).first()
+        data.append({
+            'id': awaiting_registrar.id,
+            'period_id': period3.id,
+            'student_id': awaiting_registrar.student_id,
+            'first_name': one_user3.first_name,
+            'middle_name': one_user3.middle_name,
+            'last_name': one_user3.last_name,
+            'programme': one_student3.programme,
+            'current_level': awaiting_registrar.level,
+            'who': 'registrar',
+        })
 
-#     return jsonify({
-#         "awaitings_registrar": data,
-#     }), HTTP_200_OK
+    return jsonify({
+        "awaitings_registrar": data,
+    }), HTTP_200_OK
 
 @admin.post('/approve')
 def approve():
