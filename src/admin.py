@@ -10,26 +10,26 @@ admin = Blueprint("admin", __name__,url_prefix="/api/v1/admin")
 
 
 @admin.get('/count-awaiting-approval-dean')
-def count_awaiting_approval_dean():
-    max_id_period = Period.query.order_by(Period.id.desc()).first()
+# def count_awaiting_approval_dean():
+#     max_id_period = Period.query.order_by(Period.id.desc()).first()
 
-    count_awaiting = Registration.query.filter(db.and_(Registration.dean=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
+#     count_awaiting = Registration.query.filter(db.and_(Registration.dean=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    return jsonify({
-        # 'message': "Profile completed successfully",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
+#     return jsonify({
+#         # 'message': "Profile completed successfully",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
 
-@admin.get('/count-awaiting-approval-bursar')
-def count_awaiting_approval_bursar():
-    max_id_period = Period.query.order_by(Period.id.desc()).first()
+# @admin.get('/count-awaiting-approval-bursar')
+# def count_awaiting_approval_bursar():
+#     max_id_period = Period.query.order_by(Period.id.desc()).first()
 
-    count_awaiting = Registration.query.filter(db.and_(Registration.bursar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
+#     count_awaiting = Registration.query.filter(db.and_(Registration.bursar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    return jsonify({
-        # 'message': "Profile completed successfully",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
+#     return jsonify({
+#         # 'message': "Profile completed successfully",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
 
 # @admin.get('/count-awaiting-approval-registrar')
 # def count_awaiting_approval_registrar():
