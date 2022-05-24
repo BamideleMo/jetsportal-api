@@ -82,34 +82,62 @@ def login():
     user=User.query.filter(User.username==username).first()
 
     if user:
-        is_password_correct=check_password_hash(user.password, password)
+        user2 = User.query.filter(db.and_(User.username==username,User.password=='')).first()
 
-        if is_password_correct:
-            expires = datetime.timedelta(days=7)
-            refresh=create_refresh_token(identity=user.id)
-            token=create_access_token(identity=user.id,expires_delta=expires)
-
+        if user2:
             return jsonify({
-                'refresh':refresh,
-                'token': token,
-                'first_name': user.first_name,
-                'middle_name': user.middle_name,
-                'last_name': user.last_name,
-                'username': user.username,
-                'user_category': user.user_category,
-                'profile_status': user.profile_status,
-                'id': user.id
-            })
+                    'message':'Change Password'
+                }), HTTP_200_OK
         else:
-            return jsonify({
-                'error':'Password is NOT correct.'
-            }), HTTP_401_UNAUTHORIZED
+            is_password_correct=check_password_hash(user.password, password)
+
+            if is_password_correct:
+                expires = datetime.timedelta(days=7)
+                refresh=create_refresh_token(identity=user.id)
+                token=create_access_token(identity=user.id,expires_delta=expires)
+
+                return jsonify({
+                    'refresh':refresh,
+                    'token': token,
+                    'first_name': user.first_name,
+                    'middle_name': user.middle_name,
+                    'last_name': user.last_name,
+                    'username': user.username,
+                    'user_category': user.user_category,
+                    'profile_status': user.profile_status,
+                    'id': user.id
+                })
+            else:
+                return jsonify({
+                    'error':'Password is NOT correct.'
+                }), HTTP_401_UNAUTHORIZED
     
     else:
         return jsonify({
-            'error':'Profile of student with ID: ' + username + ' is NOT created.'
+            'error':'User with: ' + username + ' is NOT created.'
         }), HTTP_401_UNAUTHORIZED
 
+@auth.post('/change-password')
+def change_password():
+    ledger_no = request.json['ledger_no']
+    password = request.json['password']
+    phone_number = request.json['phone_number']
+
+    one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
+
+    if not one_user:
+        pwd_hash = generate_password_hash(password)
+
+        one_user.password = pwd_hash
+        db.session.commit()
+
+        return jsonify({
+            "message": 'Password Changed'
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            "message": 'Wrong Response'
+        }), HTTP_404_NOT_FOUND
 
 @auth.put("/<string:id>")
 @auth.patch("/<string:id>")
