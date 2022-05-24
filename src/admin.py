@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Courses, Period, Registration, Student, User, Wallet,db
+from src.database import Allocatedcourses, Courses, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 
@@ -255,7 +255,6 @@ def change_percentage_to_pay():
         'student_id': student_id,
     }),HTTP_200_OK
     
-    
 @admin.post('/input-course')
 def input_course():
     year = request.json['year']
@@ -277,3 +276,71 @@ def input_course():
         'code': code,
     }),HTTP_200_OK
     
+@admin.get('/get-courses')
+def get_courses():
+    
+    all_courses = Courses.query.filter().order_by(Courses.title.asc())
+    
+    data=[]
+
+    for a_course in all_courses:
+        data.append({
+            'id': a_course.id,
+            'year': a_course.year,
+            'title': a_course.title,
+            'code': a_course.code,
+            'hours': a_course.hours,
+        })
+    
+    return jsonify({
+        "courses": data,
+    }),HTTP_200_OK
+
+@admin.get('/get-faculties')
+def get_faculties():
+    
+    all_faculty = User.query.filter(User.user_category=='Faculty').order_by(User.first_name.asc())
+    
+    data=[]
+
+    for a_faculty in all_faculty:
+        data.append({
+            'id': a_faculty.id,
+            'title': a_faculty.first_name,
+            'username': a_faculty.username,
+            'first_name': a_faculty.first_name,
+            'last_name': a_faculty.last_name,
+            'middle_name': a_faculty.middle_name,
+        })
+    
+    return jsonify({
+        "faculties": data,
+    }),HTTP_200_OK
+    
+@admin.post('/allocate-course')
+def allocate_course():
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    course = request.json['course']
+    faculty = request.json['faculty']
+    
+    query = Allocatedcourses.query.filter(db.and_(
+        Allocatedcourses.code==course,
+        Allocatedcourses.username==faculty,
+        Allocatedcourses.semester==semester,
+        Allocatedcourses.session==session,
+        Allocatedcourses.season==season
+        )).first()
+    
+    if query:
+        pass
+    else:
+        allocate_course = Allocatedcourses(semester=semester,session=session,season=season,code=course,username=faculty)
+        db.session.add(allocate_course)    
+        db.session.commit() 
+    
+    return jsonify({
+        'message': "Course Allocated"
+    }),HTTP_200_OK
+

@@ -13,8 +13,6 @@ def complete_profile():
     student_id = request.json['student_id']
     sex = request.json['sex']
     date_of_birth = request.json['date_of_birth']
-    phone_number = request.json['phone_number']
-    ledger_no = request.json['ledger_no']
     special_student_category = request.json['special_student_category']
     state_of_origin = request.json['state_of_origin']
     country_of_origin = request.json['country_of_origin']
@@ -24,25 +22,30 @@ def complete_profile():
     work_fulltime = request.json['work_fulltime']
     ministry = request.json['ministry']
     admission_year = request.json['admission_year']
-    programme_category = request.json['programme_category']
-    programme = request.json['programme']
     affiliation_status=request.json['affiliation_status']
     summer_only=request.json['summer_only']
 
     one_user = Student.query.filter_by(student_id=student_id).first()
-    
-    if one_user:
-        db.session.delete(one_user)     
-        db.session.commit()
 
-    student=Student(student_id=student_id,sex=sex,date_of_birth=date_of_birth,
-    phone_number=phone_number,ledger_no=ledger_no,
-    special_student_category=special_student_category,state_of_origin=state_of_origin,
-    country_of_origin=country_of_origin,denomination=denomination,local_church=local_church,
-    name_of_pastor=name_of_pastor,work_fulltime=work_fulltime,admission_year=admission_year,
-    programme_category=programme_category,programme=programme,
-    affiliation_status=affiliation_status,ministry=ministry,summer_only=summer_only)
-    db.session.add(student)        
+    one_user.sex = sex
+    one_user.date_of_birth = date_of_birth
+    one_user.special_student_category = special_student_category
+    one_user.state_of_origin=state_of_origin
+    one_user.country_of_origin=country_of_origin
+    one_user.denomination=denomination
+    one_user.local_church=local_church
+    one_user.name_of_pastor=name_of_pastor
+    one_user.work_fulltime=work_fulltime
+    one_user.admission_year=admission_year
+    one_user.affiliation_status=affiliation_status
+    one_user.ministry=ministry
+    one_user.summer_only=summer_only
+    
+    db.session.commit()
+
+    one_user2 = User.query.filter_by(student_id=student_id).first()
+    one_user2.profile_status='complete'
+    
     db.session.commit()
 
     return jsonify({

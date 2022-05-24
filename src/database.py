@@ -26,25 +26,25 @@ class User(db.Model):
 class Student(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     student_id=db.Column(db.String(5), unique=True, nullable=False)
-    sex=db.Column(db.Text, nullable=False)
-    date_of_birth=db.Column(db.Text, nullable=False)
-    phone_number =db.Column(db.Text, nullable=False)
+    sex=db.Column(db.Text)
+    date_of_birth=db.Column(db.Text)
+    phone_number =db.Column(db.Text)
     email=db.Column(db.Text,default='Pending Creation')
-    ledger_no=db.Column(db.Text, nullable=False)
+    ledger_no=db.Column(db.Text)
     matric_number =db.Column(db.Text, nullable=False)
-    state_of_origin=db.Column(db.Text, nullable=False)
-    country_of_origin=db.Column(db.Text, nullable=False)
-    denomination=db.Column(db.Text, nullable=False)
-    local_church=db.Column(db.Text, nullable=False)
-    name_of_pastor=db.Column(db.Text, nullable=False)
-    work_fulltime=db.Column(db.Text, nullable=False)
+    state_of_origin=db.Column(db.Text)
+    country_of_origin=db.Column(db.Text)
+    denomination=db.Column(db.Text)
+    local_church=db.Column(db.Text)
+    name_of_pastor=db.Column(db.Text)
+    work_fulltime=db.Column(db.Text)
     ministry=db.Column(db.Text)
-    admission_year=db.Column(db.Text, nullable=False)
+    admission_year=db.Column(db.Text)
     programme_category=db.Column(db.Text, nullable=False)
     programme=db.Column(db.Text, nullable=False)
     status=db.Column(db.Text, default='active')
-    affiliation_status=db.Column(db.Text, nullable=False)
-    summer_only=db.Column(db.Text, nullable=False)
+    affiliation_status=db.Column(db.Text)
+    summer_only=db.Column(db.Text)
     special_student_category=db.Column(db.Text)
     passport=db.Column(db.Text, default='dummy')
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
@@ -264,3 +264,18 @@ class Wallet(db.Model):
     
     def __repr__(self) -> str:
         return 'Wallet>>>{self.id}'
+
+
+class Allocatedcourses(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    username=db.Column(db.Text, nullable=False)
+    code=db.Column(db.Text, nullable=False)
+    semester=db.Column(db.Text, nullable=False)
+    session=db.Column(db.Text, nullable=False)
+    season=db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Allocatedcourses>>>{self.id}'

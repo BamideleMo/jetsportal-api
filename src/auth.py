@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import User,db
+from src.database import Student, User,db
 # from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
 import datetime
 from flask_cors import CORS
@@ -13,13 +13,36 @@ CORS(auth)
 
 @auth.post('/create-profile') #Create a user profile
 def create_profile():
-    username = request.json['username']
-    ledger_no = request.json['ledger_no']
     first_name = request.json['first_name']
     middle_name = request.json['middle_name']
     last_name = request.json['last_name']
-    password = request.json['password']
     user_category = request.json['user_category']
+
+    if request.json['user_category'] == 'Student':
+        programme_category = request.json['programme_category']
+        programme = request.json['programme']
+        password = request.json['password']
+        phone_number = request.json['phone_number']
+
+        print(programme_category)
+
+
+        max_student_id = Student.query.filter(Student.programme_category==programme_category).order_by(Student.student_id.desc()).first()
+        
+        if max_student_id:
+            username = '0'+str(int(max_student_id.student_id) + 1)
+        else:
+            username = '01111'
+
+        create_student=Student(student_id=username,phone_number=phone_number,programme=programme,programme_category=programme_category)
+        db.session.add(create_student)    
+        db.session.commit()
+        
+
+    if request.json['user_category'] == 'Faculty':
+        username = request.json['username']
+        password = '1234abcd'
+
 
     if len(password) < 4:
         return jsonify({'error':"Password is too short."}), HTTP_400_BAD_REQUEST
@@ -42,7 +65,7 @@ def create_profile():
     return jsonify({
         'message': "Profile created successfully",
         'user': {
-            'student_id': username,
+            'username': username,
             'user_category': user_category,
             'first_name': user.first_name,
         }
