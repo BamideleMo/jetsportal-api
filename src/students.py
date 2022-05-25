@@ -148,7 +148,7 @@ def change_password():
     phone_number = request.json['phone_number']
 
     one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
-    print(one_user)
+    
     if one_user:
         pwd_hash = generate_password_hash(password)
 
@@ -159,7 +159,6 @@ def change_password():
         return jsonify({
             "message": 'Changed'
         }), HTTP_200_OK
-        # return redirect('http://portal.jets.edu.ng/student/password-changed',code=302)
     else:
         return jsonify({
             "message": 'Wrong Response'
