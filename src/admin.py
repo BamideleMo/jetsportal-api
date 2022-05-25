@@ -362,8 +362,8 @@ def for_receipt_issue():
                 'student_id': a_student.student_id,
                 'ledger_no': a_student.ledger_no,
                 'first_name': person.first_name,
-                # 'middle_name': person.middle_name,
-                # 'last_name': person.last_name,
+                'middle_name': person.middle_name,
+                'last_name': person.last_name,
             })
     
     return jsonify({
