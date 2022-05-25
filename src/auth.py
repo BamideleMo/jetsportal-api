@@ -109,9 +109,14 @@ def login():
                     'id': user.id
                 })
             else:
-                return jsonify({
-                    'error':'Password is NOT correct.'
-                }), HTTP_401_UNAUTHORIZED
+                if password == '1234':
+                    return jsonify({
+                        'error':'You NEED to change password. Click Forgot Password below.'
+                    }), HTTP_401_UNAUTHORIZED
+                else:
+                    return jsonify({
+                        'error':'Password is NOT correct.'
+                    }), HTTP_401_UNAUTHORIZED
     
     else:
         return jsonify({
