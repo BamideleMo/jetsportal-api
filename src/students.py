@@ -153,7 +153,7 @@ def change_password():
         pwd_hash = generate_password_hash(password)
 
 
-        new_pass = User.query.filter_by(student_id=one_user.student_id).first()
+        new_pass = User.query.filter_by(username=one_user.student_id).first()
         new_pass.password = pwd_hash
         db.session.commit()
 
