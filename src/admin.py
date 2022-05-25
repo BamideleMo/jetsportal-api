@@ -90,7 +90,7 @@ def get_awaiting_bursar():
             'last_name': one_user2.last_name,
             'programme': one_student2.programme,
             'current_level': awaiting_bursar.level,
-            'ledger_no': awaiting_bursar.ledger_no,
+            'ledger_no': one_student2.ledger_no,
             'who': 'bursar',
         })
     
