@@ -377,7 +377,7 @@ def get_wallet_balance():
     one_user = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
 
     return jsonify({
-        "student_id": student_id,
+        "student_id": one_user.student_id,
         "status": one_user.status,
         "balance": one_user.amount,
     }), HTTP_200_OK
