@@ -45,7 +45,7 @@ def create_profile():
             else:
                 username = '0'+str(int(max_student_id.student_id) + 1)
 
-            create_student=Student(student_id=username,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
+            create_student=Student(student_id=username,admission_year=admission_year,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
             db.session.add(create_student)    
             db.session.commit()
         
