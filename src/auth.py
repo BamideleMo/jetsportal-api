@@ -24,6 +24,7 @@ def create_profile():
         password = request.json['password']
         phone_number = request.json['phone_number']
         ledger_no = request.json['ledger_no']
+        admission_year = request.json['admission_year']
 
         print(programme_category)
 
