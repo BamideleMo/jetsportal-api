@@ -32,7 +32,10 @@ def create_profile():
         if (max_student_id is None):
             return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
         else:
-            username = '0'+str(int(max_student_id.student_id) + 1)
+            if programme_category == 'PGDT Programme' or programme_category == 'Masters Programme':
+                username = str(int(max_student_id.student_id) + 1)
+            else:
+                username = '0'+str(int(max_student_id.student_id) + 1)
 
             create_student=Student(student_id=username,phone_number=phone_number,programme=programme,programme_category=programme_category)
             db.session.add(create_student)    
