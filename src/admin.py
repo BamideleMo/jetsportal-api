@@ -344,3 +344,20 @@ def allocate_course():
         'message': "Course Allocated"
     }),HTTP_200_OK
 
+@admin.get('/get-for-receipt')
+def for_receipt_issue():
+    
+    all_students = Student.query.filter().order_by(Student.student_id.asc())
+    
+    data=[]
+
+    for a_student in all_students:
+        data.append({
+            'id': a_student.id,
+            'student_id': a_student.student_id,
+        })
+    
+    return jsonify({
+        "faculties": data,
+    }),HTTP_200_OK
+ 

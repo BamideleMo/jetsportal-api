@@ -40,8 +40,8 @@ class Student(db.Model):
     work_fulltime=db.Column(db.Text)
     ministry=db.Column(db.Text)
     admission_year=db.Column(db.Text)
-    programme_category=db.Column(db.Text, nullable=False)
-    programme=db.Column(db.Text, nullable=False)
+    programme_category=db.Column(db.Text)
+    programme=db.Column(db.Text)
     status=db.Column(db.Text, default='active')
     affiliation_status=db.Column(db.Text)
     summer_only=db.Column(db.Text)
@@ -260,6 +260,7 @@ class Wallet(db.Model):
     student_id=db.Column(db.String(5),unique=True, nullable=False)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+    status=db.Column(db.Text)
 
     
     def __repr__(self) -> str:
@@ -279,3 +280,16 @@ class Allocatedcourses(db.Model):
     
     def __repr__(self) -> str:
         return 'Allocatedcourses>>>{self.id}'
+
+
+class Receiptlog(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    amount=db.Column(db.Text,nullable=False)
+    item=db.Column(db.Text,nullable=False)
+    student_id=db.Column(db.String(5),unique=True, nullable=False)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Receiptlog>>>{self.id}'

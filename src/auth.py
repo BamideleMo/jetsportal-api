@@ -28,15 +28,15 @@ def create_profile():
 
 
         max_student_id = Student.query.filter(Student.programme_category==programme_category).order_by(Student.student_id.desc()).first()
-        
-        if max_student_id:
-            username = '0'+str(int(max_student_id.student_id) + 1)
+        print(max_student_id)
+        if (max_student_id is None):
+            return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
         else:
-            username = '01111'
+            username = '0'+str(int(max_student_id.student_id) + 1)
 
-        create_student=Student(student_id=username,phone_number=phone_number,programme=programme,programme_category=programme_category)
-        db.session.add(create_student)    
-        db.session.commit()
+            create_student=Student(student_id=username,phone_number=phone_number,programme=programme,programme_category=programme_category)
+            db.session.add(create_student)    
+            db.session.commit()
         
 
     if request.json['user_category'] == 'Faculty':
