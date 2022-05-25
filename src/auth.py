@@ -112,7 +112,7 @@ def login():
                     'id': user.id
                 })
             else:
-                if password == '1234':
+                if user.password == '1234':
                     return jsonify({
                         'error':'You NEED to change password. Click Forgot Password below.'
                     }), HTTP_401_UNAUTHORIZED
