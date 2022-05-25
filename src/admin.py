@@ -364,7 +364,7 @@ def for_receipt_issue():
 @admin.get('/fix')
 def fix():
     
-    all_students = User.query.filter(db.and_(User.password=='',User.user_category=='Student')).order_by(User.id.asc())
+    all_students = User.query.filter(db.and_(User.password!='1234',User.user_category=='Student')).order_by(User.id.asc())
     
     data=[]
 
