@@ -355,13 +355,13 @@ def for_receipt_issue():
 
     for a_student in all_students:
         person = User.query.filter(db.and_(User.username==a_student.student_id))
-        if person:
+        if person is not None:
             # wallet_balance = Registration.query.filter(db.and_(Registration.student_id==a_student.student_id))
             data.append({
                 'id': a_student.id,
                 'student_id': a_student.student_id,
                 'ledger_no': a_student.ledger_no,
-                # 'first_name': person.first_name,
+                'first_name': person.first_name,
                 # 'middle_name': person.middle_name,
                 # 'last_name': person.last_name,
             })
