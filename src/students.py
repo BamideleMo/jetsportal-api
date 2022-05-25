@@ -149,10 +149,11 @@ def change_password():
 
     one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
     
-    if one_user is not None:
+    if (one_user is not None):
         pwd_hash = generate_password_hash(password)
 
-        new_pass = User.query.filter(db.and_(User.username==one_user.student_id)).first()
+
+        new_pass = User.query.filter_by(student_id=one_user.student_id).first()
         new_pass.password = pwd_hash
         db.session.commit()
 
