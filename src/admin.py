@@ -409,6 +409,7 @@ def fix():
         data.append({
             'id': a_student.id,
             'student_id': a_student.student_id,
+            'message': a_student.programme
         })
     
     return jsonify({
