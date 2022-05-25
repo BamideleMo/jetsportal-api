@@ -63,7 +63,7 @@ def create_profile():
     pwd_hash = generate_password_hash(password)
 
     user=User(username=username,first_name=first_name,middle_name=middle_name,last_name=last_name,password=pwd_hash,user_category=user_category)
-    db.session.add(user)        
+    db.session.add(user)
     db.session.commit()
 
     return jsonify({

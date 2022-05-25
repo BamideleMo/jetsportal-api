@@ -4,6 +4,7 @@ from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUE
 from src.database import Student, User,db
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
+from flask import redirect
 
 
 student = Blueprint("student", __name__,url_prefix="/api/v1/student")
@@ -155,13 +156,15 @@ def change_password():
         new_pass.password = pwd_hash
         db.session.commit()
 
-        return jsonify({
-            "message": 'Changed'
-        }), HTTP_200_OK
+        # return jsonify({
+        #     "message": 'Changed'
+        # }), HTTP_200_OK
+        return redirect("https://portal.jets.edu.ng/success")
     else:
-        return jsonify({
-            "message": 'Wrong Response'
-        }), HTTP_400_BAD_REQUEST
+        # return jsonify({
+        #     "message": 'Wrong Response'
+        # }), HTTP_400_BAD_REQUEST
+        return redirect("https://portal.jets.edu.ng/student/wrong_response")
 
 
 
