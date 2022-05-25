@@ -41,7 +41,7 @@ def get_all_periods():
 @period.get('/running-registrations')
 def get_running_registrations():
     
-    running_registrations_query = Period.query.filter(Period.registration_status=='Open').all()
+    running_registrations_query = Period.query.filter(Period.registration_status=='open').all()
     
     data=[]
     for period in running_registrations_query:

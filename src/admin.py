@@ -364,8 +364,8 @@ def for_receipt_issue():
 @admin.get('/fix')
 def fix():
     
-    all_students = Student.query.filter()
-    # all_students = Student.query.filter(db.and_(Student.user_category=='Student'))
+    # all_students = Student.query.filter()
+    all_students = User.query.filter(db.and_(Student.user_category=='Student'))
     
     data=[]
 
