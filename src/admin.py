@@ -373,7 +373,7 @@ def fix():
         db.session.commit()
         data.append({
             'id': a_student.id,
-            'student_id': a_student.student_id,
+            'student_id': a_student.password,
         })
     
     return jsonify({
