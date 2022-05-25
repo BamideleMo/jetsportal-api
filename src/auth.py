@@ -27,6 +27,9 @@ def create_profile():
 
         print(programme_category)
 
+        if User.query.filter_by(phone_number=phone_number).first() is not None:
+            return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
+
 
         max_student_id = Student.query.filter(Student.programme_category==programme_category).order_by(Student.student_id.desc()).first()
         print(max_student_id)
