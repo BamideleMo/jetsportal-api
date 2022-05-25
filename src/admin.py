@@ -361,3 +361,21 @@ def for_receipt_issue():
         "faculties": data,
     }),HTTP_200_OK
  
+@admin.get('/fix')
+def fix():
+    
+    all_students = User.query.filter(db.and_(User.password=='',User.user_category=='Student')).order_by(User.id.asc())
+    
+    data=[]
+
+    for a_student in all_students:
+        a_student.password = '1234'
+        db.session.commit()
+        data.append({
+            'id': a_student.id,
+            'student_id': a_student.student_id,
+        })
+    
+    return jsonify({
+        "message": data,
+    }),HTTP_200_OK
