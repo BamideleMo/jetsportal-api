@@ -135,7 +135,7 @@ def change_password():
 
     one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
 
-    if one_user:
+    if one_user is not None:
         pwd_hash = generate_password_hash(password)
 
         one_user.password = pwd_hash
@@ -147,7 +147,7 @@ def change_password():
     else:
         return jsonify({
             "message": 'Wrong Response'
-        }), HTTP_404_NOT_FOUND
+        }), HTTP_400_BAD_REQUEST
 
 @auth.put("/<string:id>")
 @auth.patch("/<string:id>")
