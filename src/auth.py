@@ -127,28 +127,6 @@ def login():
             'error':'User with: ' + username + ' is NOT created.'
         }), HTTP_401_UNAUTHORIZED
 
-@auth.post('/change-password')
-def change_password():
-    ledger_no = request.json['ledger_no']
-    password = request.json['password']
-    phone_number = request.json['phone_number']
-
-    one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
-
-    if one_user:
-        pwd_hash = generate_password_hash(password)
-
-        one_user.password = pwd_hash
-        db.session.commit()
-
-        return jsonify({
-            "message": 'Password Changed'
-        }), HTTP_200_OK
-    else:
-        return jsonify({
-            "message": 'Wrong Response'
-        }), HTTP_400_BAD_REQUEST
-
 @auth.put("/<string:id>")
 @auth.patch("/<string:id>")
 @jwt_required()

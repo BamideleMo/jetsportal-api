@@ -2,6 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
 from src.database import Student, User,db
+from werkzeug.security import check_password_hash,generate_password_hash
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 
 
@@ -138,6 +139,31 @@ def get_students():
     return jsonify({
         'students': data
     }), HTTP_200_OK
+
+@student.post('/change-password')
+def change_password():
+    ledger_no = request.json['ledger_no']
+    password = request.json['password']
+    phone_number = request.json['phone_number']
+
+    one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
+    print(one_user)
+    if one_user:
+        pwd_hash = generate_password_hash(password)
+
+        new_pass = User.query.filter(db.and_(User.username==one_user.username)).first()
+        new_pass.password = pwd_hash
+        db.session.commit()
+
+        return jsonify({
+            "message": 'Changed'
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            "message": 'Wrong Response'
+        }), HTTP_400_BAD_REQUEST
+
+
 
 @student.get('/')
 @jwt_required()
