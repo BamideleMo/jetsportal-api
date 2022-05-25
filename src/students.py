@@ -45,7 +45,7 @@ def complete_profile():
     
     db.session.commit()
 
-    one_user2 = User.query.filter_by(student_id=student_id).first()
+    one_user2 = User.query.filter_by(username=student_id).first()
     one_user2.profile_status='complete'
     
     db.session.commit()
@@ -152,9 +152,16 @@ def change_password():
     if one_user:
         pwd_hash = generate_password_hash(password)
 
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print('ID='+one_user.student_id)
+        print('Pass='+pwd_hash)
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
 
         new_pass = User.query.filter_by(username=one_user.student_id).first()
+        
         new_pass.password = pwd_hash
+
         db.session.commit()
 
         return jsonify({
