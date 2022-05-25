@@ -159,12 +159,12 @@ def change_password():
         # return jsonify({
         #     "message": 'Changed'
         # }), HTTP_200_OK
-        return redirect('https://portal.jets.edu.ng/student/password-changed')
+        return redirect('https://portal.jets.edu.ng/student/password-changed',code=302)
     else:
         # return jsonify({
         #     "message": 'Wrong Response'
         # }), HTTP_400_BAD_REQUEST
-        return redirect('https://portal.jets.edu.ng/student/wrong_response')
+        return redirect('https://portal.jets.edu.ng/student/wrong_response',code=302)
 
 
 
