@@ -135,7 +135,7 @@ def change_password():
 
     one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
 
-    if not one_user:
+    if one_user:
         pwd_hash = generate_password_hash(password)
 
         one_user.password = pwd_hash
