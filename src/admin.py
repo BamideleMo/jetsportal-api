@@ -364,13 +364,14 @@ def for_receipt_issue():
 @admin.get('/fix')
 def fix():
     
-    all_students = User.query.filter(db.and_(User.password!='1234',User.user_category=='Student')).order_by(User.id.asc())
+    all_students = User.query.filter(db.and_(User.profile_status=='incomplete',User.user_category=='Student'))
     
     data=[]
 
     for a_student in all_students:
         a_student.password = '1234'
         db.session.commit()
+
         data.append({
             'id': a_student.id,
             'student_id': a_student.password,
