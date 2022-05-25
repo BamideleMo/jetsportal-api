@@ -361,13 +361,14 @@ def for_receipt_issue():
                 'id': a_student.id,
                 'student_id': a_student.student_id,
                 'ledger_no': a_student.ledger_no,
-                'first_name': person.first_name,
+                # 'first_name': person.first_name,
                 # 'middle_name': person.middle_name,
                 # 'last_name': person.last_name,
             })
     
     return jsonify({
         "students": data,
+        "person": person,
     }),HTTP_200_OK
 
 
