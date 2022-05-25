@@ -364,17 +364,18 @@ def for_receipt_issue():
 @admin.get('/fix')
 def fix():
     
-    all_students = User.query.filter(db.and_(User.profile_status=='incomplete',User.user_category=='Student'))
+    all_students = User.query.filter(db.and_(User.user_category=='Student'))
     
     data=[]
 
     for a_student in all_students:
-        a_student.password = '1234'
-        db.session.commit()
+        if len(a_student) <= 4:    
+            a_student.username = '0'+a_student.username
+            db.session.commit()
 
         data.append({
             'id': a_student.id,
-            'student_id': a_student.password,
+            'student_id': a_student.username,
         })
     
     return jsonify({
