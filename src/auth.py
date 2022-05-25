@@ -23,6 +23,7 @@ def create_profile():
         programme = request.json['programme']
         password = request.json['password']
         phone_number = request.json['phone_number']
+        ledger_no = request.json['ledger_no']
 
         print(programme_category)
 
@@ -37,7 +38,7 @@ def create_profile():
             else:
                 username = '0'+str(int(max_student_id.student_id) + 1)
 
-            create_student=Student(student_id=username,phone_number=phone_number,programme=programme,programme_category=programme_category)
+            create_student=Student(student_id=username,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
             db.session.add(create_student)    
             db.session.commit()
         

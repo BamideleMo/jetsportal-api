@@ -370,13 +370,13 @@ def fix():
     data=[]
 
     for a_student in all_students:
-        if len(a_student.phone_number) <= 10:    
-            a_student.phone_number = '0'+a_student.phone_number
+        if len(a_student.student_id) <= 4:    
+            a_student.student_id = '0'+a_student.student_id
             db.session.commit()
 
         data.append({
             'id': a_student.id,
-            'student_id': a_student.phone_number,
+            'student_id': a_student.student_id,
         })
     
     return jsonify({
