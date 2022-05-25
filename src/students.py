@@ -164,7 +164,6 @@ def change_password():
         return jsonify({
             "message": 'Wrong Response'
         }), HTTP_400_BAD_REQUEST
-        # return redirect('http://portal.jets.edu.ng/student/wrong_response',code=302)
 
 
 
