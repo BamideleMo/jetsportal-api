@@ -370,6 +370,15 @@ def for_receipt_issue():
         "students": data,
     }),HTTP_200_OK
 
+@admin.post('/get-wallet-balance')
+def get_wallet_balance():
+    student_id = request.args
+    
+    return jsonify({
+            "id": student_id
+    }), HTTP_200_OK
+
+
 
 @admin.post('/change-password')
 def change_password():
@@ -391,6 +400,7 @@ def change_password():
         return jsonify({
             "message": 'Wrong Response'
         }), HTTP_400_BAD_REQUEST
+
 
  
 @admin.get('/fix')
