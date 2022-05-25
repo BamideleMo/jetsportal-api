@@ -156,15 +156,15 @@ def change_password():
         new_pass.password = pwd_hash
         db.session.commit()
 
-        # return jsonify({
-        #     "message": 'Changed'
-        # }), HTTP_200_OK
-        return redirect('http://portal.jets.edu.ng/student/password-changed',code=302)
+        return jsonify({
+            "message": 'Changed'
+        }), HTTP_200_OK
+        # return redirect('http://portal.jets.edu.ng/student/password-changed',code=302)
     else:
-        # return jsonify({
-        #     "message": 'Wrong Response'
-        # }), HTTP_400_BAD_REQUEST
-        return redirect('http://portal.jets.edu.ng/student/wrong_response',code=302)
+        return jsonify({
+            "message": 'Wrong Response'
+        }), HTTP_400_BAD_REQUEST
+        # return redirect('http://portal.jets.edu.ng/student/wrong_response',code=302)
 
 
 
