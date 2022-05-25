@@ -5,6 +5,7 @@ from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUE
 from src.database import Allocatedcourses, Courses, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
+from werkzeug.security import check_password_hash,generate_password_hash
 
 admin = Blueprint("admin", __name__,url_prefix="/api/v1/admin")
 
@@ -356,11 +357,38 @@ def for_receipt_issue():
         data.append({
             'id': a_student.id,
             'student_id': a_student.student_id,
+            'ledger_no': a_student.ledger_no,
+            'first_name': a_student.first_name,
+            'middle_name': a_student.middle_name,
+            'last_name': a_student.last_name,
         })
     
     return jsonify({
-        "faculties": data,
+        "students": data,
     }),HTTP_200_OK
+
+
+@admin.post('/change-password')
+def change_password():
+    password = request.json['password']
+    last_name = request.json['last_name']
+
+    one_user = User.query.filter(db.and_(User.last_name==last_name)).first()
+    
+    if one_user:
+        pwd_hash = generate_password_hash(password)
+
+        one_user.password = pwd_hash
+        db.session.commit()
+
+        return jsonify({
+            "message": 'Changed'
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            "message": 'Wrong Response'
+        }), HTTP_400_BAD_REQUEST
+
  
 @admin.get('/fix')
 def fix():
