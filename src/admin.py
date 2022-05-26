@@ -414,20 +414,20 @@ def change_password():
 @admin.get('/fix')
 def fix():
     
-    all_students = Student.query.filter(db.and_(Student.programme=='Master of Divinity'))
+    all_students = Wallet.query.filter()
     # all_students = Student.query.filter(db.and_(Student.user_category=='Student'))
     
     data=[]
 
     for a_student in all_students:
-        # if len(a_student.student_id) <= 4:    
-        a_student.programme_category = 'Master of Divinity Programme'
-        db.session.commit()
+        if len(a_student.student_id) <= 4:    
+            a_student.student_id = '0'+a_student.student_id 
+            db.session.commit()
 
         data.append({
             'id': a_student.id,
             'student_id': a_student.student_id,
-            'message': a_student.programme
+            # 'message': a_student.programme
         })
     
     return jsonify({
