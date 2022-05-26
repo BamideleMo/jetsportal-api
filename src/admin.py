@@ -184,20 +184,28 @@ def update_from_bursar():
     student_id = request.json['student_id']
     period_id = request.json['period_id']
     
-    period_query = Period.query.filter(Period.id==period_id).first()
+    wallet = Wallet.query.filter(Wallet.student_id==student_id).first()
 
-    registration_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
-    Registration.session==period_query.session,Registration.season==period_query.season)).first()
+    if(wallet.status == 'confirmed'): 
+        period_query = Period.query.filter(Period.id==period_id).first()
 
-    registration_query.bursar = 'approved'
-    db.session.commit()
+        registration_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
+        Registration.session==period_query.session,Registration.season==period_query.season)).first()
 
-    return jsonify({
-        # 'message': "Attended to by Dean",
-        'bursar': registration_query.bursar,
-        'student_id': student_id,
-    }),HTTP_201_CREATED
+        registration_query.bursar = 'approved'
+        db.session.commit()
 
+        return jsonify({
+            #'message': "Attended to by Dean",
+            'bursar': registration_query.bursar,
+            'student_id': student_id,
+            'status': 'yes',
+        }),HTTP_201_CREATED
+    else:
+        return jsonify({
+            'status': 'no',
+        }),HTTP_200_OK
+           
 
 @admin.post('/change-seminary-charges')
 def change_seminary_charges():

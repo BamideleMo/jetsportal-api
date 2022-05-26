@@ -57,3 +57,21 @@ def get_student_wallet():
         'amount': wallet_query.amount,
         'student_id': wallet_query.student_id,
     }), HTTP_200_OK
+
+@wallet.get('/get-portal-wallets')
+def get_wallets():
+    
+    all_wallets = Wallet.query.filter().all()
+    
+    data=[]
+    for a_wallet in all_wallets:
+        student = Student.query.filter(Student.student_id ==  wallet.student_id).first()
+        data.append({
+            'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
+            'ledger_no': student.ledger_no,
+            'student_id': student.student_id,
+            'programme': student.programme,
+        })
+    return jsonify({
+        'data': data,
+    }), HTTP_200_OK
