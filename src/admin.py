@@ -498,19 +498,19 @@ def get_a_receipt():
 @admin.get('/fix')
 def fix():
     
-    all_students = Wallet.query.filter()
-    # all_students = Student.query.filter(db.and_(Student.user_category=='Student'))
+    # all_students = User.query.filter()
+    all_students = User.query.filter(db.and_(User.user_category=='Student'))
     
     data=[]
 
     for a_student in all_students:
-        if len(a_student.student_id) <= 4:    
-            a_student.student_id = '0'+a_student.student_id 
+        if len(a_student.username) <= 4:    
+            a_student.student_id = '0'+a_student.username 
             db.session.commit()
 
         data.append({
             'id': a_student.id,
-            'student_id': a_student.student_id,
+            'student_id': a_student.username,
             # 'message': a_student.programme
         })
     
