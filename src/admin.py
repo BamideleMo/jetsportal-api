@@ -418,14 +418,15 @@ def update_wallet():
     balance_before = request.json['balance_before']
     student_id = request.json['student_id']
 
+    balance_after = int(balance_before) + int(amount)
+    
+
     log_receipt=Receiptlog(student_id=student_id,amount=amount,
-    before=balance_before,item=item)
+    before=balance_before,item=item,after=balance_after)
     db.session.add(log_receipt)     
     db.session.commit()
 
     wallet_update = Wallet.query.filter(db.and_(Student.student_id==student_id)).first()
-    balance_after = int(balance_before) + int(amount)
-
     wallet_update.amount =  balance_after
     db.session.commit()
     
