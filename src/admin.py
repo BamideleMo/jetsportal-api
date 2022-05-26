@@ -420,10 +420,14 @@ def update_wallet():
     student_id = request.json['student_id']
 
     balance_after = int(balance_before) + int(amount)
+
+    x = datetime.datetime.now()
+
+    receipt_no= x.month+student_id+x.year
     
 
     log_receipt=Receiptlog(student_id=student_id,amount=amount,
-    before=balance_before,item=item,after=balance_after)
+    before=balance_before,item=item,after=balance_after,receipt_no=receipt_no)
     db.session.add(log_receipt)     
     db.session.commit()
 
@@ -446,8 +450,6 @@ def get_student_receipts():
     the_student = Student.query.filter(Student.student_id == student_id ).first()
     
     data=[]
-
-    x = datetime.datetime.now()
     
     for student_receipt in student_receipts:
         
@@ -458,7 +460,7 @@ def get_student_receipts():
             'after': student_receipt.after,
             'paid': student_receipt.amount,
             'created_at': student_receipt.created_at,
-            'receipt_no': student_receipt.id+x.year,
+            'receipt_no': student_receipt.receipt_no,
             'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
             'student_id': student_id,
             'ledger_no': the_student.ledger_no,
@@ -476,15 +478,9 @@ def get_a_receipt():
 
     
 
-    student_receipt = Receiptlog.query.filter(db.and_(Receiptlog.student_id == student_id, Receiptlog.id==rid)).first()
+    student_receipt = Receiptlog.query.filter(db.and_(Receiptlog.student_id == student_id, id==rid)).first()
     student = User.query.filter(User.username == student_id ).first()
     the_student = Student.query.filter(Student.student_id == student_id ).first()
-
-    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    print(rid)
-    print(student_receipt)
-    
-    x = datetime.datetime.now()
 
     return jsonify({
             'item': student_receipt.item,
@@ -492,7 +488,7 @@ def get_a_receipt():
             'after': student_receipt.after,
             'paid': student_receipt.amount,
             'created_at': student_receipt.created_at,
-            'receipt_no': student_receipt.id+x.year,
+            'receipt_no': student_receipt.receipt_no,
             'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
             'student_id': student_id,
             'ledger_no': the_student.ledger_no,

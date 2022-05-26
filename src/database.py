@@ -288,6 +288,7 @@ class Receiptlog(db.Model):
     item=db.Column(db.Text,nullable=False)
     before=db.Column(db.Text,nullable=False)
     after=db.Column(db.Text,nullable=False)
+    receipt_no=db.Column(db.Text, unique=True,nullable=False)
     student_id=db.Column(db.String(5),nullable=False)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
