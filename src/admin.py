@@ -505,7 +505,7 @@ def fix():
 
     for a_student in all_students:
         if len(a_student.username) <= 4:    
-            a_student.student_id = '0'+a_student.username 
+            a_student.username = '0'+a_student.username 
             db.session.commit()
 
         data.append({

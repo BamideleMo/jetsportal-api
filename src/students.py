@@ -152,8 +152,6 @@ def change_password():
     if one_user:
         pwd_hash = generate_password_hash(password)
 
-
-
         one_user2 = User.query.filter_by(username=one_user.student_id).first()
 
 
