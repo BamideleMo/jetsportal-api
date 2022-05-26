@@ -481,7 +481,6 @@ def get_a_receipt():
     x = datetime.datetime.now()
 
     return jsonify({
-            'id': student_receipt.id,
             'item': student_receipt.item,
             'before': student_receipt.before,
             'after': student_receipt.after,
