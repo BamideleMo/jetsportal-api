@@ -172,7 +172,7 @@ def change_password():
         }), HTTP_200_OK
     else:
         return jsonify({
-            "message": 'Wrong Response'
+            "error": 'Wrong Response'
         }), HTTP_400_BAD_REQUEST
 
 
