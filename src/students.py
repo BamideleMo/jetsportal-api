@@ -172,7 +172,7 @@ def change_password():
         }), HTTP_200_OK
     else:
         return jsonify({
-            "error": 'Wrong Response'
+            "error": 'Wrong Response: either your Ledger No. or Phone is wrong.'
         }), HTTP_400_BAD_REQUEST
 
 
