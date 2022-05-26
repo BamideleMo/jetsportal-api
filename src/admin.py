@@ -418,7 +418,7 @@ def update_wallet():
     balance_before = request.json['balance_before']
     student_id = request.json['student_id']
 
-    log_receipt=Wallet(student_id=student_id,amount=amount,
+    log_receipt=Receiptlog(student_id=student_id,amount=amount,
     before=balance_before,item=item)
     db.session.add(log_receipt)     
     db.session.commit()
