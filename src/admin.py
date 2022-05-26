@@ -509,7 +509,7 @@ def get_active_students():
     
     data=[]
     for a_student in all_students:
-        print(a_student+"XXXXXXXXXXXXXXXXX")
+        print(a_student.student_id+"XXXXXXXXXXXXXXXXX")
         a_user = User.query.filter(User.username == a_student.student_id).first()
         data.append({
             'first_name': a_user.first_name,
