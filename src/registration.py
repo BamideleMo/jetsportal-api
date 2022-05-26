@@ -110,7 +110,7 @@ def start_registration():
             db.session.delete(one_user)     
             db.session.commit()
 
-        wallet=Wallet(student_id=student_id,amount=0)
+        wallet=Wallet(student_id=student_id,amount=0,status='confirmed')
         db.session.add(wallet)     
         db.session.commit()
 
