@@ -73,5 +73,5 @@ def get_wallets():
             'programme': student.programme,
         })
     return jsonify({
-        'data': data,
+        'wallets': data,
     }), HTTP_200_OK
