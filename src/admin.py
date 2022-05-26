@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Allocatedcourses, Courses, Period, Registration, Student, User, Wallet,db
+from src.database import Allocatedcourses, Courses, Period, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -410,7 +410,54 @@ def change_password():
         }), HTTP_400_BAD_REQUEST
 
 
+@admin.post('/update-wallet')
+def update_wallet():
+    
+    item = request.json['item']
+    amount = request.json['amount']
+    balance_before = request.json['balance_before']
+    student_id = request.json['student_id']
+
+    log_receipt=Wallet(student_id=student_id,amount=amount,
+    before=balance_before,item=item)
+    db.session.add(log_receipt)     
+    db.session.commit()
+
+    wallet_update = Wallet.query.filter(db.and_(Student.student_id==student_id)).first()
+    balance_after = int(balance_before) + int(amount)
+
+    wallet_update.amount =  balance_after
+    db.session.commit()
+    
+    return jsonify({
+            "message": 'Wallet Updated'
+    }), HTTP_200_OK
  
+ 
+@admin.get("/get-student-receipts")
+# @jwt_required()
+def get_student_receipts():
+    student_id = request.args.get('id')
+
+    student_receipts = Receiptlog.query.filter(Receiptlog.student_id == student_id ).order_by(Receiptlog.id.desc())
+    
+    data=[]
+    
+    for student_receipt in student_receipts:
+        
+        data.append({
+            'id': student_receipt.id,
+            'item': student_receipt.item,
+            'before': student_receipt.before,
+            'after': student_receipt.after,
+            'created_at': student_receipt.created_at
+        })
+
+    return jsonify({
+        "student_receipts": data,
+    }), HTTP_200_OK
+
+
 @admin.get('/fix')
 def fix():
     
