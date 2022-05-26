@@ -468,6 +468,30 @@ def get_student_receipts():
         "student_receipts": data,
     }), HTTP_200_OK
 
+@admin.get("/get-a-receipt")
+# @jwt_required()
+def get_a_receipt():
+    student_id = request.args.get('id')
+
+    student_receipt = Receiptlog.query.filter(Receiptlog.student_id == student_id ).first()
+    student = User.query.filter(User.username == student_id ).first()
+    the_student = Student.query.filter(Student.student_id == student_id ).first()
+    
+    x = datetime.datetime.now()
+
+    return jsonify({
+            'id': student_receipt.id,
+            'item': student_receipt.item,
+            'before': student_receipt.before,
+            'after': student_receipt.after,
+            'paid': student_receipt.amount,
+            'created_at': student_receipt.created_at,
+            'receipt_no': student_receipt.id+x.year,
+            'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
+            'student_id': student_id,
+            'ledger_no': the_student.ledger_no,
+    }), HTTP_200_OK
+
 
 @admin.get('/fix')
 def fix():
