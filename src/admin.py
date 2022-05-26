@@ -426,7 +426,7 @@ def update_wallet():
     db.session.add(log_receipt)     
     db.session.commit()
 
-    wallet_update = Wallet.query.filter(db.and_(Student.student_id==student_id)).first()
+    wallet_update = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
     wallet_update.amount =  balance_after
     db.session.commit()
     
