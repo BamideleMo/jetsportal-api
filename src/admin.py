@@ -516,5 +516,5 @@ def fix():
     
     return jsonify({
         "message": data,
-        "message": "done",
+        "mess": "done",
     }),HTTP_200_OK

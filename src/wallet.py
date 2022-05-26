@@ -14,10 +14,10 @@ def complete_wallet():
     
     if one_user:
         pass
-
-    wallet=Wallet(student_id=student_id,amount=0)
-    db.session.add(wallet)        
-    db.session.commit()
+    else:
+        wallet=Wallet(student_id=student_id,amount=0)
+        db.session.add(wallet)        
+        db.session.commit()
 
     return jsonify({
         'message': "Wallet created",
