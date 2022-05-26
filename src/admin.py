@@ -474,9 +474,15 @@ def get_a_receipt():
     student_id = request.args.get('id')
     rid = request.args.get('rid')
 
+    
+
     student_receipt = Receiptlog.query.filter(db.and_(Receiptlog.student_id == student_id, Receiptlog.id==rid)).first()
     student = User.query.filter(User.username == student_id ).first()
     the_student = Student.query.filter(Student.student_id == student_id ).first()
+
+    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    print(rid)
+    print(student_receipt)
     
     x = datetime.datetime.now()
 
