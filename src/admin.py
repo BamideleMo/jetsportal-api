@@ -6,6 +6,7 @@ from src.database import Allocatedcourses, Courses, Period, Receiptlog, Registra
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash,generate_password_hash
+import datetime
 
 admin = Blueprint("admin", __name__,url_prefix="/api/v1/admin")
 
@@ -441,8 +442,11 @@ def get_student_receipts():
     student_id = request.args.get('id')
 
     student_receipts = Receiptlog.query.filter(Receiptlog.student_id == student_id ).order_by(Receiptlog.id.desc())
+    student = User.query.filter(User.username == student_id ).first()
     
     data=[]
+
+    x = datetime.datetime.now()
     
     for student_receipt in student_receipts:
         
@@ -451,7 +455,12 @@ def get_student_receipts():
             'item': student_receipt.item,
             'before': student_receipt.before,
             'after': student_receipt.after,
-            'created_at': student_receipt.created_at
+            'paid': student_receipt.amount,
+            'created_at': student_receipt.created_at,
+            'receipt_no': student_receipt.id+x.year,
+            'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
+            'student_id': student_id,
+            'ledger_no': student.ledger_no,
         })
 
     return jsonify({
