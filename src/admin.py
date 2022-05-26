@@ -443,6 +443,7 @@ def get_student_receipts():
 
     student_receipts = Receiptlog.query.filter(Receiptlog.student_id == student_id ).order_by(Receiptlog.id.desc())
     student = User.query.filter(User.username == student_id ).first()
+    the_student = Student.query.filter(Student.student_id == student_id ).first()
     
     data=[]
 
@@ -460,7 +461,7 @@ def get_student_receipts():
             'receipt_no': student_receipt.id+x.year,
             'full_name': student.last_name+" "+student.middle_name+" "+student.first_name,
             'student_id': student_id,
-            'ledger_no': student.ledger_no,
+            'ledger_no': the_student.ledger_no,
         })
 
     return jsonify({
