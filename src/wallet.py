@@ -68,7 +68,9 @@ def get_wallets():
         user = User.query.filter(User.username == a_wallet.student_id).first()
         student = Student.query.filter(Student.student_id == a_wallet.student_id).first()
         data.append({
-            'full_name': (user.last_name).upper()+" "+user.middle_name+" "+user.first_name,
+            'first_name': user.last_name,
+            'middle_name': user.middle_name,
+            'last_name': user.first_name,
             'ledger_no': student.ledger_no,
             'student_id': student.student_id,
             'programme': student.programme,
