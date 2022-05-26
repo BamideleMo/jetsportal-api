@@ -509,16 +509,16 @@ def get_active_students():
     
     data=[]
     for a_student in all_students:
-        print(a_student.student_id+"XXXXXXXXXXXXXXXXX")
         a_user = User.query.filter(User.username == a_student.student_id).first()
-        data.append({
-            'first_name': a_user.first_name,
-            'middle_name': a_user.middle_name,
-            'last_name': a_user.first_name,
-            'ledger_no': a_student.ledger_no,
-            'student_id': a_student.student_id,
-            'programme': a_student.programme,
-        })
+        if a_user:
+            data.append({
+                'first_name': a_user.first_name,
+                'middle_name': a_user.middle_name,
+                'last_name': a_user.first_name,
+                'ledger_no': a_student.ledger_no,
+                'student_id': a_student.student_id,
+                'programme': a_student.programme,
+            })
     return jsonify({
         'students': data,
     }), HTTP_200_OK
