@@ -199,11 +199,11 @@ def update_from_bursar():
             #'message': "Attended to by Dean",
             'bursar': registration_query.bursar,
             'student_id': student_id,
-            'status': 'yes',
+            'msg': 'yes',
         }),HTTP_201_CREATED
     else:
         return jsonify({
-            'status': 'no',
+            'msg': 'no',
         }),HTTP_200_OK
            
 
