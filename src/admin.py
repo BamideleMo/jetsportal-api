@@ -372,17 +372,17 @@ def for_receipt_issue():
 
 @admin.post('/get-wallet-balance')
 def get_wallet_balance():
-    student_id = request.args.id[0]
+    student_id = request.args.get('id')
 
-    # one_user = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
+    one_user = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
 
     print('XXXXXXXXXXXXXXx')
     print (student_id)
 
     return jsonify({
         "student_id": student_id,
-        # "status": one_user.status,
-        # "balance": one_user.amount,
+        "status": one_user.status,
+        "balance": one_user.amount,
     }), HTTP_200_OK
 
 
