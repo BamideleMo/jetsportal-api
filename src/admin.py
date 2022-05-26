@@ -502,6 +502,27 @@ def get_a_receipt():
             'ledger_no': the_student.ledger_no,
     }), HTTP_200_OK
 
+@admin.get('/get-active-students')
+def get_active_students():
+    
+    all_students = Student.query.filter(Student.status=='active').all()
+    
+    data=[]
+    for a_student in all_students:
+        user = User.query.filter(User.username == a_student.student_id).first()
+        data.append({
+            'first_name': user.first_name,
+            'middle_name': user.middle_name,
+            'last_name': user.first_name,
+            'ledger_no': a_student.ledger_no,
+            'student_id': a_student.student_id,
+            'programme': a_student.programme,
+        })
+    return jsonify({
+        'students': data,
+    }), HTTP_200_OK
+
+
 
 @admin.get('/fix')
 def fix():
