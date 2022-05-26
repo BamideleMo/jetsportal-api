@@ -423,7 +423,7 @@ def update_wallet():
 
     x = datetime.datetime.now()
 
-    receipt_no= str(x.month) + student_id + str(x.year)
+    receipt_no= str(x.strftime("%m")) + str(x.strftime("%f")) + str(x.strftime("%d"))
     
 
     log_receipt=Receiptlog(student_id=student_id,amount=amount,
