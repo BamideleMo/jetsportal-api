@@ -478,7 +478,7 @@ def get_a_receipt():
 
     
 
-    student_receipt = Receiptlog.query.filter(db.and_(Receiptlog.student_id == student_id, id==rid)).first()
+    student_receipt = Receiptlog.query.filter(db.and_(Receiptlog.student_id == student_id, Receiptlog.receipt_no==rid)).first()
     student = User.query.filter(User.username == student_id ).first()
     the_student = Student.query.filter(Student.student_id == student_id ).first()
 
