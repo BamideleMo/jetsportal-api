@@ -507,20 +507,58 @@ def get_active_students():
     
     all_students = Student.query.filter(Student.status=='active').all()
     
-    data=[]
+    data1=[]
+    data2=[]
+    data3=[]
+    data4=[]
     for a_student in all_students:
         a_user = User.query.filter(User.username == a_student.student_id).first()
         if a_user:
-            data.append({
-                'first_name': a_user.first_name,
-                'middle_name': a_user.middle_name,
-                'last_name': a_user.first_name,
-                'ledger_no': a_student.ledger_no,
-                'student_id': a_student.student_id,
-                'programme': a_student.programme,
-            })
+            if a_student.programme_category == 'Masters Programme' or a_student.programme_category == 'Master of Divinity':
+                data1.append({
+                    'first_name': a_user.first_name,
+                    'middle_name': a_user.middle_name,
+                    'last_name': a_user.first_name,
+                    'ledger_no': a_student.ledger_no,
+                    'student_id': a_student.student_id,
+                    'programme': a_student.programme,
+                    'programme_cat': a_student.programme_category,
+                })
+            if a_student.programme_category == 'PGDT Programme':
+                data2.append({
+                    'first_name': a_user.first_name,
+                    'middle_name': a_user.middle_name,
+                    'last_name': a_user.first_name,
+                    'ledger_no': a_student.ledger_no,
+                    'student_id': a_student.student_id,
+                    'programme': a_student.programme,
+                    'programme_cat': a_student.programme_category,
+                })
+            if a_student.programme_category == 'Bachelor of Arts Programme':
+                data3.append({
+                    'first_name': a_user.first_name,
+                    'middle_name': a_user.middle_name,
+                    'last_name': a_user.first_name,
+                    'ledger_no': a_student.ledger_no,
+                    'student_id': a_student.student_id,
+                    'programme': a_student.programme,
+                    'programme_cat': a_student.programme_category,
+                })
+            if a_student.programme_category == 'Diploma Programme':
+                data4.append({
+                    'first_name': a_user.first_name,
+                    'middle_name': a_user.middle_name,
+                    'last_name': a_user.first_name,
+                    'ledger_no': a_student.ledger_no,
+                    'student_id': a_student.student_id,
+                    'programme': a_student.programme,
+                    'programme_cat': a_student.programme_category,
+                })
     return jsonify({
-        'students': data,
+        'ma': data1,
+        'pgdt': data2,
+        'ba': data3,
+        'dip': data4,
     }), HTTP_200_OK
 
 
