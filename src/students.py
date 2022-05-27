@@ -167,7 +167,6 @@ def change_password():
         }), HTTP_400_BAD_REQUEST
 
 
-
 @student.get('/')
 @jwt_required()
 def get_logged_in_student():

@@ -543,3 +543,27 @@ def finish_registration():
         'message': "finished",
     }),HTTP_201_CREATED
 
+@registration.get("/get-complete-registrations")
+# @jwt_required()
+def get_all_registration():
+
+    student_id = request.args.get('id')
+    
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.student_id == student_id,Registration.status=='complete')).all()
+    
+    data=[]
+    
+    for a_registration in all_registrations:
+        data.append({
+            'id': a_registration.id,
+            'finished_date': a_registration.updated_at,
+            'semester': a_registration.semester,
+            'session': a_registration.session,
+            'season': a_registration.season
+        })
+
+    return jsonify({
+        "registrations": data,
+    }), HTTP_200_OK
+

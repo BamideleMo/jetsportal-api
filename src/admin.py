@@ -395,8 +395,6 @@ def get_wallet_balance():
         'full_name': person.last_name +" "+ person.middle_name +" "+ person.first_name,
     }), HTTP_200_OK
 
-
-
 @admin.post('/change-password')
 def change_password():
     password = request.json['password']
