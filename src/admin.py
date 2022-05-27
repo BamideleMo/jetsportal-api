@@ -186,6 +186,8 @@ def update_from_bursar():
     
     wallet = Wallet.query.filter(Wallet.student_id==student_id).first()
 
+    print(wallet.status+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
     if(wallet.status == 'confirmed'): 
         period_query = Period.query.filter(Period.id==period_id).first()
 
