@@ -628,12 +628,12 @@ def fix():
 
     for a_student in all_students:
         if len(a_student.student_id) <= 4:    
-            a_student.student = '0'+a_student.student 
+            a_student.student_id = '0'+a_student.student_id 
             db.session.commit()
 
         data.append({
             'id': a_student.id,
-            'student_id': '0'+a_student.student,
+            'student_id': '0'+a_student.student_id,
             # 'message': a_student.programme
         })
     
