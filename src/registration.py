@@ -512,3 +512,30 @@ def get_wallet():
         'wallet': one_user_query.amount,
         'student_id': studentid,
     }),HTTP_200_OK
+
+
+@registration.post('/finish')
+# @jwt_required()
+def finish_registration():
+    student_id = request.json['student_id']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    opening_balance = request.json['opening_balance']
+    closing_balance = request.json['closing_balance']
+
+    one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
+    max_id = Registration.query.filter(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season).order_by(Registration.finished_id.desc()).first()
+    finished_id = max_id.finished_id + 1
+
+    one_user_query.opening_balance=opening_balance    
+    one_user_query.closing_balance=closing_balance    
+    one_user_query.status='complete'    
+    one_user_query.opened_or_closed='closed' 
+    one_user_query.finished_id= finished_id
+    db.session.commit()
+
+    return jsonify({
+        'message': "finished",
+    }),HTTP_201_CREATED
+
