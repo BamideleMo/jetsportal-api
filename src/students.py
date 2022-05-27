@@ -153,13 +153,6 @@ def change_password():
         pwd_hash = generate_password_hash(password)
 
         one_user2 = User.query.filter_by(username=one_user.student_id).first()
-
-
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print('ID='+one_user.student_id)
-        print('Pass='+pwd_hash)
-        print('Pass='+one_user2.password)
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         
         one_user2.password = pwd_hash
 

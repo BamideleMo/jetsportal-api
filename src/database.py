@@ -150,6 +150,11 @@ class Registration(db.Model):
     percentage_to_pay=db.Column(db.Integer,default=100)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+    status=db.Column(db.Text)
+    opening_balance=db.Column(db.Text)
+    closing_balance=db.Column(db.Text)
+    opened_or_closed=db.Column(db.Text)
+    finished_id=db.Column(db.Text)
     
     def __repr__(self) -> str:
         return 'Registration>>>{self.id}'
