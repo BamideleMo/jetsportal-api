@@ -515,6 +515,11 @@ def get_active_students():
         a_user = User.query.filter(User.username == a_student.student_id).first()
         a_wallet = Wallet.query.filter(Wallet.student_id == a_student.student_id).first()
         if a_user:
+            if a_wallet:
+                wallet = a_wallet.amount
+            else:
+                wallet = 'None'
+
             if a_student.programme_category == 'Masters Programme' or a_student.programme_category == 'Master of Divinity':
                 data1.append({
                     'first_name': a_user.first_name,
@@ -524,7 +529,7 @@ def get_active_students():
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
                     'programme_cat': a_student.programme_category,
-                    'wallet': a_wallet.amount,
+                    'wallet': wallet,
                 })
             if a_student.programme_category == 'PGDT Programme':
                 data2.append({
@@ -535,7 +540,7 @@ def get_active_students():
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
                     'programme_cat': a_student.programme_category,
-                    'wallet': a_wallet.amount,
+                    'wallet': wallet,
                 })
             if a_student.programme_category == 'Bachelor of Arts Programme':
                 data3.append({
@@ -546,7 +551,7 @@ def get_active_students():
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
                     'programme_cat': a_student.programme_category,
-                    'wallet': a_wallet.amount,
+                    'wallet': wallet,
                 })
             if a_student.programme_category == 'Diploma Programme':
                 data4.append({
@@ -557,7 +562,7 @@ def get_active_students():
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
                     'programme_cat': a_student.programme_category,
-                    'wallet': a_wallet.amount,
+                    'wallet': wallet,
                 })
     return jsonify({
         'ma': data1,
