@@ -35,6 +35,7 @@ def change_portal_wallet():
     wallet_query = Wallet.query.filter(Wallet.student_id==student_id).first()
 
     wallet_query.amount = amount
+    wallet_query.status = 'complete'
     db.session.commit()
     
     return jsonify({
