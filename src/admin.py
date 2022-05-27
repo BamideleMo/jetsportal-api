@@ -395,7 +395,7 @@ def get_wallet_balance():
         "status": one_user.status,
         "balance": one_user.amount,
         'ledger_no': student.ledger_no,
-        'full_name': person.last_name +" "+ person.middle_name +" "+ person.first_name,
+        'full_name': person.last_name +" "+ person.first_name,
     }), HTTP_200_OK
 
 @admin.post('/change-password')
