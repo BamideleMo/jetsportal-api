@@ -621,19 +621,19 @@ def get_all_receipts():
 @admin.get('/fix')
 def fix():
     
-    all_students = Student.query.filter()
-    # all_students = Student.query.filter(db.and_(User.user_category=='Student'))
+    # all_students = Student.query.filter()
+    all_students = User.query.filter(db.and_(User.user_category=='Student'))
     
     data=[]
 
     for a_student in all_students:
-        if len(a_student.phone_number) <= 10:    
-            a_student.phone_number = '0'+a_student.phone_number 
+        if len(a_student.username) <= 4:    
+            a_student.username = '0'+a_student.username 
             db.session.commit()
 
         data.append({
             'id': a_student.id,
-            'student_id': '0'+a_student.phone_number,
+            'student_id': '0'+a_student.username,
             # 'message': a_student.programme
         })
     
