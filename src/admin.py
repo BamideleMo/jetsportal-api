@@ -600,7 +600,7 @@ def get_all_receipts():
         })
 
     return jsonify({
-        "student_receipts": data,
+        "receipts": data,
     }), HTTP_200_OK
 
 
