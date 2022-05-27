@@ -160,7 +160,7 @@ def check_if_registration_started():
     if one_user:
         return jsonify({'started':one_user.started,'level':one_user.level, 'dean':one_user.dean, 'bursar':one_user.bursar,
         'student_id':one_user.student_id,'created_at':one_user.created_at,'updated_at':one_user.updated_at,
-        'comment': one_user.comment,}), HTTP_200_OK
+        'comment': one_user.comment,'status': one_user.status}), HTTP_200_OK
     else:
         return jsonify({
             "message": 'Record not found',
