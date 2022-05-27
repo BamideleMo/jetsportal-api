@@ -572,6 +572,37 @@ def get_active_students():
     }), HTTP_200_OK
 
 
+@admin.get("/get-all-receipts")
+# @jwt_required()
+def get_all_receipts():
+    
+    student_receipts = Receiptlog.query.filter().all()
+    
+    data=[]
+    
+    for student_receipt in student_receipts:
+        a_user = User.query.filter(User.username == student_receipt.student_id ).first()
+        the_student = Student.query.filter(Student.student_id == student_receipt.student_id ).first()
+        
+        data.append({
+            'id': student_receipt.id,
+            'item': student_receipt.item,
+            'before': student_receipt.before,
+            'after': student_receipt.after,
+            'paid': student_receipt.amount,
+            'created_at': student_receipt.created_at,
+            'receipt_no': student_receipt.receipt_no,
+            'last_name': a_user.last_name,
+            'middle_name': a_user.middle_name,
+            'first_name': a_user.first_name,
+            'student_id': student_receipt.student_id,
+            'ledger_no': the_student.ledger_no,
+        })
+
+    return jsonify({
+        "student_receipts": data,
+    }), HTTP_200_OK
+
 
 @admin.get('/fix')
 def fix():
