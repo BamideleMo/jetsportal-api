@@ -515,12 +515,13 @@ def get_active_students():
         a_user = User.query.filter(User.username == a_student.student_id).first()
         a_wallet = Wallet.query.filter(Wallet.student_id == a_student.student_id).first()
         if a_user:
-            if a_wallet:
-                wallet = a_wallet.amount
-            else:
-                wallet = 'None'
 
             if a_student.programme_category == 'Masters Programme' or a_student.programme_category == 'Master of Divinity':
+                
+                if a_wallet:
+                    wallet = a_wallet.amount
+                else:
+                    wallet = 'None'
                 data1.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
@@ -532,6 +533,10 @@ def get_active_students():
                     'wallet': wallet,
                 })
             if a_student.programme_category == 'PGDT Programme':
+                if a_wallet:
+                    wallet = a_wallet.amount
+                else:
+                    wallet = 'None'
                 data2.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
@@ -543,6 +548,10 @@ def get_active_students():
                     'wallet': wallet,
                 })
             if a_student.programme_category == 'Bachelor of Arts Programme':
+                if a_wallet:
+                    wallet = a_wallet.amount
+                else:
+                    wallet = 'None'
                 data3.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
@@ -554,6 +563,10 @@ def get_active_students():
                     'wallet': wallet,
                 })
             if a_student.programme_category == 'Diploma Programme':
+                if a_wallet:
+                    wallet = a_wallet.amount
+                else:
+                    wallet = 'None'
                 data4.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
