@@ -184,8 +184,11 @@ def update_from_bursar():
     student_id = request.json['student_id']
     period_id = request.json['period_id']
     
-    wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id,Wallet.status=='confirmed')).first()
-    print(wallet+"XXXXXXXXXXXXXXXXXXXXXXXXX")
+    wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id,
+    Wallet.status=='confirmed')).first()
+    print(student_id)
+    print(wallet)
+    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXYYYYYY")
     if wallet: 
         period_query = Period.query.filter(Period.id==period_id).first()
 
