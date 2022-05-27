@@ -524,7 +524,7 @@ def get_active_students():
                 data1.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
-                    'last_name': a_user.first_name,
+                    'last_name': a_user.last_name,
                     'ledger_no': a_student.ledger_no,
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
@@ -535,7 +535,7 @@ def get_active_students():
                 data2.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
-                    'last_name': a_user.first_name,
+                    'last_name': a_user.last_name,
                     'ledger_no': a_student.ledger_no,
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
@@ -546,7 +546,7 @@ def get_active_students():
                 data3.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
-                    'last_name': a_user.first_name,
+                    'last_name': a_user.last_name,
                     'ledger_no': a_student.ledger_no,
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
@@ -557,7 +557,7 @@ def get_active_students():
                 data4.append({
                     'first_name': a_user.first_name,
                     'middle_name': a_user.middle_name,
-                    'last_name': a_user.first_name,
+                    'last_name': a_user.last_name,
                     'ledger_no': a_student.ledger_no,
                     'student_id': a_student.student_id,
                     'programme': a_student.programme,
