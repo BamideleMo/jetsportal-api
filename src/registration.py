@@ -357,9 +357,9 @@ def get_picked_courses():
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
             if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
-            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme')):
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
-            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme')):
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
 
             if(course_info.hours == 'P/F'):
