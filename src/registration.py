@@ -525,8 +525,8 @@ def finish_registration():
     closing_balance = request.json['closing_balance']
 
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
-    max_id = Registration.query.filter(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season).order_by(Registration.finished_id.desc()).first() is not None
-    if max_id:
+    max_id = Registration.query.filter(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season).order_by(Registration.finished_id.desc()).first().count()
+    if max_id>0:
         print(max_id)
         # finished_id = max_id.finished_id + 1
     else:
