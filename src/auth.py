@@ -26,6 +26,8 @@ def create_profile():
         ledger_no = request.json['ledger_no']
         admission_year = request.json['admission_year']
 
+        return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
+
         print(programme_category)
 
         if Student.query.filter_by(phone_number=phone_number).first() is not None:
