@@ -631,7 +631,8 @@ def fix():
         #     a_student.username = '0'+a_student.username 
         #     db.session.commit()
         status = User.query.filter(db.and_(User.username==a_student.student_id))
-
+        print(status)
+        print(status.username)
         if status:
 
             data.append({
