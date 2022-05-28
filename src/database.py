@@ -141,11 +141,10 @@ class Registration(db.Model):
     denomination=db.Column(db.Text, nullable=False)
     dean=db.Column(db.Text)
     bursar=db.Column(db.Text)
-    registrar=db.Column(db.Text)
     seminary_charges=db.Column(JSON)
-    add_drop_dean=db.Column(db.Text)
-    add_drop_bursar=db.Column(db.Text)
-    add_drop_registrar=db.Column(db.Text)
+    dean_print=db.Column(db.Text)
+    bursar_print=db.Column(db.Text)
+    registrar_print=db.Column(db.Text)
     comment=db.Column(db.Text)
     percentage_to_pay=db.Column(db.Integer,default=100)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
@@ -158,6 +157,28 @@ class Registration(db.Model):
     
     def __repr__(self) -> str:
         return 'Registration>>>{self.id}'
+
+
+class Addanddrop(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    student_id=db.Column(db.Text, unique=True, nullable=False)
+    semester=db.Column(db.String(100), nullable=False)
+    session=db.Column(db.Text, nullable=False)
+    season=db.Column(db.Text, nullable=False)
+    dean=db.Column(db.Text)
+    bursar=db.Column(db.Text)
+    comment=db.Column(db.Text)
+    dean_print=db.Column(db.Text)
+    bursar_print=db.Column(db.Text)
+    registrar_print=db.Column(db.Text)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+    status=db.Column(db.Text)
+    opened_or_closed=db.Column(db.Text)
+    finished_id=db.Column(db.Text)
+    
+    def __repr__(self) -> str:
+        return 'Addanddrop>>>{self.id}'
 
 
 class Newstudentcharges(db.Model):
