@@ -476,16 +476,17 @@ def all_registrations():
     data=[]
     
     for a_registration in all_registrations:
-        user = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
+        user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
+        print(a_registration.student_id)
         data.append({
             'student_id': a_registration.student_id,
             'dean': a_registration.dean,
             'bursar': a_registration.bursar,
             'registrar': a_registration.registrar,
-            'first_name': user.first_name,
-            'middle_name': user.middle_name,
-            'last_name': user.last_name,
+            'first_name': user1.first_name,
+            'middle_name': user1.middle_name,
+            'last_name': user1.last_name,
             'programme': student.programme,
         })
 
