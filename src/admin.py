@@ -618,7 +618,7 @@ def get_all_receipts():
     }), HTTP_200_OK
 
 
-@admin.get('/fix')
+@admin.post('/fix')
 def fix():
 
     wrong = request.json['wrong']
