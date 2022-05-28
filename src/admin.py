@@ -637,9 +637,9 @@ def fix():
     # for a_student in all_students:
         # if len(a_student.username) <= 4:    
     a_student1.username = right 
-    a_student2.student_id = right 
+    # a_student2.student_id = right 
     a_student3.student_id = right
-    a_student4.student_id = right
+    # a_student4.student_id = right
     a_student5.student_id = right
     a_student6.student_id = right
     db.session.commit()
