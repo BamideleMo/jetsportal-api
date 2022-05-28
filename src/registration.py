@@ -478,8 +478,6 @@ def all_registrations():
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        print(a_registration.student_id)
-        print(a_registration.id)
         data.append({
             'student_id': a_registration.student_id,
             'dean': a_registration.dean,
@@ -489,6 +487,7 @@ def all_registrations():
             'middle_name': user1.middle_name,
             'last_name': user1.last_name,
             'programme': student.programme,
+            'status': student.status,
         })
 
     return jsonify({
