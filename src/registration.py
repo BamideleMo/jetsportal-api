@@ -513,6 +513,7 @@ def get_my_registrations():
         Period.season == a_registration.season)).first()
         data.append({
             'id': a_registration.id,
+            'student_id': a_registration.student_id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
             'period_id': period.id,
@@ -542,6 +543,7 @@ def get_my_adds_and_drops():
         Period.season == a_registration.season)).first()
         data.append({
             'id': a_registration.id,
+            'student_id': a_registration.student_id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
             'period_id': period.id,
