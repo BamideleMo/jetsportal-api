@@ -622,23 +622,23 @@ def get_all_receipts():
 def fix():
     
     # all_students = Student.query.filter()
-    a_student1 = User.query.filter(db.and_(User.username=='73883')).first()
-    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='73883')).first()
-    a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='73883')).first()
-    a_student4 = Registration.query.filter(db.and_(Registration.student_id=='73883')).first()
-    a_student5 = Student.query.filter(db.and_(Student.student_id=='73883')).first()
-    a_student6 = Wallet.query.filter(db.and_(Wallet.student_id=='73883')).first()
+    a_student1 = User.query.filter(db.and_(User.username=='73884')).first()
+    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='73884')).first()
+    a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='73884')).first()
+    a_student4 = Registration.query.filter(db.and_(Registration.student_id=='73884')).first()
+    a_student5 = Student.query.filter(db.and_(Student.student_id=='73884')).first()
+    a_student6 = Wallet.query.filter(db.and_(Wallet.student_id=='73884')).first()
     
     # data=[]
 
     # for a_student in all_students:
         # if len(a_student.username) <= 4:    
-    a_student1.username = '68597' 
-    # a_student2.student_id = '68597' 
-    # a_student3.student_id = '68597'
-    # a_student4.student_id = '68597'
-    a_student5.student_id = '68597'
-    a_student6.student_id = '68597'
+    a_student1.username = '68598' 
+    a_student2.student_id = '68598' 
+    a_student3.student_id = '68598'
+    a_student4.student_id = '68598'
+    a_student5.student_id = '68598'
+    a_student6.student_id = '68598'
     db.session.commit()
             # status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
             # print(status1)
