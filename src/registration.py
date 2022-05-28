@@ -550,5 +550,5 @@ def get_my_adds_and_drops():
         })
 
     return jsonify({
-        "registrations": data,
+        "addanddrops": data,
     }), HTTP_200_OK
