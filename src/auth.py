@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Student, User,db
+from src.database import Availablestudentids, Student, User,db
 # from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
 import datetime
 from flask_cors import CORS
@@ -26,7 +26,7 @@ def create_profile():
         ledger_no = request.json['ledger_no']
         admission_year = request.json['admission_year']
 
-        return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
+        # return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
 
         print(programme_category)
 
@@ -37,19 +37,29 @@ def create_profile():
             return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
 
-        max_student_id = Student.query.filter(Student.programme_category==programme_category).order_by(Student.student_id.desc()).first()
-        print(max_student_id)
-        if (max_student_id is None):
-            return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
-        else:
-            if programme_category == 'PGDT Programme' or programme_category == 'Masters Programme' or programme_category == 'Master of Divinity Programme':
-                username = str(int(max_student_id.student_id) + 1)
-            else:
-                username = '0'+str(int(max_student_id.student_id) + 1)
+        if programme_category == 'Diploma Programme' or programme_category == 'Bachelor Arts Programme':
+            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
+            username = '0' + str(int(last_student_id.student_id) + 1)
 
-            create_student=Student(student_id=username,admission_year=admission_year,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
-            db.session.add(create_student)    
-            db.session.commit()
+        if programme_category == 'PGDT Programme':
+            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='pgdt').first()
+            username = str(int(last_student_id.student_id) + 1)
+
+        if programme_category == 'Masters Programme':
+            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='masters').first()
+            username = str(int(last_student_id.student_id) + 1)
+        
+        if programme_category == 'Master of Divinity Programme':
+            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='mdiv').first()
+            username = str(int(last_student_id.student_id) + 1)
+        
+        
+        last_student_id.student_id = username
+        db.session.commit()
+
+        create_student=Student(student_id=username,admission_year=admission_year,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
+        db.session.add(create_student)    
+        db.session.commit()
         
 
     if request.json['user_category'] == 'Faculty':
