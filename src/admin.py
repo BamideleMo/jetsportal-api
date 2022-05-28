@@ -645,6 +645,6 @@ def fix():
             #     })
     
     return jsonify({
-        "message": data,
+        # "message": data,
         "mess": "done2",
     }),HTTP_200_OK
