@@ -497,3 +497,27 @@ def all_registrations():
         'season': period.season
     }), HTTP_200_OK
 
+@registration.get("/get-my-registrations")
+# @jwt_required()
+def get_my_registrations():
+
+    student_id = request.args.get('id')
+
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.student_id == student_id)).order_by(Registration.id.desc()).all()
+    
+    data=[]
+    
+    for a_registration in all_registrations:
+        data.append({
+            'student_id': a_registration.student_id,
+            'status': a_registration.status,
+            'semester': a_registration.semester,
+            'session': a_registration.session,
+            'season': a_registration.season
+        })
+
+    return jsonify({
+        "registrations": data,
+    }), HTTP_200_OK
+
