@@ -517,8 +517,8 @@ def get_my_registrations():
             'session': a_registration.session,
             'season': a_registration.season,
             'dean_print': a_registration.dean_print,
-            'dean_bursar': a_registration.dean_bursar,
-            'dean_registrar': a_registration.dean_registrar,
+            'bursar_print': a_registration.bursar_print,
+            'registrar_print': a_registration.registrar_print,
         })
 
     return jsonify({
@@ -545,8 +545,8 @@ def get_my_adds_and_drops():
             'session': a_registration.session,
             'season': a_registration.season,
             'dean_print': a_registration.dean_print,
-            'dean_bursar': a_registration.dean_bursar,
-            'dean_registrar': a_registration.dean_registrar,
+            'bursar_print': a_registration.bursar_print,
+            'registrar_print': a_registration.registrar_print,
         })
 
     return jsonify({
