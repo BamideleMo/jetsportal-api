@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Allocatedcourses, Courses, Period, Receiptlog, Registration, Student, User, Wallet,db
+from src.database import Affiliationfees, Allocatedcourses, Courses, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -622,14 +622,24 @@ def get_all_receipts():
 def fix():
     
     # all_students = Student.query.filter()
-    all_students = Affiliationfees.query.filter(db.and_(Affiliationfees.student_id=='09877')).all()
+    a_student1 = User.query.filter(db.and_(User.username=='09877')).first()
+    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='09877')).first()
+    a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='09877')).first()
+    a_student4 = Registration.query.filter(db.and_(Registration.student_id=='09877')).first()
+    a_student5 = Student.query.filter(db.and_(Student.student_id=='09877')).first()
+    a_student6 = Wallet.query.filter(db.and_(Wallet.student_id=='09877')).first()
     
-    data=[]
+    # data=[]
 
-    for a_student in all_students:
+    # for a_student in all_students:
         # if len(a_student.username) <= 4:    
-            a_student.student_id = '04450' 
-            db.session.commit()
+    a_student1.student_id = '04450' 
+    a_student2.student_id = '04450' 
+    a_student3.student_id = '04450'
+    a_student4.student_id = '04450'
+    a_student5.student_id = '04450'
+    a_student6.student_id = '04450'
+    db.session.commit()
             # status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
             # print(status1)
             # if status1 is None:
