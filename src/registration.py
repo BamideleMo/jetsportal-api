@@ -510,7 +510,7 @@ def get_my_registrations():
     
     for a_registration in all_registrations:
         data.append({
-            'student_id': a_registration.student_id,
+            'id': a_registration.id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
             'semester': a_registration.semester,
@@ -538,6 +538,7 @@ def get_my_adds_and_drops():
     
     for a_registration in all_registrations:
         data.append({
+            'id': a_registration.id,
             'student_id': a_registration.student_id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
