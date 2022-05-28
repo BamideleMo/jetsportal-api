@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
+from src.database import Addanddrop, Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from sqlalchemy import desc
@@ -515,10 +515,40 @@ def get_my_registrations():
             'updated_at': a_registration.updated_at,
             'semester': a_registration.semester,
             'session': a_registration.session,
-            'season': a_registration.season
+            'season': a_registration.season,
+            'dean_print': a_registration.dean_print,
+            'dean_bursar': a_registration.dean_bursar,
+            'dean_registrar': a_registration.dean_registrar,
         })
 
     return jsonify({
         "registrations": data,
     }), HTTP_200_OK
 
+@registration.get("/get-my-adds-and-drops")
+# @jwt_required()
+def get_my_adds_and_drops():
+
+    student_id = request.args.get('id')
+
+    all_registrations = Addanddrop.query.filter(db.and_(
+        Addanddrop.student_id == student_id)).order_by(Addanddrop.id.desc()).all()
+    
+    data=[]
+    
+    for a_registration in all_registrations:
+        data.append({
+            'student_id': a_registration.student_id,
+            'status': a_registration.status,
+            'updated_at': a_registration.updated_at,
+            'semester': a_registration.semester,
+            'session': a_registration.session,
+            'season': a_registration.season,
+            'dean_print': a_registration.dean_print,
+            'dean_bursar': a_registration.dean_bursar,
+            'dean_registrar': a_registration.dean_registrar,
+        })
+
+    return jsonify({
+        "registrations": data,
+    }), HTTP_200_OK
