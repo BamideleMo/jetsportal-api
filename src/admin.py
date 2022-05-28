@@ -622,7 +622,7 @@ def get_all_receipts():
 def fix():
     
     # all_students = Student.query.filter()
-    all_students = Student.query.filter(db.and_(Student.programme_category=='Masters of Divinity Programme')).order_by(Student.student_id.desc())
+    all_students = Student.query.filter(db.and_(Student.programme_category=='Master of Divinity Programme')).order_by(Student.student_id.desc())
     
     data=[]
 
