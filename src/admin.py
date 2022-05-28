@@ -638,7 +638,7 @@ def fix():
             'admission': a_student.admission_year,
             'programme': a_student.programme,
             'email': a_student.email,
-            'status': a_student.profile_status,
+            'status': status.profile_status,
         })
     
     return jsonify({
