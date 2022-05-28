@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, Wallet,db
+from src.database import Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from sqlalchemy import desc
@@ -186,7 +186,6 @@ def get_affiliation_fee():
             "message": 'Record not found',
         }), HTTP_202_ACCEPTED
 
-
 @registration.get("/get-charges")
 # @jwt_required()
 def get_charges():
@@ -197,79 +196,6 @@ def get_charges():
     semester = period_query.semester
     session = period_query.session
     season = period_query.season
-
-    # programme_category_query = Student.query.filter(Student.student_id==studentid).first()
-    # programme_category = programme_category_query.programme_category
-
-    # returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==semester,
-    # Returningstudentcharges.session==session,Returningstudentcharges.season==season)).first()
-    
-    # new_or_returning_query = Registration.query.filter(db.and_(Registration.student_id==studentid,
-    # Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
-    # new_or_returning = new_or_returning_query.fresh
-
-    # newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==semester,Newstudentcharges.session==session,
-    # Newstudentcharges.season==season)).first()
-
-    # if (programme_category == 'Bachelor of Arts Programme' or  programme_category == 'Diploma Programme') and new_or_returning == 'new':
-    #     total=int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-    #     return jsonify({
-    #         'matriculation':newstudentcharges_query.matriculation_undergraduate,
-    #         'id_card':newstudentcharges_query.id_card,
-    #         'actea':newstudentcharges_query.actea,
-    #         'admin':returning_student_charges_query.admin,
-    #         'exam':returning_student_charges_query.exam,
-    #         'library':returning_student_charges_query.library,
-    #         'ict':returning_student_charges_query.ict,
-    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
-    #         'campus_dev':returning_student_charges_query.campus_dev,
-    #         'insurance':returning_student_charges_query.insurance,
-    #         'late':returning_student_charges_query.late,
-    #         'department':returning_student_charges_query.department,
-    #         'sug':returning_student_charges_query.sug,
-    #         'total':total,
-    #         'new_or_returning':new_or_returning
-    #         }), HTTP_200_OK
-    
-    # elif (programme_category == 'PGDT Programme' or programme_category == 'Masters Programme') and new_or_returning == 'new':
-    #   total=int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-    #   return jsonify({
-    #         'matriculation':newstudentcharges_query.matriculation_postgraduate,
-    #         'id_card':newstudentcharges_query.id_card,
-    #         'actea':newstudentcharges_query.actea,
-    #         'admin':returning_student_charges_query.admin,
-    #         'exam':returning_student_charges_query.exam,
-    #         'library':returning_student_charges_query.library,
-    #         'ict':returning_student_charges_query.ict,
-    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
-    #         'campus_dev':returning_student_charges_query.campus_dev,
-    #         'insurance':returning_student_charges_query.insurance,
-    #         'late':returning_student_charges_query.late,
-    #         'department':returning_student_charges_query.department,
-    #         'sug':returning_student_charges_query.sug,
-    #         'total':total,
-    #         'new_or_returning':new_or_returning
-    #         }), HTTP_200_OK
-    # else:
-    #     total=int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late) + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug)
-    #     return jsonify({
-    #         'matriculation':0,
-    #         'id_card':0,
-    #         'actea':0,
-    #         'admin':returning_student_charges_query.admin,
-    #         'exam':returning_student_charges_query.exam,
-    #         'library':returning_student_charges_query.library,
-    #         'ict':returning_student_charges_query.ict,
-    #         'ecwa_dev':returning_student_charges_query.ecwa_dev,
-    #         'campus_dev':returning_student_charges_query.campus_dev,
-    #         'insurance':returning_student_charges_query.insurance,
-    #         'late':returning_student_charges_query.late,
-    #         'department':returning_student_charges_query.department,
-    #         'sug':returning_student_charges_query.sug,
-    #         'total':total,
-    #         'new_or_returning':new_or_returning
-    #         }), HTTP_200_OK
-    
 
 @registration.get('/')
 # @jwt_required()
@@ -296,9 +222,9 @@ def get_registration():
         'bursar': user.bursar,
         'registrar': user.registrar,
         'level': user.level,
-        'percentage_to_pay': user.percentage_to_pay
+        'percentage_to_pay': user.percentage_to_pay,
+        'status': user.status
     }), HTTP_200_OK
-
 
 @registration.get("/get-courses")
 # @jwt_required()
@@ -322,7 +248,6 @@ def get_courses_by_year():
         "courses": data,
     }), HTTP_200_OK
 
-
 @registration.get("/get-course")
 # @jwt_required()
 def get_a_course():
@@ -334,7 +259,6 @@ def get_a_course():
         "code": a_course.code,
         "title": a_course.title,
     }), HTTP_200_OK
-
 
 @registration.get("/get-picked-courses")
 # @jwt_required()
@@ -386,7 +310,6 @@ def get_picked_courses():
         "total": total,
     }),HTTP_200_OK
 
-
 @registration.post('/post-courses')
 # @jwt_required()
 def post_courses():
@@ -435,7 +358,6 @@ def post_courses():
             'student_id': student_id,
         }),HTTP_201_CREATED
 
-
 @registration.post('/remove-course')
 # @jwt_required()
 def remove_a_course():
@@ -463,7 +385,6 @@ def remove_a_course():
         'student_id': student_id,
     }),HTTP_201_CREATED
     
-
 @registration.post('/change-affiliation-fee')
 # @jwt_required()
 def change_affiliation_fee():
@@ -481,7 +402,6 @@ def change_affiliation_fee():
         'student_id': one_user.student_id,
     }),HTTP_201_CREATED
     
-
 @registration.post('/forward-to-dean')
 # @jwt_required()
 def forward_to_dean():
@@ -500,7 +420,6 @@ def forward_to_dean():
         'student_id': student_id,
     }),HTTP_201_CREATED
 
-
 @registration.get('/get-wallet')
 # @jwt_required()
 def get_wallet():
@@ -512,7 +431,6 @@ def get_wallet():
         'wallet': one_user_query.amount,
         'student_id': studentid,
     }),HTTP_200_OK
-
 
 @registration.post('/finish')
 # @jwt_required()
@@ -543,24 +461,35 @@ def finish_registration():
         'message': "finished",
     }),HTTP_201_CREATED
 
-@registration.get("/get-complete-registrations")
+@registration.get("/all-registrations")
 # @jwt_required()
-def get_all_registration():
+def all_registrations():
 
-    student_id = request.args.get('id')
-    
+    pid = request.args.get('pid')
+
+    period = Period.query.filter(db.and_(Period.id == id)).first()
+
     all_registrations = Registration.query.filter(db.and_(
-        Registration.student_id == student_id,Registration.status=='complete')).all()
+        Registration.semester == period.semester,Registration.session==period.session,
+        Registration.season==period.season)).order_by(Registration.finished_id.asc()).all()
     
     data=[]
     
     for a_registration in all_registrations:
+        user = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
+        student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
         data.append({
             'id': a_registration.id,
-            'finished_date': a_registration.updated_at,
-            'semester': a_registration.semester,
-            'session': a_registration.session,
-            'season': a_registration.season
+            'dean': a_registration.dean,
+            'bursar': a_registration.bursar,
+            'registrar': a_registration.registrar,
+            'first_name': user.programme,
+            'middle_name': user.middle_name,
+            'last_name': user.last_name,
+            'programme': student.programme,
+            'semester': period.semester,
+            'session': period.session,
+            'season': period.season
         })
 
     return jsonify({
