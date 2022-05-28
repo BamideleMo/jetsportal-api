@@ -630,7 +630,7 @@ def fix():
         # if len(a_student.username) <= 4:    
         #     a_student.username = '0'+a_student.username 
         #     db.session.commit()
-        # status1 = User.query.filter(db.and_(User.username==a_student.student_id))
+            status1 = User.query.filter(db.and_(User.username==a_student.student_id))
         
 
             data.append({
