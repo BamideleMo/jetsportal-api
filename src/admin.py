@@ -622,12 +622,12 @@ def get_all_receipts():
 def fix():
     
     # all_students = Student.query.filter()
-    a_student1 = User.query.filter(db.and_(User.username=='68589')).first()
-    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='68589')).first()
-    a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='68589')).first()
-    a_student4 = Registration.query.filter(db.and_(Registration.student_id=='68589')).first()
-    a_student5 = Student.query.filter(db.and_(Student.student_id=='68589')).first()
-    a_student6 = Wallet.query.filter(db.and_(Wallet.student_id=='68589')).first()
+    a_student1 = User.query.filter(db.and_(User.username=='73874')).first()
+    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='73874')).first()
+    a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='73874')).first()
+    a_student4 = Registration.query.filter(db.and_(Registration.student_id=='73874')).first()
+    a_student5 = Student.query.filter(db.and_(Student.student_id=='73874')).first()
+    a_student6 = Wallet.query.filter(db.and_(Wallet.student_id=='73874')).first()
     
     # data=[]
 
