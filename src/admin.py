@@ -630,6 +630,7 @@ def fix():
         # if len(a_student.username) <= 4:    
         #     a_student.username = '0'+a_student.username 
         #     db.session.commit()
+        status = User.query.filter(db.and_(User.username==a_student.student_id))
 
         data.append({
             'id': a_student.id,
@@ -637,6 +638,7 @@ def fix():
             'admission': a_student.admission_year,
             'programme': a_student.programme,
             'email': a_student.email,
+            'status': a_student.profile_status,
         })
     
     return jsonify({
