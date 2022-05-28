@@ -467,7 +467,7 @@ def all_registrations():
 
     pid = request.args.get('pid')
 
-    period = Period.query.filter(db.and_(Period.id == id)).first()
+    period = Period.query.filter(db.and_(Period.id == pid)).first()
 
     all_registrations = Registration.query.filter(db.and_(
         Registration.semester == period.semester,Registration.session==period.session,
