@@ -168,7 +168,6 @@ def check_if_registration_started():
         }), HTTP_202_ACCEPTED
 
 
-
 @registration.get("/get-affiliation-fees")
 # @jwt_required()
 def get_affiliation_fee():
@@ -509,13 +508,14 @@ def get_my_registrations():
     data=[]
     
     for a_registration in all_registrations:
+        period = Period.query.filter(db.and_(
+        Period.semester == a_registration.semester,Period.session == a_registration.session,
+        Period.season == a_registration.season)).first()
         data.append({
             'id': a_registration.id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
-            'semester': a_registration.semester,
-            'session': a_registration.session,
-            'season': a_registration.season,
+            'period_id': period.id,
             'dean_print': a_registration.dean_print,
             'bursar_print': a_registration.bursar_print,
             'registrar_print': a_registration.registrar_print,
@@ -537,14 +537,14 @@ def get_my_adds_and_drops():
     data=[]
     
     for a_registration in all_registrations:
+        period = Period.query.filter(db.and_(
+        Period.semester == a_registration.semester,Period.session == a_registration.session,
+        Period.season == a_registration.season)).first()
         data.append({
             'id': a_registration.id,
-            'student_id': a_registration.student_id,
             'status': a_registration.status,
             'updated_at': a_registration.updated_at,
-            'semester': a_registration.semester,
-            'session': a_registration.session,
-            'season': a_registration.season,
+            'period_id': period.id,
             'dean_print': a_registration.dean_print,
             'bursar_print': a_registration.bursar_print,
             'registrar_print': a_registration.registrar_print,
