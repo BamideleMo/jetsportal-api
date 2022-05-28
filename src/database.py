@@ -308,7 +308,6 @@ class Availablestudentids(db.Model):
     student_id=db.Column(db.Text, unique=True, nullable=False)
     programme_category=db.Column(db.Text,nullable=False)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
-    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
 
     
     def __repr__(self) -> str:
