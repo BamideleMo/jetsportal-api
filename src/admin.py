@@ -638,7 +638,7 @@ def fix():
     a_student3.student_id = '68598'
     a_student4.student_id = '68598'
     a_student5.student_id = '68598'
-    a_student6.student_id = '68598'
+    # a_student6.student_id = '68598'
     db.session.commit()
             # status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
             # print(status1)
