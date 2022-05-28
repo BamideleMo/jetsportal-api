@@ -632,15 +632,17 @@ def fix():
         #     db.session.commit()
             status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
             print(status1)
-
-            data.append({
-                'id': a_student.id,
-                'student_id': a_student.student_id,
-                'admission': a_student.admission_year,
-                'programme': a_student.programme,
-                'email': a_student.email,
-                'status': status1.profile_status,
-            })
+            if status1 is None:
+                pass
+            else:
+                data.append({
+                    'id': a_student.id,
+                    'student_id': a_student.student_id,
+                    'admission': a_student.admission_year,
+                    'programme': a_student.programme,
+                    'email': a_student.email,
+                    'status': status1.profile_status,
+                })
     
     return jsonify({
         "message": data,
