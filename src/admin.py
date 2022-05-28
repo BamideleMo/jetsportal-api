@@ -633,7 +633,7 @@ def fix():
 
     # for a_student in all_students:
         # if len(a_student.username) <= 4:    
-    a_student1.student_id = '68589' 
+    a_student1.username = '68589' 
     a_student2.student_id = '68589' 
     a_student3.student_id = '68589'
     a_student4.student_id = '68589'
@@ -656,5 +656,5 @@ def fix():
     
     return jsonify({
         # "message": data,
-        "mess": "done2",
+        "mess": "done3",
     }),HTTP_200_OK
