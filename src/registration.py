@@ -487,7 +487,7 @@ def all_registrations():
             'middle_name': user1.middle_name,
             'last_name': user1.last_name,
             'programme': student.programme,
-            'status': student.status,
+            'status': a_registration.status,
         })
 
     return jsonify({
