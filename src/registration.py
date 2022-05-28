@@ -487,12 +487,12 @@ def all_registrations():
             'middle_name': user.middle_name,
             'last_name': user.last_name,
             'programme': student.programme,
-            'semester': period.semester,
-            'session': period.session,
-            'season': period.season
         })
 
     return jsonify({
         "registrations": data,
+        'semester': period.semester,
+        'session': period.session,
+        'season': period.season
     }), HTTP_200_OK
 
