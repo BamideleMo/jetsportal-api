@@ -512,6 +512,7 @@ def get_my_registrations():
         data.append({
             'student_id': a_registration.student_id,
             'status': a_registration.status,
+            'updated_at': a_registration.updated_at,
             'semester': a_registration.semester,
             'session': a_registration.session,
             'season': a_registration.season
