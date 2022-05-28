@@ -634,8 +634,9 @@ def fix():
         data.append({
             'id': a_student.id,
             'student_id': a_student.student_id,
-            # 'matric': a_student.student_id,
+            'admission': a_student.admission_year,
             'programme': a_student.programme,
+            'email': a_student.email,
         })
     
     return jsonify({
