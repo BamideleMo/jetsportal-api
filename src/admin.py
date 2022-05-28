@@ -623,7 +623,7 @@ def fix():
     
     # all_students = Student.query.filter()
     a_student1 = User.query.filter(db.and_(User.username=='09878')).first()
-    a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='09878')).first()
+    # a_student2 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='09878')).first()
     a_student3 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='09878')).first()
     a_student4 = Registration.query.filter(db.and_(Registration.student_id=='09878')).first()
     a_student5 = Student.query.filter(db.and_(Student.student_id=='09878')).first()
@@ -634,7 +634,7 @@ def fix():
     # for a_student in all_students:
         # if len(a_student.username) <= 4:    
     a_student1.student_id = '04449' 
-    a_student2.student_id = '04449' 
+    # a_student2.student_id = '04449' 
     a_student3.student_id = '04449'
     a_student4.student_id = '04449'
     a_student5.student_id = '04449'
