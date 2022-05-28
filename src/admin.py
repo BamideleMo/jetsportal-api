@@ -630,10 +630,10 @@ def fix():
         # if len(a_student.username) <= 4:    
         #     a_student.username = '0'+a_student.username 
         #     db.session.commit()
-        status = User.query.filter(db.and_(User.username==a_student.student_id))
-        print(status)
-        print(status.username)
-        if status:
+        status1 = User.query.filter(db.and_(User.username==a_student.student_id))
+        if status1:
+            print(status1)
+            print(status1.username)
 
             data.append({
                 'id': a_student.id,
@@ -641,7 +641,7 @@ def fix():
                 'admission': a_student.admission_year,
                 'programme': a_student.programme,
                 'email': a_student.email,
-                'status': status.profile_status,
+                'status': status1.profile_status,
             })
         else:
             pass
