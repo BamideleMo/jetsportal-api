@@ -483,7 +483,7 @@ def all_registrations():
             'dean': a_registration.dean,
             'bursar': a_registration.bursar,
             'registrar': a_registration.registrar,
-            'first_name': user.programme,
+            'first_name': user.first_name,
             'middle_name': user.middle_name,
             'last_name': user.last_name,
             'programme': student.programme,
