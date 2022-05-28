@@ -635,7 +635,7 @@ def fix():
         # if len(a_student.username) <= 4:    
     a_student1.student_id = '04449' 
     # a_student2.student_id = '04449' 
-    a_student3.student_id = '04449'
+    # a_student3.student_id = '04449'
     a_student4.student_id = '04449'
     a_student5.student_id = '04449'
     a_student6.student_id = '04449'
