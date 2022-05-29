@@ -221,7 +221,9 @@ def get_registration():
         'bursar': user.bursar,
         'level': user.level,
         'percentage_to_pay': user.percentage_to_pay,
-        'status': user.status
+        'status': user.status,
+        'opening_balance': user.opening_balance,
+        'closing_balance': user.closing_balance,
     }), HTTP_200_OK
 
 @registration.get("/get-courses")
