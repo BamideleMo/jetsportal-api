@@ -219,7 +219,6 @@ def get_registration():
         'seminary_charges': user.seminary_charges,
         'dean': user.dean,
         'bursar': user.bursar,
-        'registrar': user.registrar,
         'level': user.level,
         'percentage_to_pay': user.percentage_to_pay,
         'status': user.status
