@@ -224,6 +224,7 @@ def get_registration():
     #     'status': user.status
     # }), HTTP_200_OK
     print('XXXXXXXXXXXXXX')
+    return "mmmmm"
 
 @registration.get("/get-courses")
 # @jwt_required()
