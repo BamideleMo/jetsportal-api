@@ -216,7 +216,7 @@ def get_registration():
 
     return jsonify({
         'student_id': user.student_id,
-        # 'seminary_charges': user.seminary_charges,
+        'seminary_charges': user.seminary_charges,
         # 'dean': user.dean,
         # 'bursar': user.bursar,
         # 'level': user.level,
