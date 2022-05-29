@@ -200,31 +200,31 @@ def get_charges():
 # @jwt_required()
 def get_registration():
     
-    # studentid = request.args.get('studentid')
-    # periodid = request.args.get('periodid')
+    studentid = request.args.get('studentid')
+    periodid = request.args.get('periodid')
     
-    # period = Period.query.filter(Period.id==periodid).first()
+    period = Period.query.filter(Period.id==periodid).first()
 
-    # user = Registration.query.filter(db.and_(Registration.student_id==studentid,
-    # Registration.semester==period.semester,Registration.session==period.session,
-    # Registration.season==period.season)).first()
+    user = Registration.query.filter(db.and_(Registration.student_id==studentid,
+    Registration.semester==period.semester,Registration.session==period.session,
+    Registration.season==period.season)).first()
 
-    # if not user:
-    #     return jsonify({
-    #         "message": 'Record not found'
-    #     }), HTTP_404_NOT_FOUND
+    if not user:
+        return jsonify({
+            "message": 'Record not found'
+        }), HTTP_404_NOT_FOUND
 
-    # return jsonify({
-    #     'student_id': user.student_id,
-    #     'seminary_charges': user.seminary_charges,
-    #     'dean': user.dean,
-    #     'bursar': user.bursar,
-    #     'level': user.level,
-    #     'percentage_to_pay': user.percentage_to_pay,
-    #     'status': user.status
-    # }), HTTP_200_OK
-    print('XXXXXXXXXXXXXX')
-    return "mmmmm"
+    return jsonify({
+        'student_id': user.student_id,
+        # 'seminary_charges': user.seminary_charges,
+        # 'dean': user.dean,
+        # 'bursar': user.bursar,
+        # 'level': user.level,
+        # 'percentage_to_pay': user.percentage_to_pay,
+        # 'status': user.status
+    }), HTTP_200_OK
+    # print('XXXXXXXXXXXXXX')
+    # return "mmmmm"
 
 @registration.get("/get-courses")
 # @jwt_required()
