@@ -569,7 +569,7 @@ def get_all_receipts():
     for student_receipt in student_receipts:
         a_user = User.query.filter(User.username == student_receipt.student_id ).first()
         the_student = Student.query.filter(Student.student_id == student_receipt.student_id ).first()
-        print(the_student.student_id)
+        print(student_receipt.student_id)
         data.append({
             'id': student_receipt.id,
             'item': student_receipt.item,
