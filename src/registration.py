@@ -223,7 +223,8 @@ def get_registration():
         'percentage_to_pay': user.percentage_to_pay,
         'status': user.status,
         'opening_balance': user.opening_balance,
-        'closing_balance': user.closing_balance,
+        'closing_balance': user.finished_id,
+        'finished_id': user.closing_balance,
     }), HTTP_200_OK
 
 @registration.get("/get-courses")
