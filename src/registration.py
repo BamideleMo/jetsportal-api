@@ -217,14 +217,12 @@ def get_registration():
     return jsonify({
         'student_id': user.student_id,
         'seminary_charges': user.seminary_charges,
-        # 'dean': user.dean,
-        # 'bursar': user.bursar,
-        # 'level': user.level,
-        # 'percentage_to_pay': user.percentage_to_pay,
-        # 'status': user.status
+        'dean': user.dean,
+        'bursar': user.bursar,
+        'level': user.level,
+        'percentage_to_pay': user.percentage_to_pay,
+        'status': user.status
     }), HTTP_200_OK
-    # print('XXXXXXXXXXXXXX')
-    # return "mmmmm"
 
 @registration.get("/get-courses")
 # @jwt_required()
