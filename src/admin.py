@@ -33,16 +33,16 @@ def count_awaiting_approval_bursar():
         'count': count_awaiting,
     }),HTTP_201_CREATED
 
-@admin.get('/count-awaiting-approval-registrar')
-def count_awaiting_approval_registrar():
-    max_id_period = Period.query.order_by(Period.id.desc()).first()
+# @admin.get('/count-awaiting-approval-registrar')
+# def count_awaiting_approval_registrar():
+#     max_id_period = Period.query.order_by(Period.id.desc()).first()
 
-    count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
+#     count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    return jsonify({
-        # 'message': "Profile completed successfully",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
+#     return jsonify({
+#         # 'message': "Profile completed successfully",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
 
 @admin.get("/get-awaiting-dean")
 # @jwt_required()
@@ -100,55 +100,27 @@ def get_awaiting_bursar():
         "awaitings_bursar": data,
     }), HTTP_200_OK
 
-@admin.get("/get-awaiting-registrar")
-# @jwt_required()
-def get_awaiting_registrar():
+# @admin.post('/approve')
+# def approve():
+#     max_id_period = Period.query.order_by(desc(Period.id)).first()
 
-    awaitings_registrar = Registration.query.filter(Registration.registrar == 'awaiting' ).order_by(Registration.id.asc())
+#     count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    data=[]
+#     return jsonify({
+#         # 'message': "Attended to by Dean",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
+
+# @admin.get('/get-registration-form')
+# def get_registration_form():
+#     max_id_period = Period.query.order_by(desc(Period.id)).first()
+
+#     count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
     
-    for awaiting_registrar in awaitings_registrar:
-        one_student3 = Student.query.filter(Student.student_id ==  awaiting_registrar.student_id).first()
-        one_user3 = User.query.filter(User.username ==  awaiting_registrar.student_id).first()
-        period3 = Period.query.filter(db.and_(Period.semester ==  awaiting_registrar.semester,Period.session ==  awaiting_registrar.session,Period.season ==  awaiting_registrar.season)).first()
-        data.append({
-            'id': awaiting_registrar.id,
-            'period_id': period3.id,
-            'student_id': awaiting_registrar.student_id,
-            'first_name': one_user3.first_name,
-            'middle_name': one_user3.middle_name,
-            'last_name': one_user3.last_name,
-            'programme': one_student3.programme,
-            'current_level': awaiting_registrar.level,
-            'who': 'registrar',
-        })
-
-    return jsonify({
-        "awaitings_registrar": data,
-    }), HTTP_200_OK
-
-@admin.post('/approve')
-def approve():
-    max_id_period = Period.query.order_by(desc(Period.id)).first()
-
-    count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
-    
-    return jsonify({
-        # 'message': "Attended to by Dean",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
-
-@admin.get('/get-registration-form')
-def get_registration_form():
-    max_id_period = Period.query.order_by(desc(Period.id)).first()
-
-    count_awaiting = Registration.query.filter(db.and_(Registration.registrar=='awaiting',Registration.semester==max_id_period.semester,Registration.session==max_id_period.session,Registration.season==max_id_period.season)).count()
-    
-    return jsonify({
-        # 'message': "Attended to by Dean",
-        'count': count_awaiting,
-    }),HTTP_201_CREATED
+#     return jsonify({
+#         # 'message': "Attended to by Dean",
+#         'count': count_awaiting,
+#     }),HTTP_201_CREATED
 
 
 @admin.post('/update-from-dean')
