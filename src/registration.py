@@ -335,6 +335,7 @@ def get_picked_courses():
     return jsonify({
         "picked_courses": data,
         "total": total,
+        "special_student": student.special_student_category,
         "semester": period_query.semester,
         "session": period_query.session,
     }),HTTP_200_OK
