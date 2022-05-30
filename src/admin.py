@@ -333,8 +333,16 @@ def allocate_course():
 @admin.get("/get-allocated-courses")
 # @jwt_required()
 def get_allocated_courses():
+
+    period_id = request.args.get('pid')
     
-    allocated_courses = Allocatedcourses.query.filter().all()
+    period = Period.query.filter(Period.id==period_id).first()
+
+    allocated_courses = Allocatedcourses.query.filter(db.and_(
+        Allocatedcourses.semester==period.semester,
+        Allocatedcourses.session==period.session,
+        Allocatedcourses.season==period.season,
+    )).all()
     
     data=[]
     
@@ -353,6 +361,8 @@ def get_allocated_courses():
 
     return jsonify({
         "courses": data,
+        "semester": period.semester,
+        "session": period.session,
     }), HTTP_200_OK
 
 
