@@ -147,7 +147,11 @@ def change_password():
     password = request.json['password']
     phone_number = request.json['phone_number']
 
-    one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,Student.phone_number==phone_number)).first()
+    one_user = Student.query.filter(db.and_(Student.ledger_no==ledger_no,
+    Student.phone_number==phone_number)).first()
+
+    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    print(one_user)
     
     if one_user:
         pwd_hash = generate_password_hash(password)
