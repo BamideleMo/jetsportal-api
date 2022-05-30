@@ -180,7 +180,7 @@ def get_affiliation_fee():
     Affiliationfees.semester == period_query.semester, 
     Affiliationfees.session == period_query.session,
     Affiliationfees.season == period_query.season)).first()
-    print(one_user.amount)
+    # print(one_user.amount)
     if one_user:
         return jsonify({
             'amount':one_user.amount,
