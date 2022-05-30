@@ -249,6 +249,28 @@ def get_courses_by_year():
         "courses": data,
     }), HTTP_200_OK
 
+@registration.get("/get-all-courses")
+# @jwt_required()
+def get_all_courses():
+    
+    all_courses = Courses.query.filter().order_by(Courses.year.asc())
+    
+    data=[]
+
+    for a_course in all_courses:
+        data.append({
+            'id': a_course.id,
+            'year': a_course.year,
+            'title': a_course.title,
+            'code': a_course.code,
+            'hours': a_course.hours,
+        })
+
+    return jsonify({
+        "courses": data,
+    }), HTTP_200_OK
+
+
 @registration.get("/get-course")
 # @jwt_required()
 def get_a_course():
