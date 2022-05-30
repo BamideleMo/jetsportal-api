@@ -329,6 +329,32 @@ def allocate_course():
     return jsonify({
         'message': "Course Allocated"
     }),HTTP_200_OK
+    
+@admin.get("/get-allocated-courses")
+# @jwt_required()
+def get_allocated_courses():
+    
+    allocated_courses = Allocatedcourses.query.filter().all()
+    
+    data=[]
+    
+    for allocated_course in allocated_courses:
+        a_user = User.query.filter(User.username == allocated_course.username ).first()
+        a_course = Courses.query.filter(Courses.code == allocated_course.code ).first()
+        data.append({
+            'id': allocated_course.id,
+            'first_name': a_user.first_name,
+            'middle_name': a_user.middle_name,
+            'last_name': a_user.last_name,
+            'code': allocated_course.code,
+            'title': a_course.title,
+            'hours': a_course.hours,
+        })
+
+    return jsonify({
+        "courses": data,
+    }), HTTP_200_OK
+
 
 @admin.get('/get-for-receipt')
 def for_receipt_issue():
@@ -391,7 +417,6 @@ def change_password():
             "message": 'Wrong Response'
         }), HTTP_400_BAD_REQUEST
 
-
 @admin.post('/update-wallet')
 def update_wallet():
     
@@ -419,7 +444,6 @@ def update_wallet():
     return jsonify({
             "message": 'Wallet Updated'
     }), HTTP_200_OK
- 
  
 @admin.get("/get-student-receipts")
 # @jwt_required()
