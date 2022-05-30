@@ -329,8 +329,8 @@ def get_picked_courses():
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
 
-            if (student.special_student_category == 'JETS STAFF'):
-                total = round(total/2)
+    if (student.special_student_category == 'JETS STAFF'):
+        total = (total//2)
 
     return jsonify({
         "picked_courses": data,
