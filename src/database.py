@@ -18,6 +18,7 @@ class User(db.Model):
     profile_status=db.Column(db.Text,default='incomplete')
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+    title=db.Column(db.Text)
     
     def __repr__(self) -> str:
         return 'User>>>{self.username}'
