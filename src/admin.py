@@ -337,7 +337,7 @@ def get_allocated_courses():
     period_id = request.args.get('pid')
     
     period = Period.query.filter(Period.id==period_id).first()
-    print(period)
+    print(period_id)
     print("XXXXXXXXXXXXXXXXXXXXXXXXX")
     allocated_courses = Allocatedcourses.query.filter(db.and_(
         Allocatedcourses.semester==period.semester,
