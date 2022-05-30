@@ -337,8 +337,7 @@ def get_allocated_courses():
     period_id = request.args.get('pid')
     
     period = Period.query.filter(Period.id==period_id).first()
-    print(period_id)
-    print("XXXXXXXXXXXXXXXXXXXXXXXXX")
+    
     allocated_courses = Allocatedcourses.query.filter(db.and_(
         Allocatedcourses.semester==period.semester,
         Allocatedcourses.session==period.session,
@@ -366,6 +365,27 @@ def get_allocated_courses():
         "session": period.session,
     }), HTTP_200_OK
 
+@admin.get("/all-faculty")
+# @jwt_required()
+def get_faculty_list():
+
+    faculty = User.query.filter(User.user_category=='Faculty').all()
+    
+    data=[]
+    
+    for a_faculty in faculty:
+        data.append({
+            'id': a_faculty.id,
+            'first_name': a_faculty.first_name,
+            'middle_name': a_faculty.middle_name,
+            'last_name': a_faculty.last_name,
+            'email': a_faculty.username,
+            'title': a_faculty.title,
+        })
+
+    return jsonify({
+        "faculty": data,
+    }), HTTP_200_OK
 
 @admin.get('/get-for-receipt')
 def for_receipt_issue():
