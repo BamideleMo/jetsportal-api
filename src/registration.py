@@ -309,6 +309,8 @@ def get_picked_courses():
     return jsonify({
         "picked_courses": data,
         "total": total,
+        "semester": period_query.semester,
+        "session": period_query.session,
     }),HTTP_200_OK
 
 @registration.post('/post-courses')

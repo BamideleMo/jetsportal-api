@@ -557,7 +557,6 @@ def get_active_students():
         'dip': data4,
     }), HTTP_200_OK
 
-
 @admin.get("/get-all-receipts")
 # @jwt_required()
 def get_all_receipts():
