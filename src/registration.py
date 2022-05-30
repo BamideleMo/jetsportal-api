@@ -292,6 +292,7 @@ def get_picked_courses():
     period_query = Period.query.filter_by(id=periodid).first()
 
     all_picked_courses = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id == studentid,Pickedcourses.semester == period_query.semester,Pickedcourses.session == period_query.session,Pickedcourses.season == period_query.season)).order_by(Pickedcourses.id.desc()).first()
+    student = Student.query.filter(db.and_(Student.student_id == studentid)).first()
     
     data=[]
 
@@ -327,6 +328,9 @@ def get_picked_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
+
+            if (student.special_student_category == 'JETS STAFF'):
+                total = total * (50/100)
 
     return jsonify({
         "picked_courses": data,
