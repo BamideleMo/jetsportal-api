@@ -177,9 +177,13 @@ def get_affiliation_fee():
     period_query = Period.query.filter_by(id=period_id).first()
 
     one_user = Affiliationfees.query.filter(db.and_(Affiliationfees.student_id == student_id, Affiliationfees.semester == period_query.semester, Affiliationfees.session == period_query.session,Affiliationfees.season == period_query.season)).first()
-    print(one_user)
+    print(one_user.amount)
     if one_user:
-        return jsonify({'amount':one_user.amount,'student_id':one_user.student_id,'id':one_user.id}), HTTP_200_OK
+        return jsonify({
+            'amount':one_user.amount,
+            'student_id':one_user.student_id,
+            'id':one_user.id
+        }), HTTP_200_OK
     else:
         return jsonify({
             "message": 'Record not found',
