@@ -112,7 +112,7 @@ def get_class_list():
     for course in courses:
         # course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
-            'code': courses.code,
+            'code': courses,
         })
 
     return jsonify({
