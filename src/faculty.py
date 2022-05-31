@@ -119,7 +119,7 @@ def get_class_list():
             'last_name': user.last_name,
             'middle_name': user.middle_name,
             'first_name': user.first_name,
-            'sex': user.sex,
+            'sex': student.sex,
         })
         # print(course.student_id)
         # print(course.course_code)
