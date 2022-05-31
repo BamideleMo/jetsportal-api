@@ -104,7 +104,7 @@ def get_class_list():
         Pickedcourses.session==period.session,
         Pickedcourses.season==period.season,
         # Pickedcourses.course_code==code,
-        Pickedcourses.course_code.any_(code),
+        Pickedcourses.course_code.any(code),
     )).all()
     
     data=[]
