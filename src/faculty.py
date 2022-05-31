@@ -110,12 +110,16 @@ def get_class_list():
     data=[]
     
     for course in courses:
-        # course = Courses.query.filter(Courses.code==allocated_course.code).first()
-        # data.append({
-        #     'code': courses,
-        # })
-        print(course.student_id)
-        print(course.course_code)
+        user = User.query.filter(User.username==course.student_id).first()
+        student = Student.query.filter(Student.student_id==course.student_id).first()
+        data.append({
+            'student_id': user.username,
+            'email': student.email,
+            'phone': student.phone_number,
+            'sex': student.sex,
+        })
+        # print(course.student_id)
+        # print(course.course_code)
 
     return jsonify({
         "courses": data,
