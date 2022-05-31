@@ -3,7 +3,7 @@ from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
 from src.database import Affiliationfees, Allocatedcourses, Courses, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 
 faculty = Blueprint("faculty", __name__,url_prefix="/api/v1/faculty")
 
@@ -103,7 +103,7 @@ def get_class_list():
         Pickedcourses.semester==period.semester,
         Pickedcourses.session==period.session,
         Pickedcourses.season==period.season,
-        {Pickedcourses.course_code}==code,
+        func.unnest(Pickedcourses.course_code)==code,
     )).all()
     
     data=[]
