@@ -510,24 +510,65 @@ def all_registrations():
         Registration.semester == period.semester,Registration.session==period.session,
         Registration.season==period.season)).order_by(Registration.finished_id.asc()).all()
     
-    data=[]
+    data1=[]
+    data2=[]
+    data3=[]
+    data4=[]
     
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        data.append({
-            'student_id': a_registration.student_id,
-            'dean': a_registration.dean,
-            'bursar': a_registration.bursar,
-            'first_name': user1.first_name,
-            'middle_name': user1.middle_name,
-            'last_name': user1.last_name,
-            'programme': student.programme,
-            'status': a_registration.status,
-        })
+        
+        if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
+            data1.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+            })
+        if student.programme_category == 'PGDT Programme':
+            data2.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+            })
+        if student.programme_category == 'Bachelor of Arts Programme':
+            data3.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+            })
+        if student.programme_category == 'Diploma Programme':
+            data4.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+            })
 
     return jsonify({
-        "registrations": data,
+        "registrations_ma": data1,
+        "registrations_pgdt": data2,
+        "registrations_ba": data3,
+        "registrations_dip": data4,
         'semester': period.semester,
         'session': period.session,
         'season': period.season

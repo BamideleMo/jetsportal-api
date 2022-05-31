@@ -544,7 +544,7 @@ def get_active_students():
         a_wallet = Wallet.query.filter(Wallet.student_id == a_student.student_id).first()
         if a_user:
 
-            if a_student.programme_category == 'Masters Programme' or a_student.programme_category == 'Master of Divinity':
+            if a_student.programme_category == 'Masters Programme' or a_student.programme_category == 'Master of Divinity Programme':
                 
                 if a_wallet:
                     wallet = a_wallet.amount
