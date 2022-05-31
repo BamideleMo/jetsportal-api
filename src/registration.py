@@ -504,7 +504,8 @@ def get_course_lecturer():
     course_code = request.args.get('course_code')
 
     period = Period.query.filter(db.and_(Period.id==pid)).first()
-
+    print(period)
+    print("XXXXXXXXXXXXXXXXXXXXXXXX")
     one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
     Allocatedcourses.session==period.session,Allocatedcourses.season==period.season,
     Allocatedcourses.course_code==course_code)).first()
