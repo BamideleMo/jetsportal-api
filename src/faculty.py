@@ -117,7 +117,7 @@ def get_class_list():
             'email': student.email,
             'phone': student.phone_number,
             'last_name': user.last_name,
-            'middle_name': student.middle_name,
+            'middle_name': user.middle_name,
             'first_name': user.first_name,
             'sex': user.sex,
         })
