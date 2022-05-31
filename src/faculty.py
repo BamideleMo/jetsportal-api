@@ -75,12 +75,6 @@ def get_allocated_courses():
     data=[]
     
     for allocated_course in allocated_courses:
-        count_students = Pickedcourses.query.filter(db.and_(
-        Pickedcourses.semester==period.semester,
-        Pickedcourses.session==period.session,
-        Pickedcourses.season==period.season,
-        Pickedcourses.course_code.any(allocated_course.code),
-        )).count()
         
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
@@ -88,7 +82,6 @@ def get_allocated_courses():
             'code': allocated_course.code,
             'title': course.title,
             'hours': course.hours,
-            'count': count_students,
         })
 
     return jsonify({
@@ -117,6 +110,9 @@ def get_class_list():
 
 
     title = Courses.query.filter(Courses.code==code).first()
+
+
+    count_students = 0
     
     data=[]
     
@@ -139,6 +135,7 @@ def get_class_list():
                 'first_name': user.first_name,
                 'sex': student.sex,
             })
+            count_students = count_students + 1
         # print(course.student_id)
         # print(course.course_code)
 
@@ -149,4 +146,5 @@ def get_class_list():
         "period_id": period_id,
         "code": code,
         'title': title.title,
+        'count_students': count_students,
     }), HTTP_200_OK
