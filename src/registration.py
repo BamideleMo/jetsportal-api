@@ -501,11 +501,11 @@ def finish_registration():
 # @jwt_required()
 def get_course_lecturer():
 
-    if request.args.get('period') is None:
+    if request.args.get('period') == 'undefined':
         return jsonify({
                 'message': "no period",
         }),HTTP_200_OK
-    elif request.args.get('code') is None:
+    elif request.args.get('code') == 'undefined':
         return jsonify({
             'message': "no code",
         }),HTTP_200_OK
