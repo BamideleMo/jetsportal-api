@@ -83,7 +83,14 @@ def get_allocated_courses():
         Pickedcourses.course_code.any(allocated_course.code),
         )).all()
         for count_student in count_students:
-            count = count + 1
+            registration = Registration.query.filter(
+            Registration.student_id==count_student.student_id,
+            Registration.semester==period.semester,
+            Registration.session==period.session,
+            Registration.season==period.season,
+            Registration.status=='complete',).first()
+            if registration:
+                count = count + 1
         
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
