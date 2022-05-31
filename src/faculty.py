@@ -116,10 +116,10 @@ def get_class_list():
             'student_id': user.username,
             'email': student.email,
             'phone': student.phone_number,
-            'last_name': student.last_name,
+            'last_name': user.last_name,
             'middle_name': student.middle_name,
-            'first_name': student.first_name,
-            'sex': student.sex,
+            'first_name': user.first_name,
+            'sex': user.sex,
         })
         # print(course.student_id)
         # print(course.course_code)
