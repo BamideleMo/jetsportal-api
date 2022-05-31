@@ -114,6 +114,7 @@ def get_class_list():
         # data.append({
         #     'code': courses,
         # })
+        print(course.student_id)
         print(course.course_code)
 
     return jsonify({
