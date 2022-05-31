@@ -119,6 +119,7 @@ def get_class_list():
         if registration:
             user = User.query.filter(User.username==course.student_id).first()
             student = Student.query.filter(Student.student_id==course.student_id).first()
+            title = Courses.query.filter(Courses.code==code).first()
             data.append({
                 'student_id': user.username,
                 'email': student.email,
@@ -127,6 +128,7 @@ def get_class_list():
                 'middle_name': user.middle_name,
                 'first_name': user.first_name,
                 'sex': student.sex,
+                'title': title.title,
             })
         # print(course.student_id)
         # print(course.course_code)
