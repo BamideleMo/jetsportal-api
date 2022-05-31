@@ -79,7 +79,7 @@ def get_allocated_courses():
         data.append({
             'id': allocated_course.id,
             'code': allocated_course.code,
-            'title': course.code,
+            'title': course.title,
             'hours': course.hours,
         })
 
