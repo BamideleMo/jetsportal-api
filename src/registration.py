@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Addanddrop, Affiliationfees, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
+from src.database import Addanddrop, Affiliationfees, Allocatedcourses, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from sqlalchemy import desc
@@ -496,6 +496,31 @@ def finish_registration():
     return jsonify({
         'message': "finished",
     }),HTTP_201_CREATED
+
+@registration.post('/get-lecturer')
+# @jwt_required()
+def get_course_lecturer():
+    pid = request.args.get('periodid')
+    course_code = request.args.get('course_code')
+
+    period = Period.query.filter(db.and_(Period.id==pid)).first()
+
+    one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
+    Allocatedcourses.session==period.session,Allocatedcourses.season==period.season)).first()
+    
+    if one_lecturer_query:
+        lecturer_details = User.query.filter(db.and_(User.username==one_lecturer_query.username)).first()
+        return jsonify({
+            'message': "yes",
+            'title': lecturer_details.title,
+            'first_name': lecturer_details.first_name,
+            'last_name': lecturer_details.last_name,
+            'middle_name': lecturer_details.middle_name,
+        }),HTTP_200_OK
+    else:
+        return jsonify({
+            'message': "no",
+        }),HTTP_200_OK
 
 
 @registration.get("/all-registrations")
