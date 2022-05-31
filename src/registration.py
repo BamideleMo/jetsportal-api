@@ -337,6 +337,7 @@ def get_picked_courses():
                 'hours': course_info.hours,
                 'cost_per_hr': cost_per_hr,
                 'cost_for_course': int(cost_per_hr) * int(hours),
+                'lecturer_last_name': one_lecturer.last_name,
                 'lecturer_first_name': one_lecturer.first_name
             })
 
