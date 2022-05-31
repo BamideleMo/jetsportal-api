@@ -110,17 +110,24 @@ def get_class_list():
     data=[]
     
     for course in courses:
-        user = User.query.filter(User.username==course.student_id).first()
-        student = Student.query.filter(Student.student_id==course.student_id).first()
-        data.append({
-            'student_id': user.username,
-            'email': student.email,
-            'phone': student.phone_number,
-            'last_name': user.last_name,
-            'middle_name': user.middle_name,
-            'first_name': user.first_name,
-            'sex': student.sex,
-        })
+        registration = Registration.query.filter(Registration.student_id==course.student_id,
+        Registration.semester==period.semester,
+        Registration.session==period.session,
+        Registration.season==period.season,
+        Registration.status=='complete',
+        ).first()
+        if registration:
+            user = User.query.filter(User.username==course.student_id).first()
+            student = Student.query.filter(Student.student_id==course.student_id).first()
+            data.append({
+                'student_id': user.username,
+                'email': student.email,
+                'phone': student.phone_number,
+                'last_name': user.last_name,
+                'middle_name': user.middle_name,
+                'first_name': user.first_name,
+                'sex': student.sex,
+            })
         # print(course.student_id)
         # print(course.course_code)
 
