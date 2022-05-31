@@ -75,12 +75,20 @@ def get_allocated_courses():
     data=[]
     
     for allocated_course in allocated_courses:
+        count_students = Pickedcourses.query.filter(db.and_(
+        Pickedcourses.semester==period.semester,
+        Pickedcourses.session==period.session,
+        Pickedcourses.season==period.season,
+        Pickedcourses.course_code.any(allocated_course.code),
+        )).count()
+        
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
             'id': allocated_course.id,
             'code': allocated_course.code,
             'title': course.title,
             'hours': course.hours,
+            'count': count_students,
         })
 
     return jsonify({
