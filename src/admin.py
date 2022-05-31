@@ -281,55 +281,7 @@ def get_courses():
     return jsonify({
         "courses": data,
     }),HTTP_200_OK
-
-@admin.get('/get-faculties')
-def get_faculties():
-    
-    all_faculty = User.query.filter(User.user_category=='Faculty').order_by(User.first_name.asc())
-    
-    data=[]
-
-    for a_faculty in all_faculty:
-        data.append({
-            'id': a_faculty.id,
-            'title': a_faculty.first_name,
-            'username': a_faculty.username,
-            'first_name': a_faculty.first_name,
-            'last_name': a_faculty.last_name,
-            'middle_name': a_faculty.middle_name,
-        })
-    
-    return jsonify({
-        "faculties": data,
-    }),HTTP_200_OK
-    
-@admin.post('/allocate-course')
-def allocate_course():
-    semester = request.json['semester']
-    session = request.json['session']
-    season = request.json['season']
-    course = request.json['course']
-    faculty = request.json['faculty']
-    
-    query = Allocatedcourses.query.filter(db.and_(
-        Allocatedcourses.code==course,
-        Allocatedcourses.username==faculty,
-        Allocatedcourses.semester==semester,
-        Allocatedcourses.session==session,
-        Allocatedcourses.season==season
-        )).first()
-    
-    if query:
-        pass
-    else:
-        allocate_course = Allocatedcourses(semester=semester,session=session,season=season,code=course,username=faculty)
-        db.session.add(allocate_course)    
-        db.session.commit() 
-    
-    return jsonify({
-        'message': "Course Allocated"
-    }),HTTP_200_OK
-    
+ 
 @admin.get("/get-allocated-courses")
 # @jwt_required()
 def get_allocated_courses():
@@ -363,28 +315,6 @@ def get_allocated_courses():
         "courses": data,
         "semester": period.semester,
         "session": period.session,
-    }), HTTP_200_OK
-
-@admin.get("/all-faculty")
-# @jwt_required()
-def get_faculty_list():
-
-    faculty = User.query.filter(User.user_category=='Faculty').all()
-    
-    data=[]
-    
-    for a_faculty in faculty:
-        data.append({
-            'id': a_faculty.id,
-            'first_name': a_faculty.first_name,
-            'middle_name': a_faculty.middle_name,
-            'last_name': a_faculty.last_name,
-            'email': a_faculty.username,
-            'title': a_faculty.title,
-        })
-
-    return jsonify({
-        "faculty": data,
     }), HTTP_200_OK
 
 @admin.get('/get-for-receipt')

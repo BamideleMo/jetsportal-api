@@ -8,6 +8,7 @@ from src.charges import charges
 from src.period import period
 from src.admin import admin
 from src.wallet import wallet
+from src.faculty import faculty
 from src.database import db
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -52,5 +53,6 @@ def create_app(test_config=None):
     app.register_blueprint(period)
     app.register_blueprint(admin)
     app.register_blueprint(wallet)
+    app.register_blueprint(faculty)
 
     return app
