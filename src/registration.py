@@ -500,8 +500,8 @@ def finish_registration():
 @registration.post('/get-lecturer')
 # @jwt_required()
 def get_course_lecturer():
-    pid = request.args.get('periodid')
-    course_code = request.args.get('course_code')
+    pid = request.args.get('period')
+    course_code = request.args.get('code')
 
     period = Period.query.filter(db.and_(Period.id==pid)).first()
     print(period)
