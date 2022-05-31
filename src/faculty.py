@@ -116,7 +116,7 @@ def get_class_list():
             'student_id': user.username,
             'email': student.email,
             'phone': student.phone_number,
-            'last_name': student.lastname,
+            'last_name': student.last_name,
             'middle_name': student.middle_name,
             'first_name': student.first_name,
             'sex': student.sex,
@@ -125,7 +125,7 @@ def get_class_list():
         # print(course.course_code)
 
     return jsonify({
-        "courses": data,
+        "students": data,
         "semester": period.semester,
         "session": period.session,
         "period_id": period_id,
