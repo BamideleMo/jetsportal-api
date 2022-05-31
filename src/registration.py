@@ -322,6 +322,14 @@ def get_picked_courses():
                 hours = course_info.hours
                 cost_per_hr = cost_per_hour_query.amount
 
+            one_course_lecturer = Allocatedcourses.query.filter(db.and_(
+            Allocatedcourses.semester==period_query.semester,
+            Allocatedcourses.session==period_query.session,Allocatedcourses.season==period_query.season,
+            Allocatedcourses.code==course_info.code)).first()
+
+            one_lecturer = User.query.filter(db.and_(
+            User.username==one_course_lecturer.username)).first()
+
             data.append({
                 'course_id': course_info.id,
                 'title': course_info.title,
@@ -329,6 +337,7 @@ def get_picked_courses():
                 'hours': course_info.hours,
                 'cost_per_hr': cost_per_hr,
                 'cost_for_course': int(cost_per_hr) * int(hours),
+                'lecturer_first_name': one_lecturer.first_name
             })
 
             cost_for_course = int(cost_per_hr) * int(hours)
