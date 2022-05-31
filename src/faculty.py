@@ -126,4 +126,5 @@ def get_class_list():
         "semester": period.semester,
         "session": period.session,
         "period_id": period_id,
+        "code": code,
     }), HTTP_200_OK
