@@ -89,3 +89,36 @@ def get_allocated_courses():
         "session": period.session,
         "period_id": period_id,
     }), HTTP_200_OK
+
+@faculty.get("/class-list")
+# @jwt_required()
+def get_class_list():
+
+    period_id = request.args.get('pid')
+    code = request.args.get('code')
+    
+    period = Period.query.filter(Period.id==period_id).first()
+    
+    courses = Pickedcourses.query.filter(db.and_(
+        Pickedcourses.semester==period.semester,
+        Pickedcourses.session==period.session,
+        Pickedcourses.season==period.season,
+        Pickedcourses.course_code==code,
+    )).all()
+    
+    data=[]
+    
+    for course in courses:
+        # course = Courses.query.filter(Courses.code==allocated_course.code).first()
+        data.append({
+            'id': courses.id,
+            'code': courses.code,
+            'title': course.course_code,
+        })
+
+    return jsonify({
+        "courses": data,
+        "semester": period.semester,
+        "session": period.session,
+        "period_id": period_id,
+    }), HTTP_200_OK
