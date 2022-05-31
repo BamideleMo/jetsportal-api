@@ -503,29 +503,29 @@ def get_course_lecturer():
     pid = request.args.get('period')
     course_code = request.args.get('code')
 
-    period = Period.query.filter(db.and_(Period.id==pid)).first()
-    print(period.semester)
-    print("XXXXXXXXXXXXXXXXXXXXXXXX")
-    print(course_code)
-    print("XXXXXXXXXXXXXXXXXXXXXXXX")
-    one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
-    Allocatedcourses.session==period.session,Allocatedcourses.season==period.season,
-    Allocatedcourses.code==course_code)).first()
-    
-    if one_lecturer_query:
-        lecturer_details = User.query.filter(db.and_(User.username==one_lecturer_query.username)).first()
-        return jsonify({
-            'message': "yes",
-            'title': lecturer_details.title,
-            'first_name': lecturer_details.first_name,
-            'last_name': lecturer_details.last_name,
-            'middle_name': lecturer_details.middle_name,
-        }),HTTP_200_OK
-    else:
-        return jsonify({
-            'message': "no",
-        }),HTTP_200_OK
+    if course_code:
 
+        period = Period.query.filter(db.and_(Period.id==pid)).first()
+        
+        one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
+        Allocatedcourses.session==period.session,Allocatedcourses.season==period.season,
+        Allocatedcourses.code==course_code)).first()
+        
+        if one_lecturer_query:
+            lecturer_details = User.query.filter(db.and_(User.username==one_lecturer_query.username)).first()
+            return jsonify({
+                'message': "yes",
+                'title': lecturer_details.title,
+                'first_name': lecturer_details.first_name,
+                'last_name': lecturer_details.last_name,
+                'middle_name': lecturer_details.middle_name,
+            }),HTTP_200_OK
+        else:
+            return jsonify({
+                'message': "no",
+            }),HTTP_200_OK
+    else:
+        pass
 
 @registration.get("/all-registrations")
 # @jwt_required()
