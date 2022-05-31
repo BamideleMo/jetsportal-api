@@ -75,14 +75,16 @@ def get_allocated_courses():
     data=[]
     
     for allocated_course in allocated_courses:
+        course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
             'id': allocated_course.id,
             'code': allocated_course.code,
+            'title': course.code,
+            'hours': course.hours,
         })
 
     return jsonify({
         "courses": data,
         "semester": period.semester,
         "session": period.session,
-        "un": username,
     }), HTTP_200_OK
