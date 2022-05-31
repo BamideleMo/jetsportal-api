@@ -84,4 +84,5 @@ def get_allocated_courses():
         "courses": data,
         "semester": period.semester,
         "session": period.session,
+        "un": username,
     }), HTTP_200_OK
