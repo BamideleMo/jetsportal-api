@@ -503,8 +503,9 @@ def get_course_lecturer():
     pid = request.args.get('period')
     course_code = request.args.get('code')
 
-    if course_code:
-
+    if course_code is None:
+        pass
+    else:
         period = Period.query.filter(db.and_(Period.id==pid)).first()
         
         one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
@@ -524,9 +525,8 @@ def get_course_lecturer():
             return jsonify({
                 'message': "no",
             }),HTTP_200_OK
-    else:
-        pass
-
+    
+    
 @registration.get("/all-registrations")
 # @jwt_required()
 def all_registrations():
