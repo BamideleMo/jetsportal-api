@@ -503,7 +503,7 @@ def get_course_lecturer():
     pid = request.args.get('period')
     course_code = request.args.get('code')
 
-    if course_code is None:
+    if course_code is None or pid is None:
         pass
     else:
         period = Period.query.filter(db.and_(Period.id==pid)).first()
