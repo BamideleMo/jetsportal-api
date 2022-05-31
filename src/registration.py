@@ -500,12 +500,14 @@ def finish_registration():
 @registration.post('/get-lecturer')
 # @jwt_required()
 def get_course_lecturer():
-    pid = request.args.get('period')
-    course_code = request.args.get('code')
 
-    if course_code is None or pid is None:
+    if request.args.get('period') is None:
         pass
     else:
+
+        pid = request.args.get('period')
+        course_code = request.args.get('code')
+        
         period = Period.query.filter(db.and_(Period.id==pid)).first()
         
         one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
