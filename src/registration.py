@@ -502,10 +502,16 @@ def finish_registration():
 def get_course_lecturer():
 
     if request.args.get('period') is None:
-        pass
+        return jsonify({
+                'message': "no period",
+        }),HTTP_200_OK
+    elif request.args.get('code') is None:
+        return jsonify({
+            'message': "no code",
+        }),HTTP_200_OK
     else:
 
-        print(pid = request.args.get('period'))
+        print(request.args.get('period'))
         print("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
 
         pid = request.args.get('period')
