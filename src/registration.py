@@ -506,7 +506,8 @@ def get_course_lecturer():
     period = Period.query.filter(db.and_(Period.id==pid)).first()
 
     one_lecturer_query = Allocatedcourses.query.filter(db.and_(Allocatedcourses.semester==period.semester,
-    Allocatedcourses.session==period.session,Allocatedcourses.season==period.season)).first()
+    Allocatedcourses.session==period.session,Allocatedcourses.season==period.season,
+    Allocatedcourses.course_code==course_code)).first()
     
     if one_lecturer_query:
         lecturer_details = User.query.filter(db.and_(User.username==one_lecturer_query.username)).first()
