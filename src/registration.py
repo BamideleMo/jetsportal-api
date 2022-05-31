@@ -338,6 +338,7 @@ def get_picked_courses():
             else:
                 lecturer_last_name = ''
                 lecturer_first_name = ''
+                lecturer_title = ''
 
             data.append({
                 'course_id': course_info.id,
