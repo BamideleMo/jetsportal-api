@@ -146,7 +146,6 @@ def post_affiliation_fees():
         'student_id': student_id,
     }),HTTP_201_CREATED
 
-
 @registration.get("/started")
 # @jwt_required()
 def check_if_registration_started():
@@ -166,7 +165,6 @@ def check_if_registration_started():
             "message": 'Record not found',
             'started':"no"
         }), HTTP_202_ACCEPTED
-
 
 @registration.get("/get-affiliation-fees")
 # @jwt_required()
@@ -345,6 +343,7 @@ def get_picked_courses():
         "special_student": student.special_student_category,
         "semester": period_query.semester,
         "session": period_query.session,
+        "period": periodid,
     }),HTTP_200_OK
 
 @registration.post('/post-courses')
@@ -497,6 +496,7 @@ def finish_registration():
     return jsonify({
         'message': "finished",
     }),HTTP_201_CREATED
+
 
 @registration.get("/all-registrations")
 # @jwt_required()
