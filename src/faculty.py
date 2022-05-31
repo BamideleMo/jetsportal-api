@@ -103,7 +103,8 @@ def get_class_list():
         Pickedcourses.semester==period.semester,
         Pickedcourses.session==period.session,
         Pickedcourses.season==period.season,
-        func.unnest(Pickedcourses.course_code)==code,
+        # Pickedcourses.course_code==code,
+        Pickedcourses.course_code.in_(code),
     )).all()
     
     data=[]
