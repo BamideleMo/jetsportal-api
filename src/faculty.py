@@ -88,9 +88,11 @@ def get_allocated_courses():
             Registration.semester==period.semester,
             Registration.session==period.session,
             Registration.season==period.season,
-            Registration.status=='complete',).first()
+            Registration.status=='complete').first()
             if registration:
                 count = count + 1
+                print(count_student.student_id)
+                print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
         
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
