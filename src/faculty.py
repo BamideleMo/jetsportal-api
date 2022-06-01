@@ -127,8 +127,8 @@ def get_class_list():
 
 
     title = Courses.query.filter(Courses.code==code).first()
-    lecturer = Allocatedcourses.query.filter(Allocatedcourses.code==code).first()
-    user = User.query.filter(User.username==lecturer.username).first()
+    lecturer_allocated = Allocatedcourses.query.filter(Allocatedcourses.code==code).first()
+    lecturer = User.query.filter(User.username==lecturer_allocated.username).first()
     
     data=[]
     
@@ -153,7 +153,8 @@ def get_class_list():
             })
         # print(course.student_id)
         # print(course.course_code)
-
+    print(lecturer.last_name)
+    print('PPPPPPPPPPPPPPPPPPPPP')
     return jsonify({
         "students": data,
         "semester": period.semester,
@@ -161,5 +162,5 @@ def get_class_list():
         "period_id": period_id,
         "code": code,
         'title': title.title,
-        'lecturer_last_name': user.last_name,
+        'lecturer_last_name': lecturer.last_name,
     }), HTTP_200_OK
