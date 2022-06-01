@@ -91,9 +91,6 @@ def get_allocated_courses():
             Registration.status=='complete').first()
             if registration:
                 count = count + 1
-                print(count_student.student_id)
-                print(allocated_course.code)
-                print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
         
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
         data.append({
@@ -130,6 +127,8 @@ def get_class_list():
 
 
     title = Courses.query.filter(Courses.code==code).first()
+    lecturer = Allocatedcourses.query.filter(Allocatedcourses.code==code).first()
+    user = User.query.filter(User.username==lecturer.username).first()
     
     data=[]
     
@@ -162,4 +161,5 @@ def get_class_list():
         "period_id": period_id,
         "code": code,
         'title': title.title,
+        'lecturer_last_name': user.last_name,
     }), HTTP_200_OK
