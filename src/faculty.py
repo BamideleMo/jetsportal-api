@@ -92,6 +92,7 @@ def get_allocated_courses():
             if registration:
                 count = count + 1
                 print(count_student.student_id)
+                print(allocated_course.code)
                 print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
         
         course = Courses.query.filter(Courses.code==allocated_course.code).first()
