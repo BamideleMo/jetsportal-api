@@ -73,9 +73,9 @@ def get_allocated_courses():
     )).all()
     
     data=[]
-    count=0
+    
     for allocated_course in allocated_courses:
-        
+        count=0
         count_students = Pickedcourses.query.filter(db.and_(
         Pickedcourses.semester==period.semester,
         Pickedcourses.session==period.session,
