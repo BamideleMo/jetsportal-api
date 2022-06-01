@@ -153,8 +153,7 @@ def get_class_list():
             })
         # print(course.student_id)
         # print(course.course_code)
-    print(lecturer.last_name)
-    print('PPPPPPPPPPPPPPPPPPPPP')
+        
     return jsonify({
         "students": data,
         "semester": period.semester,
@@ -163,4 +162,7 @@ def get_class_list():
         "code": code,
         'title': title.title,
         'lecturer_last_name': lecturer.last_name,
+        'lecturer_middle_name': lecturer.middle_name,
+        'lecturer_first_name': lecturer.first_name,
+        'lecturer_title': lecturer.title,
     }), HTTP_200_OK
