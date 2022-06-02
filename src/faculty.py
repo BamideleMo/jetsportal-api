@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Allocatedcourses, Courses, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
+from src.database import Affiliationfees, Allocatedcourses, Courses, Learningresources, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc, func
 
@@ -166,3 +166,22 @@ def get_class_list():
         'lecturer_first_name': lecturer.first_name,
         'lecturer_title': lecturer.title,
     }), HTTP_200_OK
+
+@faculty.post('/post-material')
+# @jwt_required()
+def post_courses():
+    course_code = request.json['course_code']
+    link = request.json['link']
+    link_title = request.json['link_title']
+    definition = "download"
+
+    material=Learningresources(course_code=course_code,link=link,title=link_title,
+    definition=definition)
+    db.session.add(material)    
+    db.session.commit() 
+    
+    return jsonify({
+        'message': "Material posted",
+        'course_code': course_code,
+    }),HTTP_201_CREATED
+
