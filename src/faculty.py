@@ -202,7 +202,7 @@ def get_resources():
                 'link': resource.link,
                 'course_code': resource.course_code,
                 'title': resource.title,
-                'definition': resource.defnition,
+                'definition': resource.definition,
         })       
     return jsonify({
         "resources": data,
