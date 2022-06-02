@@ -169,11 +169,29 @@ def get_class_list():
 
 @faculty.post('/post-material')
 # @jwt_required()
-def post_courses():
+def post_materials():
     course_code = request.json['course_code']
     link = request.json['link']
     link_title = request.json['link_title']
     definition = "download"
+
+    material=Learningresources(course_code=course_code,link=link,title=link_title,
+    definition=definition)
+    db.session.add(material)    
+    db.session.commit() 
+    
+    return jsonify({
+        'message': "Material posted",
+        'course_code': course_code,
+    }),HTTP_201_CREATED
+
+@faculty.post('/post-link')
+# @jwt_required()
+def post_link():
+    course_code = request.json['course_code']
+    link = request.json['link']
+    link_title = request.json['link_title']
+    definition = "visit link"
 
     material=Learningresources(course_code=course_code,link=link,title=link_title,
     definition=definition)
