@@ -334,3 +334,17 @@ class Availablestudentids(db.Model):
     
     def __repr__(self) -> str:
         return 'Availablestudentids>>>{self.id}'
+
+
+class Learningresources(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    course_code=db.Column(db.Text, nullable=False)
+    link=db.Column(db.Text,nullable=False)
+    title=db.Column(db.Text,nullable=False)
+    definition=db.Column(db.Text,nullable=False)
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Learningresources>>>{self.id}'
+

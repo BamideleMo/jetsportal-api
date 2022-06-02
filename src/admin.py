@@ -360,9 +360,9 @@ def get_wallet_balance():
 @admin.post('/change-password')
 def change_password():
     password = request.json['password']
-    last_name = request.json['last_name']
+    username = request.json['username']
 
-    one_user = User.query.filter(db.and_(User.last_name==last_name)).first()
+    one_user = User.query.filter(db.and_(User.username==username)).first()
     
     if one_user:
         pwd_hash = generate_password_hash(password)
@@ -375,7 +375,7 @@ def change_password():
         }), HTTP_200_OK
     else:
         return jsonify({
-            "message": 'Wrong Response'
+            'error':"Wrong response."
         }), HTTP_400_BAD_REQUEST
 
 @admin.post('/update-wallet')
