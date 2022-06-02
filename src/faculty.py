@@ -185,3 +185,26 @@ def post_courses():
         'course_code': course_code,
     }),HTTP_201_CREATED
 
+@faculty.get("/resources")
+# @jwt_required()
+def get_resources():
+
+    code = request.args.get('code')
+    
+    resources = Learningresources.query.filter(db.and_(
+        Learningresources.course_code==code,
+    )).all()
+
+    data=[]
+    
+    for resource in resources:
+        data.append({
+                'link': resource.link,
+                'course_code': resource.course_code,
+                'title': resource.title,
+                'definition': resource.defnition,
+        })       
+    return jsonify({
+        "resources": data,
+    }), HTTP_200_OK
+
