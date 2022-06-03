@@ -502,7 +502,7 @@ def finish_registration():
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
     max_id = Registration.query.filter(db.and_(Registration.status=='complete')).order_by(Registration.finished_id.desc()).first()
-    max_id2 = Registration.query.func.max(Registration.finished_id)
+    max_id2 = Registration.query(func.max(Registration.finished_id))
     # if isinstance(max_id, int):
     #     finished_id = max_id.finished_id + 1
     # else:
@@ -522,9 +522,10 @@ def finish_registration():
     # one_user_query.finished_id= finished_id
     # db.session.commit()
 
-    # return jsonify({
-    #     'message': "finished",
+    return jsonify({
+        'message': "finished",
     # }),HTTP_201_CREATED
+    }),HTTP_404_NOT_FOUND
 
 @registration.post('/get-lecturer')
 # @jwt_required()
