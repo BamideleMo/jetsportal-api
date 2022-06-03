@@ -501,7 +501,10 @@ def finish_registration():
 
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
-    max_id = Registration.query.filter(Registration.semester==semester,Registration.session==session,Registration.season==season).order_by(Registration.finished_id.desc()).first()
+    max_id = Registration.query.filter(
+        Registration.semester==semester,
+        Registration.session==session,
+        Registration.season==season).order_by(Registration.finished_id.desc()).first()
     
     # if isinstance(max_id, int):
     #     finished_id = max_id.finished_id + 1
@@ -509,17 +512,18 @@ def finish_registration():
     #     finished_id = 1
 
     finished_id = max_id.finished_id + 1
+    print(max_id.finished_id)
 
-    one_user_query.opening_balance=opening_balance    
-    one_user_query.closing_balance=closing_balance    
-    one_user_query.status='complete'    
-    one_user_query.opened_or_closed='closed' 
-    one_user_query.finished_id= finished_id
-    db.session.commit()
+    # one_user_query.opening_balance=opening_balance    
+    # one_user_query.closing_balance=closing_balance    
+    # one_user_query.status='complete'    
+    # one_user_query.opened_or_closed='closed' 
+    # one_user_query.finished_id= finished_id
+    # db.session.commit()
 
-    return jsonify({
-        'message': "finished",
-    }),HTTP_201_CREATED
+    # return jsonify({
+    #     'message': "finished",
+    # }),HTTP_201_CREATED
 
 @registration.post('/get-lecturer')
 # @jwt_required()
