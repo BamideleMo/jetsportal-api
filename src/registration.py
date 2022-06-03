@@ -700,3 +700,123 @@ def get_my_adds_and_drops():
     return jsonify({
         "addanddrops": data,
     }), HTTP_200_OK
+
+@registration.get("/enrollment-stats")
+# @jwt_required()
+def get_enrollment_stats():
+
+    pid = request.args.get('pid')
+
+    period = Period.query.filter(db.and_(
+        Period.id == pid)).first()
+
+    all_complete_registrations = Registration.query.filter(db.and_(
+        Registration.semester == period.semester,
+        Registration.session == period.session,
+        Registration.season == period.season,
+        Registration.status == 'complete',
+        )).order_by(Registration.id.desc()).all()
+    
+    data=[]
+    count_dip_me = 0
+    count_dip_ps = 0
+    count_dip_bs = 0
+    count_ba_me = 0
+    count_ba_ps = 0
+    count_ba_ce = 0
+    count_ba_ym = 0
+    count_ba_bs = 0
+    count_pgdt = 0
+    count_ma_ps = 0
+    count_ma_me = 0
+    count_ma_pbc = 0
+    count_ma_nt = 0
+    count_ma_ot = 0
+    count_ma_ce = 0
+    count_ma_ts = 0
+    count_ma_la = 0
+    count_mdiv = 0
+    for a_complete_registration in all_complete_registrations:
+        student = Student.query.filter(db.and_(
+        Student.student_id == a_complete_registration.student_id)).first()
+
+        if student.programme_category == 'Diploma Programme' and student.programme == 'Missions and Evangelism':
+            count_dip_me = count_dip_me + 1
+        
+        if student.programme_category == 'Diploma Programme' and student.programme == 'Pastoral Studies':
+            count_dip_ps = count_dip_ps + 1
+        
+        if student.programme_category == 'Diploma Programme' and student.programme == 'Biblical Studies':
+            count_dip_bs = count_dip_bs + 1
+        
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Missions and Evangelism':
+            count_ba_me = count_ba_me + 1
+        
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Pastoral Studies':
+            count_ba_ps = count_ba_ps + 1
+        
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Education':
+            count_ba_ce = count_ba_ce + 1
+        
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Youth Ministry':
+            count_ba_ym = count_ba_ym + 1
+        
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Biblical Studies':
+            count_ba_bs = count_ba_bs + 1
+        
+        if student.programme_category == 'PGDT Programme' and student.programme == 'Post-Graduate Diploma of Theology':
+            count_pgdt = count_pgdt + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Pastoral Studies':
+            count_ma_ps = count_ma_ps + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Missions and Evangelism':
+            count_ma_me = count_ma_me + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Psychology and Biblical Counselling':
+            count_ma_pbc = count_ma_pbc + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Biblical Studies (New Testament Track)':
+            count_ma_nt = count_ma_nt + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Biblical Studies (Old Testament Track)':
+            count_ma_ot = count_ma_ot + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Christian Education':
+            count_ma_ce = count_ma_ce + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Theological Studies':
+            count_ma_ts = count_ma_ts + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Leadership and Administration':
+            count_ma_la = count_ma_la + 1
+        
+        if student.programme_category == 'Master of Divinity Programme' and student.programme == 'Master of Divinity':
+            count_mdiv = count_mdiv + 1
+        
+
+        data.append({
+            'count_dip_me':count_dip_me,
+            'count_dip_ps':count_dip_ps,
+            'count_dip_bs':count_dip_bs,
+            'count_ba_me':count_ba_me,
+            'count_ba_ps':count_ba_ps,
+            'count_ba_ce':count_ba_ce,
+            'count_ba_ym':count_ba_ym,
+            'count_ba_bs':count_ba_bs,
+            'count_pgdt':count_pgdt,
+            'count_ma_ps':count_ma_ps,
+            'count_ma_me': count_ma_me,
+            'count_ma_pbc': count_ma_pbc,
+            'count_ma_nt':count_ma_nt,
+            'count_ma_ot':count_ma_ot,
+            'count_ma_ce':count_ma_ce,
+            'count_ma_ts':count_ma_ts,
+            'count_ma_la':count_ma_la,
+            'count_mdiv':count_mdiv,
+        })
+
+    return jsonify({
+        "enrollments": data,
+    }), HTTP_200_OK
+
