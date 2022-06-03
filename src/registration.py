@@ -502,6 +502,7 @@ def finish_registration():
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
     max_id = Registration.query.filter(
+        Registration.status=='complete',
         Registration.semester==semester,
         Registration.session==session,
         Registration.season==season).order_by(Registration.finished_id.desc()).first()
@@ -515,7 +516,7 @@ def finish_registration():
     print(semester)
     print(session)
     print(season)
-    print(max_id.id)
+    print(max_id.student_id)
 
     # one_user_query.opening_balance=opening_balance    
     # one_user_query.closing_balance=closing_balance    
