@@ -155,6 +155,7 @@ class Registration(db.Model):
     closing_balance=db.Column(db.Text)
     opened_or_closed=db.Column(db.Text)
     finished_id=db.Column(db.Text)
+    finished=db.Column(db.Integer)
     
     def __repr__(self) -> str:
         return 'Registration>>>{self.id}'
