@@ -573,32 +573,6 @@ def get_all_receipts():
         "receipts": data,
     }), HTTP_200_OK
 
-
-@admin.post('/update-print-state')
-def update_print_state():
-    reg_id = request.json['reg_id']
-    admin = request.json['admin']
-
-    one_reg = Registration.query.filter(db.and_(Registration.id==reg_id)).first()
-    
-    if one_reg:
-        if admin == 'Bursar':
-            one_reg.bursar_print = 'yes'
-            db.session.commit()
-
-        if admin == 'Registrar':
-            one_reg.registrar_print = 'yes'
-            db.session.commit()
-
-        return jsonify({
-            "message": 'yes'
-        }), HTTP_200_OK
-    else:
-        return jsonify({
-            'error':"Invalid Registration"
-        }), HTTP_400_BAD_REQUEST
-
-
 @admin.get('/fix')
 def fix():
     
