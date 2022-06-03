@@ -503,31 +503,23 @@ def finish_registration():
     
     max_id = Registration.query.filter(db.and_(Registration.status=='complete')).order_by(
         cast(Registration.finished_id,Integer).desc()).first()
-    # max_id2 = Registration.query(func.max(Registration.finished))
     # if isinstance(max_id, int):
     #     finished_id = max_id.finished_id + 1
     # else:
     #     finished_id = 1
 
-    # finished_id = max_id.finished_id + 1
-    print(semester)
-    print(session)
-    print(season)
-    print(max_id.finished_id)
-    print(max_id.student_id)
-    # print(max_id2)
+    finished_id = max_id.finished_id + 1
 
-    # one_user_query.opening_balance=opening_balance    
-    # one_user_query.closing_balance=closing_balance    
-    # one_user_query.status='complete'    
-    # one_user_query.opened_or_closed='closed' 
-    # one_user_query.finished_id= finished_id
-    # db.session.commit()
+    one_user_query.opening_balance=opening_balance    
+    one_user_query.closing_balance=closing_balance    
+    one_user_query.status='complete'    
+    one_user_query.opened_or_closed='closed' 
+    one_user_query.finished_id= finished_id
+    db.session.commit()
 
     return jsonify({
         'message': "finished",
-    # }),HTTP_201_CREATED
-    }),HTTP_404_NOT_FOUND
+    }),HTTP_201_CREATED
 
 @registration.post('/get-lecturer')
 # @jwt_required()
@@ -580,7 +572,7 @@ def all_registrations():
 
     all_registrations = Registration.query.filter(db.and_(
         Registration.semester == period.semester,Registration.session==period.session,
-        Registration.season==period.season)).order_by(Registration.finished_id.asc()).all()
+        Registration.season==period.season)).order_by(cast(Registration.finished_id,Integer).asc()).all()
     
     data1=[]
     data2=[]
