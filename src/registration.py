@@ -508,7 +508,7 @@ def finish_registration():
     # else:
     #     finished_id = 1
 
-    finished_id = max_id.finished_id + 1
+    finished_id = int(max_id.finished_id) + 1
 
     one_user_query.opening_balance=opening_balance    
     one_user_query.closing_balance=closing_balance    
