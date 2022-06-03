@@ -276,7 +276,6 @@ def get_all_courses():
         "courses": data,
     }), HTTP_200_OK
 
-
 @registration.get("/get-course")
 # @jwt_required()
 def get_a_course():
@@ -503,10 +502,13 @@ def finish_registration():
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     max_id = Registration.query.filter(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season).order_by(Registration.finished_id.desc()).first()
     
-    if isinstance(max_id, int):
-        finished_id = max_id.finished_id + 1
-    else:
-        finished_id = 1
+    # if isinstance(max_id, int):
+    #     finished_id = max_id.finished_id + 1
+    # else:
+    #     finished_id = 1
+
+    finished_id = max_id.finished_id
+    finished_id = int(finished_id) + 1
 
     one_user_query.opening_balance=opening_balance    
     one_user_query.closing_balance=closing_balance    
