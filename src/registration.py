@@ -795,7 +795,7 @@ def get_enrollment_stats():
             count_mdiv = count_mdiv + 1
         
 
-        data.append({
+    return jsonify({
             'count_dip_me':count_dip_me,
             'count_dip_ps':count_dip_ps,
             'count_dip_bs':count_dip_bs,
@@ -814,10 +814,6 @@ def get_enrollment_stats():
             'count_ma_ts':count_ma_ts,
             'count_ma_la':count_ma_la,
             'count_mdiv':count_mdiv,
-        })
-
-    return jsonify({
-        "enrollments": data,
         'semester': period.semester,
         'session': period.session,
     }), HTTP_200_OK
