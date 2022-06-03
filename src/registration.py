@@ -501,11 +501,7 @@ def finish_registration():
 
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
-    max_id = Registration.query.filter(
-        Registration.status=='complete',
-        Registration.semester==semester,
-        Registration.session==session,
-        Registration.season==season).order_by(Registration.finished_id.asc()).first()
+    max_id = Registration.query.filter().order_by(Registration.finished_id.asc()).first()
 
     max_id2 = Registration.query.filter(func.max(Registration.finished_id)).first()
     
