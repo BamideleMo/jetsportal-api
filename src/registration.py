@@ -505,7 +505,7 @@ def finish_registration():
         Registration.status=='complete',
         Registration.semester==semester,
         Registration.session==session,
-        Registration.season==season).order_by(Registration.finished_id.desc()).first()
+        Registration.season==season).order_by(Registration.finished_id.asc()).first()
     
     # if isinstance(max_id, int):
     #     finished_id = max_id.finished_id + 1
