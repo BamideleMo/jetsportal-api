@@ -818,5 +818,7 @@ def get_enrollment_stats():
 
     return jsonify({
         "enrollments": data,
+        'semester': period.semester,
+        'session': period.session,
     }), HTTP_200_OK
 
