@@ -4,7 +4,7 @@ from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED,
 from src.database import Addanddrop, Affiliationfees, Allocatedcourses, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
-from sqlalchemy import desc,func
+from sqlalchemy import Integer, desc,func,cast
 
 
 registration = Blueprint("registration", __name__,url_prefix="/api/v1/registration")
@@ -502,7 +502,7 @@ def finish_registration():
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
     max_id = Registration.query.filter(db.and_(Registration.status=='complete')).order_by(
-        Registration.finished_id.desc()).first()
+        cast(Registration.finished_id.desc(),Integer)).first()
     # max_id2 = Registration.query(func.max(Registration.finished))
     # if isinstance(max_id, int):
     #     finished_id = max_id.finished_id + 1
