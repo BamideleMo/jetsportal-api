@@ -513,7 +513,8 @@ def finish_registration():
     print(semester)
     print(session)
     print(season)
-    print(max_id.id)
+    print(max_id.finished)
+    print(max_id.student_id)
     # print(max_id2)
 
     # one_user_query.opening_balance=opening_balance    
