@@ -833,7 +833,7 @@ def get_enrollment_stats():
 @registration.post('/update-print-state')
 def update_print_state():
     reg_id = request.json['reg_id']
-    who = request.json['admin']
+    who = request.json['who']
 
     one_reg = Registration.query.filter(db.and_(Registration.id==reg_id)).first()
     
@@ -844,6 +844,10 @@ def update_print_state():
 
         if who == 'Registrar':
             one_reg.registrar_print = 'yes'
+            db.session.commit()
+
+        if who == 'Dean':
+            one_reg.dean_print = 'yes'
             db.session.commit()
 
         return jsonify({
