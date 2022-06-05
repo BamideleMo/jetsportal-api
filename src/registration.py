@@ -504,11 +504,7 @@ def finish_registration():
     
     max_id = Registration.query.filter(db.and_(Registration.status=='complete')).order_by(
         cast(Registration.finished_id,Integer).desc()).first()
-    # if isinstance(max_id, int):
-    #     finished_id = max_id.finished_id + 1
-    # else:
-    #     finished_id = 1
-
+   
     finished_id = int(max_id.finished_id) + 1
 
     one_user_query.opening_balance=opening_balance    
