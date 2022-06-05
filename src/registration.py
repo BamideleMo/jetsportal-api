@@ -187,6 +187,7 @@ def get_affiliation_fee():
         }), HTTP_200_OK
     else:
         return jsonify({
+            'amount': 0,
             "message": 'Record not found',
         }), HTTP_202_ACCEPTED
 
