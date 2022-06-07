@@ -170,8 +170,6 @@ def update_user(id):
         } 
     }), HTTP_200_OK
 
-
-
 @auth.get('/user')
 @jwt_required()
 def user():

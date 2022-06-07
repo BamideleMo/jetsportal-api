@@ -266,6 +266,37 @@ class Pickedcourses(db.Model):
         return 'Pickedcourses>>>{self.id}'
 
 
+
+class Addedcourses(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    student_id=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    course_code=db.Column(ARRAY(db.Text))
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Addedcourses>>>{self.id}'
+
+
+class Droppedcourses(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    student_id=db.Column(db.Text)
+    semester=db.Column(db.Text)
+    session=db.Column(db.Text)
+    season=db.Column(db.Text)
+    course_code=db.Column(ARRAY(db.Text))
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+    updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Droppedcourses>>>{self.id}'
+
+
 class Costperhour(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     denomination=db.Column(db.Text)
@@ -281,7 +312,6 @@ class Costperhour(db.Model):
     def __repr__(self) -> str:
         return 'Costperhour>>>{self.id}'
 
-
 class Wallet(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     amount=db.Column(db.Text)
@@ -293,7 +323,6 @@ class Wallet(db.Model):
     
     def __repr__(self) -> str:
         return 'Wallet>>>{self.id}'
-
 
 class Allocatedcourses(db.Model):
     id=db.Column(db.Integer, primary_key=True)

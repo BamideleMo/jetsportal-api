@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Addanddrop, Affiliationfees, Allocatedcourses, Costperhour, Courses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
+from src.database import Addanddrop, Addedcourses, Affiliationfees, Allocatedcourses, Costperhour, Courses, Droppedcourses, Pickedcourses, Returningstudentcharges, Newstudentcharges, Period, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from sqlalchemy import Integer, desc,func,cast
@@ -368,6 +368,168 @@ def get_picked_courses():
         "period": periodid,
     }),HTTP_200_OK
 
+@registration.get("/get-dropped-courses")
+# @jwt_required()
+def get_dropped_courses():
+    studentid = request.args.get('studentid')
+    periodid = request.args.get('periodid')
+
+    period_query = Period.query.filter_by(id=periodid).first()
+
+    all_dropped_courses = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id == studentid,Droppedcourses.semester == period_query.semester,
+    Droppedcourses.session == period_query.session,Droppedcourses.season == period_query.season)).order_by(Droppedcourses.id.desc()).first()
+    student = Student.query.filter(db.and_(Student.student_id == studentid)).first()
+    
+    data=[]
+
+    total = 0
+    if all_dropped_courses:
+        for a_dropped_course in all_dropped_courses.course_code:
+            course_info = Courses.query.filter_by(code = a_dropped_course).first()
+            student_level = Student.query.filter_by(student_id = studentid).first()
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+
+            if(course_info.hours == 'P/F'):
+                hours = 1
+                cost_per_hr = 7500
+            else:
+                hours = course_info.hours
+                cost_per_hr = cost_per_hour_query.amount
+
+            one_course_lecturer = Allocatedcourses.query.filter(db.and_(
+            Allocatedcourses.semester==period_query.semester,
+            Allocatedcourses.session==period_query.session,Allocatedcourses.season==period_query.season,
+            Allocatedcourses.code==course_info.code)).first()
+
+            if one_course_lecturer:
+
+                one_lecturer = User.query.filter(db.and_(
+                User.username==one_course_lecturer.username)).first()
+
+                lecturer_last_name = one_lecturer.last_name
+                lecturer_first_name = one_lecturer.first_name
+                lecturer_title = one_lecturer.title
+            else:
+                lecturer_last_name = ''
+                lecturer_first_name = ''
+                lecturer_title = ''
+
+            data.append({
+                'course_id': course_info.id,
+                'title': course_info.title,
+                'code': course_info.code,
+                'hours': course_info.hours,
+                'cost_per_hr': cost_per_hr,
+                'cost_for_course': int(cost_per_hr) * int(hours),
+                'lecturer_last_name': lecturer_last_name,
+                'lecturer_first_name': lecturer_first_name,
+                'lecturer_title': lecturer_title,
+            })
+
+            cost_for_course = int(cost_per_hr) * int(hours)
+            total = total + cost_for_course
+
+    if (student.special_student_category == 'JETS STAFF'):
+        total = (total//2)
+
+    return jsonify({
+        "picked_courses": data,
+        "total": total,
+        "special_student": student.special_student_category,
+        "semester": period_query.semester,
+        "session": period_query.session,
+        "period": periodid,
+    }),HTTP_200_OK
+
+
+@registration.get("/get-added-courses")
+# @jwt_required()
+def get_added_courses():
+    studentid = request.args.get('studentid')
+    periodid = request.args.get('periodid')
+
+    period_query = Period.query.filter_by(id=periodid).first()
+
+    all_added_courses = Addedcourses.query.filter(db.and_(Addedcourses.student_id == studentid,Addedcourses.semester == period_query.semester,
+    Addedcourses.session == period_query.session,Addedcourses.season == period_query.season)).order_by(Addedcourses.id.desc()).first()
+    student = Student.query.filter(db.and_(Student.student_id == studentid)).first()
+    
+    data=[]
+
+    total = 0
+    if all_added_courses:
+        for a_dropped_course in all_added_courses.course_code:
+            course_info = Courses.query.filter_by(code = a_dropped_course).first()
+            student_level = Student.query.filter_by(student_id = studentid).first()
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'UG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
+
+            if(course_info.hours == 'P/F'):
+                hours = 1
+                cost_per_hr = 7500
+            else:
+                hours = course_info.hours
+                cost_per_hr = cost_per_hour_query.amount
+
+            one_course_lecturer = Allocatedcourses.query.filter(db.and_(
+            Allocatedcourses.semester==period_query.semester,
+            Allocatedcourses.session==period_query.session,Allocatedcourses.season==period_query.season,
+            Allocatedcourses.code==course_info.code)).first()
+
+            if one_course_lecturer:
+
+                one_lecturer = User.query.filter(db.and_(
+                User.username==one_course_lecturer.username)).first()
+
+                lecturer_last_name = one_lecturer.last_name
+                lecturer_first_name = one_lecturer.first_name
+                lecturer_title = one_lecturer.title
+            else:
+                lecturer_last_name = ''
+                lecturer_first_name = ''
+                lecturer_title = ''
+
+            data.append({
+                'course_id': course_info.id,
+                'title': course_info.title,
+                'code': course_info.code,
+                'hours': course_info.hours,
+                'cost_per_hr': cost_per_hr,
+                'cost_for_course': int(cost_per_hr) * int(hours),
+                'lecturer_last_name': lecturer_last_name,
+                'lecturer_first_name': lecturer_first_name,
+                'lecturer_title': lecturer_title,
+            })
+
+            cost_for_course = int(cost_per_hr) * int(hours)
+            total = total + cost_for_course
+
+    if (student.special_student_category == 'JETS STAFF'):
+        total = (total//2)
+
+    return jsonify({
+        "picked_courses": data,
+        "total": total,
+        "special_student": student.special_student_category,
+        "semester": period_query.semester,
+        "session": period_query.session,
+        "period": periodid,
+    }),HTTP_200_OK
+
+
 @registration.post('/post-courses')
 # @jwt_required()
 def post_courses():
@@ -508,7 +670,7 @@ def finish_registration():
     finished_id = int(max_id.finished_id) + 1
 
     one_user_query.opening_balance=opening_balance    
-    one_user_query.closing_balance=closing_balance    
+    one_user_query.closing_balance=closing_balance
     one_user_query.status='complete'    
     one_user_query.opened_or_closed='closed' 
     one_user_query.finished_id= finished_id
