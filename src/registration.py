@@ -440,7 +440,7 @@ def get_dropped_courses():
         total = (total//2)
 
     return jsonify({
-        "picked_courses": data,
+        "dropped_courses": data,
         "total": total,
         "special_student": student.special_student_category,
         "semester": period_query.semester,
@@ -521,7 +521,7 @@ def get_added_courses():
         total = (total//2)
 
     return jsonify({
-        "picked_courses": data,
+        "added_courses": data,
         "total": total,
         "special_student": student.special_student_category,
         "semester": period_query.semester,
