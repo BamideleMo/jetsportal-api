@@ -30,8 +30,8 @@ def create_profile():
 
         print(programme_category)
 
-        if Student.query.filter_by(phone_number=phone_number).first() is not None:
-            return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
+        # if Student.query.filter_by(phone_number=phone_number).first() is not None:
+        #     return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
         if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
             return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
