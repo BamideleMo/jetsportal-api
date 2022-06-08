@@ -577,24 +577,21 @@ def get_all_receipts():
 def fix():
     
     # all_students = Student.query.filter()
-    a_student1 = User.query.filter(db.and_(User.username=='73870')).first()
-    a_student2 = Wallet.query.filter(db.and_(Wallet.student_id=='73870')).first()
-    a_student3 = Student.query.filter(db.and_(Student.student_id=='73870')).first()
-    a_student4 = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id=='73870')).first()
-    a_student5 = Registration.query.filter(db.and_(Registration.student_id=='73870')).first()
-    a_student6 = Receiptlog.query.filter(db.and_(Receiptlog.student_id=='73870')).first()
-    
+    all_registrations = Registration.query.filter(db.and_(Registration.status=='complete')).all()
     # data=[]
 
-    # for a_student in all_students:
-        # if len(a_student.username) <= 4:    
-    a_student1.username = '73821' 
-    a_student2.student_id = '73821' 
-    a_student3.student_id = '73821'
-    a_student4.student_id = '73821'
-    a_student5.student_id = '73821'
-    a_student6.student_id = '73821'
-    db.session.commit()
+    for a_registration in all_registrations:
+        if a_registration.status == 'complete':
+            
+            closing_bal = a_registration.closing_balance
+            
+            wallet = Wallet.query.filter(db.and_(Wallet.student_id==a_registration.student_id)).first()
+
+            wallet.amount = closing_bal
+            db.session.commit()
+            
+        else:
+            pass
             # status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
             # print(status1)
             # if status1 is None:
@@ -611,5 +608,5 @@ def fix():
     
     return jsonify({
         # "message": data,
-        "mess": "done5",
+        "mess": "all done",
     }),HTTP_200_OK
