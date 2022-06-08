@@ -665,9 +665,9 @@ def drop_a_course():
         }),HTTP_201_CREATED
         
     else:
-        dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
-        db.session.add(dropped_courses)     
-        db.session.commit()
+        # dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
+        # db.session.add(dropped_courses)     
+        # db.session.commit()
 
         return jsonify({
             'message': "Course(s) just dropped",
