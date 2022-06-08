@@ -557,10 +557,7 @@ def post_courses():
 
                 picked_added_course=Pickedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
                 db.session.add(picked_added_course)    
-                db.session.commit() 
-            
-                print(one_user.course_code)
-                print('Kwat')
+                db.session.commit()
 
         return jsonify({
             'message': "Course(s) added",
@@ -619,6 +616,7 @@ def drop_a_course():
     if one_user:
         one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
         Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
+        
         exists = course_code in one_user.course_code
             
         if exists:
@@ -626,12 +624,40 @@ def drop_a_course():
         else:
             one_user.course_code.append(course_code)
                 
-            db.session.delete(one_user)     
-            db.session.commit()
+            # db.session.delete(one_user)     
+            # db.session.commit()
 
-            picked_added_course=Addedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
-            db.session.add(picked_added_course)    
-            db.session.commit() 
+            # picked_dropped_course=Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+            # db.session.add(picked_dropped_course)    
+            # db.session.commit()
+
+            wallet = Wallet.query.filter_by(student_id = student_id).first()
+            course_info = Courses.query.filter_by(code = course_code).first()
+            student_level = Student.query.filter_by(student_id = student_id).first()
+
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'UG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'UG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+            if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+            if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+                cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+
+            if(course_info.hours == 'P/F'):
+                hours = 1
+                cost_per_hr = 7500
+            else:
+                hours = course_info.hours
+                cost_per_hr = cost_per_hour_query.amount
+            
+            cost = int(cost_per_hr) * int(hours)
+
+            # wallet.amount = int(cost) + int(wallet.amount)
+            # db.session.commit()
+            print("now". wallet.amount)
+            print("after". int(cost) + int(wallet.amount))
+
 
         return jsonify({
             'message': "Course(s) dropped",
@@ -743,9 +769,6 @@ def get_course_lecturer():
             'message': "no code",
         }),HTTP_200_OK
     else:
-
-        print(request.args.get('period'))
-        print("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
 
         pid = request.args.get('period')
         course_code = request.args.get('code')
