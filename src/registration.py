@@ -655,8 +655,8 @@ def drop_a_course():
 
             # wallet.amount = int(cost) + int(wallet.amount)
             # db.session.commit()
-            print("now". wallet.amount)
-            print("after". int(cost) + int(wallet.amount))
+            print(wallet.amount)
+            print(int(cost) + int(wallet.amount))
 
 
         return jsonify({
@@ -693,8 +693,8 @@ def drop_a_course():
 
         # wallet.amount = int(cost) + int(wallet.amount)
         # db.session.commit()
-        print("now". wallet.amount)
-        print("after". int(cost) + int(wallet.amount))
+        print(wallet.amount)
+        print(int(cost) + int(wallet.amount))
 
 
         return jsonify({
