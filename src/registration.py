@@ -232,6 +232,7 @@ def get_registration():
         'closing_balance': user.closing_balance,
         'finished_id': user.finished_id,
         'registration_id': user.id,
+        'dean_add_drop': user.dean_add_drop,
     }), HTTP_200_OK
 
 @registration.get("/get-courses")
@@ -545,9 +546,7 @@ def post_courses():
         for a_course in courses_selected:
             one_user = Pickedcourses.query.filter(db.and_(Pickedcourses.student_id==student_id,Pickedcourses.semester==semester,Pickedcourses.session==session,Pickedcourses.season==season)).first()
             exists = a_course in one_user.course_code
-            print(a_course)
-            print(one_user.course_code)
-            print(exists)
+            
             if exists:
                 pass
             else:
@@ -604,6 +603,52 @@ def remove_a_course():
         'message': "Course(s) removed",
         'student_id': student_id,
     }),HTTP_201_CREATED
+   
+@registration.post('/drop-course')
+# @jwt_required()
+def drop_a_course():
+    student_id = request.json['student_id']
+    course_code = request.json['course_code']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+
+    one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
+    Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
+    
+    if one_user:
+        one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
+        Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
+        exists = course_code in one_user.course_code
+            
+        if exists:
+            pass
+        else:
+            one_user.course_code.append(course_code)
+                
+            db.session.delete(one_user)     
+            db.session.commit()
+
+            picked_added_course=Addedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+            db.session.add(picked_added_course)    
+            db.session.commit() 
+
+        return jsonify({
+            'message': "Course(s) dropped",
+            'student_id': student_id,
+        }),HTTP_201_CREATED
+        
+    else:
+        dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
+        db.session.add(dropped_courses)     
+        db.session.commit()
+
+        return jsonify({
+            'message': "Course(s) just dropped",
+            'student_id': student_id,
+        }),HTTP_201_CREATED
+
+
     
 @registration.post('/change-affiliation-fee')
 # @jwt_required()

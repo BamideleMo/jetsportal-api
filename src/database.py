@@ -141,6 +141,7 @@ class Registration(db.Model):
     started=db.Column(db.Text, default='yes')
     denomination=db.Column(db.Text, nullable=False)
     dean=db.Column(db.Text)
+    dean_add_drop=db.Column(db.Text)
     bursar=db.Column(db.Text)
     seminary_charges=db.Column(JSON)
     dean_print=db.Column(db.Text)
