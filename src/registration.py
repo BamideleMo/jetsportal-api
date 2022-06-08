@@ -660,7 +660,7 @@ def drop_a_course():
 
 
         return jsonify({
-            'message': "Course(s) dropped",
+            'message': "Course(s) just dropped",
             'student_id': student_id,
         }),HTTP_201_CREATED
         
