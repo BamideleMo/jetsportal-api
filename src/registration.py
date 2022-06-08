@@ -624,12 +624,12 @@ def drop_a_course():
         else:
             one_user.course_code.append(course_code)
                 
-            # db.session.delete(one_user)     
-            # db.session.commit()
+            db.session.delete(one_user)     
+            db.session.commit()
 
-            # picked_dropped_course=Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
-            # db.session.add(picked_dropped_course)    
-            # db.session.commit()
+            picked_dropped_course=Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+            db.session.add(picked_dropped_course)    
+            db.session.commit()
 
             wallet = Wallet.query.filter_by(student_id = student_id).first()
             course_info = Courses.query.filter_by(code = course_code).first()
@@ -653,10 +653,8 @@ def drop_a_course():
             
             cost = int(cost_per_hr) * int(hours)
 
-            # wallet.amount = int(cost) + int(wallet.amount)
-            # db.session.commit()
-            print(wallet.amount)
-            print(int(cost) + int(wallet.amount))
+            wallet.amount = int(cost) + int(wallet.amount)
+            db.session.commit()
 
 
         return jsonify({
@@ -665,9 +663,9 @@ def drop_a_course():
         }),HTTP_201_CREATED
         
     else:
-        # dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
-        # db.session.add(dropped_courses)     
-        # db.session.commit()
+        dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
+        db.session.add(dropped_courses)     
+        db.session.commit()
 
         wallet = Wallet.query.filter_by(student_id = student_id).first()
         course_info = Courses.query.filter_by(code = course_code).first()
@@ -691,10 +689,8 @@ def drop_a_course():
             
         cost = int(cost_per_hr) * int(hours)
 
-        # wallet.amount = int(cost) + int(wallet.amount)
-        # db.session.commit()
-        print(wallet.amount)
-        print(int(cost) + int(wallet.amount))
+        wallet.amount = int(cost) + int(wallet.amount)
+        db.session.commit()
 
 
         return jsonify({
