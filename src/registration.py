@@ -721,6 +721,11 @@ def finish_registration():
     one_user_query.finished_id= finished_id
     db.session.commit()
 
+    one_wallet_query = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
+
+    one_wallet_query.amount = closing_balance
+    db.session.commit()
+
     return jsonify({
         'message': "finished",
     }),HTTP_201_CREATED
