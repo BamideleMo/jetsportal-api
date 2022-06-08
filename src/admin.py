@@ -587,8 +587,11 @@ def fix():
             
             wallet = Wallet.query.filter(db.and_(Wallet.student_id==a_registration.student_id)).first()
 
-            wallet.amount = closing_bal
-            db.session.commit()
+            print(wallet.amount)
+            print(closing_bal)
+            print("XXXXXXXXXXXXXXX")
+            # wallet.amount = closing_bal
+            # db.session.commit()
             
         else:
             pass
