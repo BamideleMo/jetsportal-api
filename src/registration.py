@@ -669,6 +669,34 @@ def drop_a_course():
         # db.session.add(dropped_courses)     
         # db.session.commit()
 
+        wallet = Wallet.query.filter_by(student_id = student_id).first()
+        course_info = Courses.query.filter_by(code = course_code).first()
+        student_level = Student.query.filter_by(student_id = student_id).first()
+
+        if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+            cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'UG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+        if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
+            cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'UG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+        if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+            cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+        if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
+            cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == semester,Costperhour.session == session,Costperhour.season == season)).first()
+
+        if(course_info.hours == 'P/F'):
+            hours = 1
+            cost_per_hr = 7500
+        else:
+            hours = course_info.hours
+            cost_per_hr = cost_per_hour_query.amount
+            
+        cost = int(cost_per_hr) * int(hours)
+
+        # wallet.amount = int(cost) + int(wallet.amount)
+        # db.session.commit()
+        print("now". wallet.amount)
+        print("after". int(cost) + int(wallet.amount))
+
+
         return jsonify({
             'message': "Course(s) just dropped",
             'student_id': student_id,
