@@ -589,6 +589,7 @@ def fix():
 
             print(wallet.amount)
             print(closing_bal)
+            print(a_registration.student_id)
             print("XXXXXXXXXXXXXXX")
             # wallet.amount = closing_bal
             # db.session.commit()
