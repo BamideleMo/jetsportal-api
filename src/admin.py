@@ -82,6 +82,33 @@ def get_awaiting_dean():
         "awaitings_dean": data,
     }), HTTP_200_OK
 
+@admin.get("/get-awaiting-dean-add-drop")
+# @jwt_required()
+def get_awaiting_dean_add_drop():
+
+    awaitings_dean_add_drop = Registration.query.filter(Registration.dean_add_drop == 'awaiting' ).order_by(Registration.id.asc())
+    
+    data=[]
+
+    for awaiting_dean_add_drop in awaitings_dean_add_drop:
+        one_student = Student.query.filter(Student.student_id ==  awaiting_dean_add_drop.student_id).first()
+        one_user = User.query.filter(User.username ==  awaiting_dean_add_drop.student_id).first()
+        period = Period.query.filter(db.and_(Period.semester ==  awaiting_dean_add_drop.semester,Period.session ==  awaiting_dean_add_drop.session,Period.season ==  awaiting_dean_add_drop.season)).first()
+        data.append({
+            'id': awaiting_dean_add_drop.id,
+            'period_id': period.id,
+            'student_id': awaiting_dean_add_drop.student_id,
+            'first_name': one_user.first_name,
+            'middle_name': one_user.middle_name,
+            'last_name': one_user.last_name,
+            'programme': one_student.programme,
+            'current_level': awaiting_dean_add_drop.level,
+            'who': 'dean',
+        })
+    return jsonify({
+        "awaitings_dean_add_drop": data,
+    }), HTTP_200_OK
+
 @admin.get("/get-awaiting-bursar")
 # @jwt_required()
 def get_awaiting_bursar():
