@@ -720,9 +720,13 @@ def undrop_a_course():
 
     wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
     wallet_after = int(wallet_now) - int(wallet.amount)
+
+    print(wallet_now)
+    print(wallet.amount)
+    print(wallet_after)
     
-    wallet.amount = wallet_after
-    db.session.commit()
+    # wallet.amount = wallet_after
+    # db.session.commit()
 
     print(one_user.course_code)
         
