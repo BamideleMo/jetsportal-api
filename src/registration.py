@@ -606,7 +606,7 @@ def remove_a_course():
 # @jwt_required()
 def drop_a_course():
     student_id = request.json['student_id']
-    course_code = [request.json['course_code']]
+    course_to_drop = [request.json['course_code']]
     semester = request.json['semester']
     session = request.json['session']
     season = request.json['season']
@@ -615,15 +615,12 @@ def drop_a_course():
     Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
     
     if one_user:
-        one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
-        Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
-        
-        exists = course_code in one_user.course_code
+        exists = course_to_drop[0] in one_user.course_code
             
         if exists:
             pass
         else:
-            one_user.course_code.append(course_code)
+            one_user.course_code.append(course_to_drop[0])
                 
             db.session.delete(one_user)     
             db.session.commit()
@@ -633,7 +630,7 @@ def drop_a_course():
             db.session.commit()
 
             wallet = Wallet.query.filter_by(student_id = student_id).first()
-            course_info = Courses.query.filter_by(code = course_code).first()
+            course_info = Courses.query.filter_by(code = course_to_drop[0]).first()
             student_level = Student.query.filter_by(student_id = student_id).first()
 
             if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
@@ -651,25 +648,24 @@ def drop_a_course():
             else:
                 hours = course_info.hours
                 cost_per_hr = cost_per_hour_query.amount
-            
+                
             cost = int(cost_per_hr) * int(hours)
 
             wallet.amount = int(cost) + int(wallet.amount)
             db.session.commit()
 
-
-        return jsonify({
-            'message': "Course(s) just dropped",
-            'student_id': student_id,
-        }),HTTP_201_CREATED
+            return jsonify({
+                'message': "Course(s) just dropped",
+                'student_id': student_id,
+            }),HTTP_201_CREATED
         
     else:
-        dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_code)
+        dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_to_drop)
         db.session.add(dropped_courses)     
         db.session.commit()
 
         wallet = Wallet.query.filter_by(student_id = student_id).first()
-        course_info = Courses.query.filter_by(code = course_code).first()
+        course_info = Courses.query.filter_by(code = course_to_drop[0]).first()
         student_level = Student.query.filter_by(student_id = student_id).first()
 
         if(student_level.denomination == 'ECWA' and (student_level.programme_category == 'Diploma Programme' or student_level.programme_category == 'Bachelor of Arts Programme')):
