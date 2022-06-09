@@ -696,6 +696,41 @@ def drop_a_course():
             'student_id': student_id,
         }),HTTP_201_CREATED
 
+@registration.post('/undrop-course')
+# @jwt_required()
+def undrop_a_course():
+    student_id = request.json['student_id']
+    course_code = request.json['course_code']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    wallet_now = request.json['wallet']
+
+    one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
+    Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
+    
+    one_user.course_code.remove(course_code)
+        
+    db.session.delete(one_user)     
+    db.session.commit()
+
+    picked_dropped_course=Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+    db.session.add(picked_dropped_course)    
+    db.session.commit() 
+
+    wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
+    wallet.amount = int(wallet_now) - int(wallet.amount)
+    db.session.commit()
+
+    print(one_user.course_code)
+        
+    return jsonify({
+        'message': "Course(s) undropped",
+        'student_id': student_id,
+    }),HTTP_201_CREATED
+   
+
+
 @registration.post('/add-courses')
 # @jwt_required()
 def add_courses():
