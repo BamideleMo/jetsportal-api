@@ -704,7 +704,7 @@ def undrop_a_course():
     semester = request.json['semester']
     session = request.json['session']
     season = request.json['season']
-    wallet_now = request.json['wallet']
+    cost = request.json['cost']
 
     one_user = Droppedcourses.query.filter(db.and_(Droppedcourses.student_id==student_id,
     Droppedcourses.semester==semester,Droppedcourses.session==session,Droppedcourses.season==season)).first()
@@ -719,9 +719,9 @@ def undrop_a_course():
     db.session.commit() 
 
     wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
-    wallet_after = int(wallet_now) - int(wallet.amount)
+    wallet_after = int(wallet.amount) - int(cost)
 
-    print(wallet_now)
+    print(cost)
     print(wallet.amount)
     print(wallet_after)
     
