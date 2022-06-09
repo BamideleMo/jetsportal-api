@@ -187,6 +187,25 @@ def check_if_add_drop_started():
             'add_drop_started':"no"
         }), HTTP_202_ACCEPTED
 
+@registration.post('/forward-add-drop-to-dean')
+# @jwt_required()
+def forward_add_drop_to_dean():
+    student_id = request.json['student_id']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+
+    one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
+
+    one_user_query.dean_add_drop='awaiting'     
+    db.session.commit()
+
+    return jsonify({
+        'message': "Add/drop forwarded to Dean",
+        'student_id': student_id,
+    }),HTTP_201_CREATED
+
+
 @registration.get("/get-affiliation-fees")
 # @jwt_required()
 def get_affiliation_fee():
