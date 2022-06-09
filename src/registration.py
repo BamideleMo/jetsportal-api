@@ -729,7 +729,6 @@ def undrop_a_course():
         'student_id': student_id,
     }),HTTP_201_CREATED
    
-
 @registration.post('/add-courses')
 # @jwt_required()
 def add_courses():
@@ -772,8 +771,7 @@ def add_courses():
             'message': "Course(s) just added",
             'student_id': student_id,
         }),HTTP_201_CREATED
-
-    
+ 
 @registration.post('/change-affiliation-fee')
 # @jwt_required()
 def change_affiliation_fee():

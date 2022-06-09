@@ -139,6 +139,7 @@ class Registration(db.Model):
     session=db.Column(db.Text, nullable=False)
     season=db.Column(db.Text, nullable=False)
     started=db.Column(db.Text, default='yes')
+    add_drop_started=db.Column(db.Text)
     denomination=db.Column(db.Text, nullable=False)
     dean=db.Column(db.Text)
     dean_add_drop=db.Column(db.Text)
