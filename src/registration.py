@@ -167,6 +167,26 @@ def check_if_registration_started():
             'started':"no"
         }), HTTP_202_ACCEPTED
 
+@registration.get("/add-drop-started")
+# @jwt_required()
+def check_if_add_drop_started():
+    student_id = request.args.get('student_id')
+    period_id = request.args.get('period_id')
+    
+    period_query = Period.query.filter_by(id=period_id).first()
+
+    one_user = Registration.query.filter(db.and_(Registration.student_id == student_id, Registration.semester == period_query.semester, Registration.session == period_query.session,Registration.season == period_query.season,Registration.add_drop_started == 'yes')).first()
+    
+    if one_user:
+        return jsonify({'started':one_user.started,'add_drop_started':one_user.add_drop_started,'level':one_user.level, 'dean':one_user.dean, 'bursar':one_user.bursar,
+        'student_id':one_user.student_id,'created_at':one_user.created_at,'updated_at':one_user.updated_at,
+        'comment': one_user.comment,'status': one_user.status}), HTTP_200_OK
+    else:
+        return jsonify({
+            "message": 'Record not found',
+            'add_drop_started':"no"
+        }), HTTP_202_ACCEPTED
+
 @registration.get("/get-affiliation-fees")
 # @jwt_required()
 def get_affiliation_fee():
@@ -729,6 +749,33 @@ def undrop_a_course():
         'student_id': student_id,
     }),HTTP_201_CREATED
    
+@registration.post('/unadd-course')
+# @jwt_required()
+def unadd_a_course():
+    student_id = request.json['student_id']
+    course_code = request.json['course_code']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    
+    one_user = Addedcourses.query.filter(db.and_(Addedcourses.student_id==student_id,
+    Addedcourses.semester==semester,Addedcourses.session==session,Addedcourses.season==season)).first()
+    
+    one_user.course_code.remove(course_code)
+        
+    db.session.delete(one_user)     
+    db.session.commit()
+
+    picked_dropped_course=Addedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+    db.session.add(picked_dropped_course)    
+    db.session.commit()
+        
+    return jsonify({
+        'message': "Course(s) unadded",
+        'student_id': student_id,
+    }),HTTP_201_CREATED
+   
+
 @registration.post('/add-courses')
 # @jwt_required()
 def add_courses():
