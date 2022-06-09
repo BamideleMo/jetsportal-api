@@ -189,6 +189,29 @@ def update_from_dean():
     }),HTTP_201_CREATED
 
 
+@admin.post('/update-from-dean-add-drop')
+def update_from_dean_add_drop():
+    student_id = request.json['student_id']
+    period_id = request.json['period_id']
+    action = request.json['action']
+    comment = request.json['comment']
+    
+    period_query = Period.query.filter(Period.id==period_id).first()
+
+    registration_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==period_query.semester,
+    Registration.session==period_query.session,Registration.season==period_query.season)).first()
+
+    registration_query.dean_add_drop = action
+    registration_query.comment = comment
+    db.session.commit()
+
+    return jsonify({
+        # 'message': "Attended to by Dean",
+        'dean': registration_query.dean,
+        'student_id': student_id,
+    }),HTTP_201_CREATED
+
+
 @admin.post('/update-from-bursar')
 def update_from_bursar():
     student_id = request.json['student_id']
