@@ -719,7 +719,9 @@ def undrop_a_course():
     db.session.commit() 
 
     wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
-    wallet.amount = int(wallet_now) - int(wallet.amount)
+    wallet_after = int(wallet_now) - int(wallet.amount)
+    
+    wallet.amount = wallet_after
     db.session.commit()
 
     print(one_user.course_code)
@@ -729,7 +731,6 @@ def undrop_a_course():
         'student_id': student_id,
     }),HTTP_201_CREATED
    
-
 
 @registration.post('/add-courses')
 # @jwt_required()
