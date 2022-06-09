@@ -1,3 +1,4 @@
+from array import array
 from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
@@ -605,7 +606,8 @@ def remove_a_course():
 # @jwt_required()
 def drop_a_course():
     student_id = request.json['student_id']
-    course_code = request.json.get('course_code')
+    course_code = request.json['course_code']
+    course_code = array[course_code]
     semester = request.json['semester']
     session = request.json['session']
     season = request.json['season']
