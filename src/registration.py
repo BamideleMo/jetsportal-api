@@ -606,8 +606,7 @@ def remove_a_course():
 # @jwt_required()
 def drop_a_course():
     student_id = request.json['student_id']
-    course_code = request.json['course_code']
-    course_code = array[course_code]
+    course_code = [request.json['course_code']]
     semester = request.json['semester']
     session = request.json['session']
     season = request.json['season']
