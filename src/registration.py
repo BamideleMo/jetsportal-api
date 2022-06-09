@@ -696,6 +696,48 @@ def drop_a_course():
             'student_id': student_id,
         }),HTTP_201_CREATED
 
+@registration.post('/add-courses')
+# @jwt_required()
+def add_courses():
+    student_id = request.json['student_id']
+    courses_selected = request.json.get('courses_selected')
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+
+    one_user = Addedcourses.query.filter(db.and_(Addedcourses.student_id==student_id,
+    Addedcourses.semester==semester,Addedcourses.session==session,Addedcourses.season==season)).first()
+    
+    if one_user:
+        for a_course in courses_selected:
+            exists = a_course in one_user.course_code
+            
+            if exists:
+                pass
+            else:
+                one_user.course_code.append(a_course)
+                
+                db.session.delete(one_user)     
+                db.session.commit()
+
+                picked_added_course=Addedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=one_user.course_code)
+                db.session.add(picked_added_course)    
+                db.session.commit()
+
+        return jsonify({
+            'message': "Course(s) added",
+            'student_id': student_id,
+        }),HTTP_201_CREATED
+        
+    else:
+        selected_courses = Addedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=courses_selected)
+        db.session.add(selected_courses)     
+        db.session.commit()
+
+        return jsonify({
+            'message': "Course(s) just added",
+            'student_id': student_id,
+        }),HTTP_201_CREATED
 
     
 @registration.post('/change-affiliation-fee')
