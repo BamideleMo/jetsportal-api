@@ -651,6 +651,7 @@ def drop_a_course():
                 
             cost = int(cost_per_hr) * int(hours)
 
+            print(int(cost) + int(wallet.amount))
             wallet.amount = int(cost) + int(wallet.amount)
             db.session.commit()
 
