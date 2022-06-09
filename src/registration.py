@@ -205,7 +205,6 @@ def forward_add_drop_to_dean():
         'student_id': student_id,
     }),HTTP_201_CREATED
 
-
 @registration.get("/get-affiliation-fees")
 # @jwt_required()
 def get_affiliation_fee():
