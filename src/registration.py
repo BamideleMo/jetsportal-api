@@ -654,10 +654,10 @@ def drop_a_course():
             wallet.amount = int(cost) + int(wallet.amount)
             db.session.commit()
 
-            return jsonify({
-                'message': "Course(s) just dropped",
-                'student_id': student_id,
-            }),HTTP_201_CREATED
+        return jsonify({
+            'message': "Course(s) just dropped",
+            'student_id': student_id,
+        }),HTTP_201_CREATED
         
     else:
         dropped_courses = Droppedcourses(student_id=student_id,semester=semester,session=session,season=season,course_code=course_to_drop)
