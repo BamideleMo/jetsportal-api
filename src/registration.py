@@ -343,6 +343,7 @@ def get_picked_courses():
     data=[]
 
     total = 0
+    total_hours = 0
     if all_picked_courses:
         for a_picked_course in all_picked_courses.course_code:
             course_info = Courses.query.filter_by(code = a_picked_course).first()
@@ -395,6 +396,7 @@ def get_picked_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
+            total_hours = total_hours + hours
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
@@ -402,6 +404,7 @@ def get_picked_courses():
     return jsonify({
         "picked_courses": data,
         "total": total,
+        "total_hours": total_hours,
         "special_student": student.special_student_category,
         "semester": period_query.semester,
         "session": period_query.session,
@@ -423,6 +426,7 @@ def get_dropped_courses():
     data=[]
 
     total = 0
+    total_hours = 0
     if all_dropped_courses:
         for a_dropped_course in all_dropped_courses.course_code:
             course_info = Courses.query.filter_by(code = a_dropped_course).first()
@@ -475,6 +479,7 @@ def get_dropped_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
+            total_hours = total_hours + hours
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
@@ -482,6 +487,7 @@ def get_dropped_courses():
     return jsonify({
         "dropped_courses": data,
         "total": total,
+        "total_hours": total_hours,
         "special_student": student.special_student_category,
         "semester": period_query.semester,
         "session": period_query.session,
@@ -504,6 +510,7 @@ def get_added_courses():
     data=[]
 
     total = 0
+    total_hours = 0
     if all_added_courses:
         for a_dropped_course in all_added_courses.course_code:
             course_info = Courses.query.filter_by(code = a_dropped_course).first()
@@ -556,6 +563,7 @@ def get_added_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
+            total_hours = total_hours + hours
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
@@ -563,6 +571,7 @@ def get_added_courses():
     return jsonify({
         "added_courses": data,
         "total": total,
+        "total_hours": total_hours,
         "special_student": student.special_student_category,
         "semester": period_query.semester,
         "session": period_query.session,
