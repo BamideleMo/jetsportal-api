@@ -396,7 +396,7 @@ def get_picked_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
-            total_hours = total_hours + hours
+            total_hours = total_hours + int(hours)
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
@@ -479,7 +479,7 @@ def get_dropped_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
-            total_hours = total_hours + hours
+            total_hours = total_hours + int(hours)
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
@@ -563,7 +563,7 @@ def get_added_courses():
 
             cost_for_course = int(cost_per_hr) * int(hours)
             total = total + cost_for_course
-            total_hours = total_hours + hours
+            total_hours = total_hours + int(hours)
 
     if (student.special_student_category == 'JETS STAFF'):
         total = (total//2)
