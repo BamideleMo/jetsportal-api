@@ -267,6 +267,7 @@ def get_registration():
         'level': user.level,
         'percentage_to_pay': user.percentage_to_pay,
         'status': user.status,
+        'add_drop_status': user.add_drop_status,
         'opening_balance': user.opening_balance,
         'closing_balance': user.closing_balance,
         'finished_id': user.finished_id,
