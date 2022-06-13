@@ -927,6 +927,40 @@ def finish_registration():
         'message': "finished",
     }),HTTP_201_CREATED
 
+
+@registration.post('/finish-add-drop')
+# @jwt_required()
+def finish_add_drop():
+    student_id = request.json['student_id']
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    closing_balance_add_drop = request.json['closing_balance_add_drop']
+
+    one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
+    
+    max_id = Registration.query.filter(db.and_(Registration.add_drop_status=='complete')).order_by(
+        cast(Registration.finished_id_add_drop,Integer).desc()).first()
+   
+    finished_id_add_drop = int(max_id.finished_id_add_drop) + 1
+
+ 
+    one_user_query.closing_balance_add_drop=closing_balance_add_drop
+    one_user_query.status_add_drop='complete'    
+    one_user_query.opened_or_closed_add_drop='closed' 
+    one_user_query.finished_id_add_drop= finished_id_add_drop
+    db.session.commit()
+
+    one_wallet_query = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
+
+    one_wallet_query.amount = closing_balance_add_drop
+    db.session.commit()
+
+    return jsonify({
+        'message': "finished",
+    }),HTTP_201_CREATED
+
+
 @registration.post('/get-lecturer')
 # @jwt_required()
 def get_course_lecturer():

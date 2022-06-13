@@ -155,9 +155,11 @@ class Registration(db.Model):
     status=db.Column(db.Text)
     opening_balance=db.Column(db.Text)
     closing_balance=db.Column(db.Text)
+    closing_balance_add_drop=db.Column(db.Text)
     opened_or_closed=db.Column(db.Text)
+    opened_or_closed_add_drop=db.Column(db.Text)
     finished_id=db.Column(db.Text)
-    finished=db.Column(db.Integer)
+    finished_id_add_drop=db.Column(db.Integer)
     
     def __repr__(self) -> str:
         return 'Registration>>>{self.id}'
