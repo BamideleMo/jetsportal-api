@@ -495,7 +495,6 @@ def get_dropped_courses():
         "period": periodid,
     }),HTTP_200_OK
 
-
 @registration.get("/get-added-courses")
 # @jwt_required()
 def get_added_courses():
@@ -578,7 +577,6 @@ def get_added_courses():
         "session": period_query.session,
         "period": periodid,
     }),HTTP_200_OK
-
 
 @registration.post('/post-courses')
 # @jwt_required()
@@ -927,7 +925,6 @@ def finish_registration():
         'message': "finished",
     }),HTTP_201_CREATED
 
-
 @registration.post('/finish-add-drop')
 # @jwt_required()
 def finish_add_drop():
@@ -959,7 +956,6 @@ def finish_add_drop():
     return jsonify({
         'message': "finished",
     }),HTTP_201_CREATED
-
 
 @registration.post('/get-lecturer')
 # @jwt_required()
@@ -997,8 +993,7 @@ def get_course_lecturer():
             return jsonify({
                 'message': "no",
             }),HTTP_200_OK
-    
-    
+       
 @registration.get("/all-registrations")
 # @jwt_required()
 def all_registrations():
@@ -1265,7 +1260,6 @@ def get_enrollment_stats():
         'semester': period.semester,
         'session': period.session,
     }), HTTP_200_OK
-
 
 @registration.post('/update-print-state')
 def update_print_state():
