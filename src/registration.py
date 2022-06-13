@@ -944,7 +944,7 @@ def finish_add_drop():
 
  
     one_user_query.closing_balance_add_drop=closing_balance_add_drop
-    one_user_query.status_add_drop='complete'    
+    one_user_query.add_drop_status='complete'    
     one_user_query.opened_or_closed_add_drop='closed' 
     one_user_query.finished_id_add_drop= finished_id_add_drop
     db.session.commit()
