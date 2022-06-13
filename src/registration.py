@@ -939,12 +939,14 @@ def finish_add_drop():
     max_id = Registration.query.filter(db.and_(Registration.add_drop_status=='complete')).order_by(
         cast(Registration.finished_id_add_drop,Integer).desc()).first()
    
-    finished_id_add_drop = int(max_id.finished_id_add_drop) + 1
+    finished_id_add_drop = 1
+    # finished_id_add_drop = int(max_id.finished_id_add_drop) + 1
 
-
-    add_drop_user=Addanddrop(student_id=student_id,semester=semester,
-    session=session,season=season,status='complete',opened_or_closed=finished_id_add_drop)
-    db.session.add(add_drop_user)     
+ 
+    one_user_query.closing_balance_add_drop=closing_balance_add_drop
+    one_user_query.status_add_drop='complete'    
+    one_user_query.opened_or_closed_add_drop='closed' 
+    one_user_query.finished_id_add_drop= finished_id_add_drop
     db.session.commit()
 
     one_wallet_query = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
