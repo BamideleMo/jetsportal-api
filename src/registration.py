@@ -1118,8 +1118,8 @@ def get_my_adds_and_drops():
 
     student_id = request.args.get('id')
 
-    all_registrations = Addanddrop.query.filter(db.and_(
-        Addanddrop.student_id == student_id)).order_by(Addanddrop.id.desc()).all()
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.student_id == student_id,Registration.add_drop_status == 'complete')).order_by(Registration.id.desc()).all()
     
     data=[]
     
@@ -1144,6 +1144,7 @@ def get_my_adds_and_drops():
     return jsonify({
         "addanddrops": data,
     }), HTTP_200_OK
+
 
 @registration.get("/enrollment-stats")
 # @jwt_required()
