@@ -1130,15 +1130,15 @@ def get_my_adds_and_drops():
         data.append({
             'id': a_registration.id,
             'student_id': a_registration.student_id,
-            'status': a_registration.status,
+            'status': a_registration.add_drop_status,
             'updated_at': a_registration.updated_at,
             'period_id': period.id,
             'semester': a_registration.semester,
             'session': a_registration.session,
             'season': a_registration.season,
-            'dean_print': a_registration.dean_print,
-            'bursar_print': a_registration.bursar_print,
-            'registrar_print': a_registration.registrar_print,
+            'dean_print_add_drop': a_registration.dean_print_add_drop,
+            'bursar_print_add_drop': a_registration.bursar_print_add_drop,
+            'registrar_print_add_drop': a_registration.registrar_print_add_drop,
         })
 
     return jsonify({
