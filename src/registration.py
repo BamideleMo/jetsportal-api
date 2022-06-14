@@ -270,6 +270,7 @@ def get_registration():
         'add_drop_status': user.add_drop_status,
         'opening_balance': user.opening_balance,
         'closing_balance': user.closing_balance,
+        'opening_balance_add_drop': user.opening_balance_add_drop,
         'closing_balance_add_drop': user.closing_balance_add_drop,
         'finished_id': user.finished_id,
         'registration_id': user.id,
