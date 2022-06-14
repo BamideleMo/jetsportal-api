@@ -159,6 +159,7 @@ class Registration(db.Model):
     opening_balance=db.Column(db.Text)
     closing_balance=db.Column(db.Text)
     closing_balance_add_drop=db.Column(db.Text)
+    opening_balance_add_drop=db.Column(db.Text)
     opened_or_closed=db.Column(db.Text)
     opened_or_closed_add_drop=db.Column(db.Text)
     finished_id=db.Column(db.Text)

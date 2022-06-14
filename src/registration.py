@@ -270,6 +270,7 @@ def get_registration():
         'add_drop_status': user.add_drop_status,
         'opening_balance': user.opening_balance,
         'closing_balance': user.closing_balance,
+        'closing_balance_add_drop': user.closing_balance_add_drop,
         'finished_id': user.finished_id,
         'registration_id': user.id,
         'dean_add_drop': user.dean_add_drop,
@@ -933,6 +934,7 @@ def finish_add_drop():
     session = request.json['session']
     season = request.json['season']
     closing_balance_add_drop = request.json['closing_balance_add_drop']
+    opening_balance_add_drop = request.json['opening_balance_add_drop']
 
     one_user_query = Registration.query.filter(db.and_(Registration.student_id==student_id,Registration.semester==semester,Registration.session==session,Registration.season==season)).first()
     
@@ -944,6 +946,7 @@ def finish_add_drop():
 
  
     one_user_query.closing_balance_add_drop=closing_balance_add_drop
+    one_user_query.opening_balance_add_drop = opening_balance_add_drop
     one_user_query.add_drop_status='complete'    
     one_user_query.opened_or_closed_add_drop='closed' 
     one_user_query.finished_id_add_drop= finished_id_add_drop
