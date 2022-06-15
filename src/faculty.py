@@ -139,7 +139,7 @@ def get_class_list():
         Registration.semester==period.semester,
         Registration.session==period.session,
         Registration.season==period.season,
-        # Registration.status=='complete',
+        Registration.status=='complete',
         ).first()
         if registration:
             user = User.query.filter(User.username==course.student_id).first()
