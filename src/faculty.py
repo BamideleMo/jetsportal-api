@@ -131,8 +131,10 @@ def get_class_list():
     lecturer = User.query.filter(User.username==lecturer_allocated.username).first()
     
     data=[]
+    count = 0
     
     for course in courses:
+        count = count + 1
         registration = Registration.query.filter(Registration.student_id==course.student_id,
         Registration.semester==period.semester,
         Registration.session==period.session,
@@ -165,6 +167,7 @@ def get_class_list():
         'lecturer_middle_name': lecturer.middle_name,
         'lecturer_first_name': lecturer.first_name,
         'lecturer_title': lecturer.title,
+        'count': count
     }), HTTP_200_OK
 
 @faculty.post('/post-material')
