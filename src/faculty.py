@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Allocatedcourses, Courses, Learningresources, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
+from src.database import Addedcourses, Affiliationfees, Allocatedcourses, Courses, Droppedcourses, Learningresources, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc, func
 
@@ -121,43 +121,88 @@ def get_class_list():
         Pickedcourses.semester==period.semester,
         Pickedcourses.session==period.session,
         Pickedcourses.season==period.season,
-        # Pickedcourses.course_code==code,
         Pickedcourses.course_code.any(code),
     )).all()
-
 
     title = Courses.query.filter(Courses.code==code).first()
     lecturer_allocated = Allocatedcourses.query.filter(Allocatedcourses.code==code).first()
     lecturer = User.query.filter(User.username==lecturer_allocated.username).first()
     
     data=[]
+    data2=[]
     count = 0
     
     for course in courses:
-        count = count + 1
-        registration = Registration.query.filter(Registration.student_id==course.student_id,
-        Registration.semester==period.semester,
-        Registration.session==period.session,
-        Registration.season==period.season,
-        Registration.status=='complete',
-        ).first()
-        if registration:
-            user = User.query.filter(User.username==course.student_id).first()
-            student = Student.query.filter(Student.student_id==course.student_id).first()
-            data.append({
-                'student_id': user.username,
-                'email': student.email,
-                'phone': student.phone_number,
-                'last_name': user.last_name,
-                'middle_name': user.middle_name,
-                'first_name': user.first_name,
-                'sex': student.sex,
-            })
-        # print(course.student_id)
-        # print(course.course_code)
-        
+        dropped_course = Droppedcourses.query.filter(db.and_(
+            Droppedcourses.semester==period.semester,
+            Droppedcourses.session==period.session,
+            Droppedcourses.season==period.season,
+            Droppedcourses.student_id==course.student_id,
+            Droppedcourses.course_code.any(course.course_code),
+        )).first()
+
+        if dropped_course:
+            # don't append becuase it was dropped
+            pass
+        else:
+            count = count + 1
+            registration = Registration.query.filter(Registration.student_id==course.student_id,
+            Registration.semester==period.semester,
+            Registration.session==period.session,
+            Registration.season==period.season,
+            Registration.status=='complete',
+            ).first()
+            if registration:
+                user = User.query.filter(User.username==course.student_id).first()
+                student = Student.query.filter(Student.student_id==course.student_id).first()
+                
+                data.append({
+                    'student_id': user.username,
+                    'email': student.email,
+                    'phone': student.phone_number,
+                    'last_name': user.last_name,
+                    'middle_name': user.middle_name,
+                    'first_name': user.first_name,
+                    'sex': student.sex,
+                    'course_status': 'Registered',
+                })
+            # print(course.student_id)
+            # print(course.course_code)
+    
+    added_courses = Addedcourses.query.filter(db.and_(
+        Addedcourses.semester==period.semester,
+        Addedcourses.session==period.session,
+        Addedcourses.season==period.season,
+        Addedcourses.student_id==course.student_id,
+        Addedcourses.course_code.any(code),
+    )).all()
+
+    for added_course in added_courses:
+            count = count + 1
+            registration = Registration.query.filter(Registration.student_id==course.student_id,
+            Registration.semester==period.semester,
+            Registration.session==period.session,
+            Registration.season==period.season,
+            Registration.add_drop_status=='complete',
+            ).first()
+            if registration:
+                user = User.query.filter(User.username==added_course.student_id).first()
+                student = Student.query.filter(Student.student_id==added_course.student_id).first()
+                
+                data2.append({
+                    'student_id': user.username,
+                    'email': student.email,
+                    'phone': student.phone_number,
+                    'last_name': user.last_name,
+                    'middle_name': user.middle_name,
+                    'first_name': user.first_name,
+                    'sex': student.sex,
+                    'course_status': 'Added',
+                })
+
     return jsonify({
         "students": data,
+        "students2": data2,
         "semester": period.semester,
         "session": period.session,
         "period_id": period_id,
