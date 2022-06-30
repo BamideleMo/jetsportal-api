@@ -43,6 +43,8 @@ def create_profile():
         if programme_category == 'Bachelor Arts Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
+            
+            print(username)
 
         if programme_category == 'PGDT Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='pgdt').first()
@@ -55,8 +57,6 @@ def create_profile():
         if programme_category == 'Master of Divinity Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='mdiv').first()
             username = str(int(last_student_id.student_id) + 1)
-        
-        print(username)
 
         last_student_id.student_id = username
         db.session.commit()
