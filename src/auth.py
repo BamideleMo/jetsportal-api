@@ -37,7 +37,11 @@ def create_profile():
             return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
 
-        if programme_category == 'Diploma Programme' or programme_category == 'Bachelor Arts Programme':
+        if programme_category == 'Diploma Programme':
+            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
+            username = '0' + str(int(last_student_id.student_id) + 1)
+
+        if programme_category == 'Bachelor Arts Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
 
