@@ -134,13 +134,13 @@ def get_class_list():
     
     for course in courses:
         print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print(course.course_code)
+        print(code)
         dropped_course = Droppedcourses.query.filter(db.and_(
             Droppedcourses.semester==period.semester,
             Droppedcourses.session==period.session,
             Droppedcourses.season==period.season,
             Droppedcourses.student_id==course.student_id,
-            # Droppedcourses.course_code.any(course.course_code),
+            Droppedcourses.course_code.any(code),
         )).first()
         if dropped_course:
             # don't append becuase it was dropped
