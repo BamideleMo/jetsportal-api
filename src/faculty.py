@@ -264,6 +264,7 @@ def get_resources():
     
     for resource in resources:
         data.append({
+                'rid': resource.id,
                 'link': resource.link,
                 'course_code': resource.course_code,
                 'title': resource.title,
