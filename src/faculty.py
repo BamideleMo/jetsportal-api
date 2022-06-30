@@ -144,7 +144,7 @@ def get_class_list():
         )).first()
         if dropped_course:
             # don't append becuase it was dropped
-            print(Droppedcourses.student_id)
+            print(course.student_id)
             pass
         else:
             count = count + 1
