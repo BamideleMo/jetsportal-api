@@ -133,6 +133,8 @@ def get_class_list():
     count = 0
     
     for course in courses:
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print(course)
         dropped_course = Droppedcourses.query.filter(db.and_(
             Droppedcourses.semester==period.semester,
             Droppedcourses.session==period.session,
@@ -140,8 +142,6 @@ def get_class_list():
             Droppedcourses.student_id==course.student_id,
             Droppedcourses.course_code.any(course.course_code),
         )).first()
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print(course)
         if dropped_course:
             # don't append becuase it was dropped
             pass
