@@ -36,7 +36,6 @@ def create_profile():
         if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
             return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
-
         if programme_category == 'Diploma Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
@@ -57,7 +56,8 @@ def create_profile():
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='mdiv').first()
             username = str(int(last_student_id.student_id) + 1)
         
-        
+        print(username)
+
         last_student_id.student_id = username
         db.session.commit()
 
