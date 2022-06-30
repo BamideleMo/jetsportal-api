@@ -40,12 +40,9 @@ def create_profile():
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
 
-        if programme_category == 'Bachelor Arts Programme':
+        if programme_category == 'Bachelor of Arts Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
-            
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-            print(programme_category)
 
         if programme_category == 'PGDT Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='pgdt').first()
