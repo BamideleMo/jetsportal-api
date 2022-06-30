@@ -44,7 +44,8 @@ def create_profile():
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
             username = '0' + str(int(last_student_id.student_id) + 1)
             
-            print(username)
+            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+            print(programme_category)
 
         if programme_category == 'PGDT Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='pgdt').first()
