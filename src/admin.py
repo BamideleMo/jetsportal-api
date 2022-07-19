@@ -625,7 +625,7 @@ def get_all_receipts():
             'paid': student_receipt.amount,
             'created_at': student_receipt.created_at,
             'receipt_no': student_receipt.receipt_no,
-            'last_name': a_user.last_name,
+            'last_name': a_user.username,
             'middle_name': a_user.middle_name,
             'first_name': a_user.first_name,
             'student_id': student_receipt.student_id,
