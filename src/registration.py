@@ -251,14 +251,14 @@ def get_my_finished_registrations():
     Registration.status=='complete')).first()
 
     data=[]
-
-    for a_registration in registrations:
-        data.append({
-            'id': a_registration.id,
-            'semester': a_registration.semester,
-            'session': a_registration.session,
-            'season': a_registration.season,
-        })
+    if registrations is not None:
+        for a_registration in registrations:
+            data.append({
+                'id': a_registration.id,
+                'semester': a_registration.semester,
+                'session': a_registration.session,
+                'season': a_registration.season,
+            })
 
     return jsonify({
         "registrations": data,
