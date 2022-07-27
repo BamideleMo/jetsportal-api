@@ -1134,8 +1134,7 @@ def all_add_drop():
         if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
             data1.append({
                 'student_id': a_registration.student_id,
-                'dean': a_registration.dean,
-                'bursar': a_registration.bursar,
+                'dean_add_drop': a_registration.dean_add_drop,
                 'first_name': user1.first_name,
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
@@ -1147,8 +1146,7 @@ def all_add_drop():
         if student.programme_category == 'PGDT Programme':
             data2.append({
                 'student_id': a_registration.student_id,
-                'dean': a_registration.dean,
-                'bursar': a_registration.bursar,
+                'dean_add_drop': a_registration.dean_add_drop,
                 'first_name': user1.first_name,
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
@@ -1160,8 +1158,7 @@ def all_add_drop():
         if student.programme_category == 'Bachelor of Arts Programme':
             data3.append({
                 'student_id': a_registration.student_id,
-                'dean': a_registration.dean,
-                'bursar': a_registration.bursar,
+                'dean_add_drop': a_registration.dean_add_drop,
                 'first_name': user1.first_name,
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
@@ -1173,8 +1170,7 @@ def all_add_drop():
         if student.programme_category == 'Diploma Programme':
             data4.append({
                 'student_id': a_registration.student_id,
-                'dean': a_registration.dean,
-                'bursar': a_registration.bursar,
+                'dean_add_drop': a_registration.dean_add_drop,
                 'first_name': user1.first_name,
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
