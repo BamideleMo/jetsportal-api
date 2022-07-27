@@ -1139,7 +1139,7 @@ def all_add_drop():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
-                'status': a_registration.status,
+                'add_drop_status': a_registration.add_drop_status,
                 'bursar_print_add_drop': a_registration.bursar_print_add_drop,
                 'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
@@ -1151,7 +1151,7 @@ def all_add_drop():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
-                'status': a_registration.status,
+                'add_drop_status': a_registration.add_drop_status,
                 'bursar_print_add_drop': a_registration.bursar_print_add_drop,
                 'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
@@ -1163,7 +1163,7 @@ def all_add_drop():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
-                'status': a_registration.status,
+                'add_drop_status': a_registration.add_drop_status,
                 'bursar_print_add_drop': a_registration.bursar_print_add_drop,
                 'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
@@ -1175,7 +1175,7 @@ def all_add_drop():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
-                'status': a_registration.status,
+                'add_drop_status': a_registration.add_drop_status,
                 'bursar_print_add_drop': a_registration.bursar_print_add_drop,
                 'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
