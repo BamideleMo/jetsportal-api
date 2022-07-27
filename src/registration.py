@@ -248,7 +248,7 @@ def get_my_finished_registrations():
     studentid = request.args.get('studentid')
 
     registrations = Registration.query.filter(db.and_(Registration.student_id==studentid,
-    Registration.status=='complete')).first()
+    Registration.status=='complete')).all()
 
 
     data=[]
@@ -1393,6 +1393,35 @@ def update_print_state():
 
         if who == 'Dean':
             one_reg.dean_print = 'yes'
+            db.session.commit()
+
+        return jsonify({
+            "message": 'yes'
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            'error':"Invalid Registration"
+        }), HTTP_400_BAD_REQUEST
+
+
+@registration.post('/update-add-drop-print-state')
+def update_print_state():
+    reg_id = request.json['reg_id']
+    who = request.json['who']
+
+    one_reg = Registration.query.filter(db.and_(Registration.id==reg_id)).first()
+    
+    if one_reg:
+        if who == 'Bursar':
+            one_reg.bursar_print_add_drop = 'yes'
+            db.session.commit()
+
+        if who == 'Registrar':
+            one_reg.registrar_print_add_drop = 'yes'
+            db.session.commit()
+
+        if who == 'Dean':
+            one_reg.dean_print_add_drop = 'yes'
             db.session.commit()
 
         return jsonify({
