@@ -1141,8 +1141,8 @@ def all_add_drop():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
-                'bursar_print': a_registration.bursar_print,
-                'registrar_print': a_registration.registrar_print,
+                'bursar_print_add_drop': a_registration.bursar_print_add_drop,
+                'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
         if student.programme_category == 'PGDT Programme':
             data2.append({
@@ -1154,8 +1154,8 @@ def all_add_drop():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
-                'bursar_print': a_registration.bursar_print,
-                'registrar_print': a_registration.registrar_print,
+                'bursar_print_add_drop': a_registration.bursar_print_add_drop,
+                'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
         if student.programme_category == 'Bachelor of Arts Programme':
             data3.append({
@@ -1167,8 +1167,8 @@ def all_add_drop():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
-                'bursar_print': a_registration.bursar_print,
-                'registrar_print': a_registration.registrar_print,
+                'bursar_print_add_drop': a_registration.bursar_print_add_drop,
+                'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
         if student.programme_category == 'Diploma Programme':
             data4.append({
@@ -1180,8 +1180,8 @@ def all_add_drop():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
-                'bursar_print': a_registration.bursar_print,
-                'registrar_print': a_registration.registrar_print,
+                'bursar_print_add_drop': a_registration.bursar_print_add_drop,
+                'registrar_print_add_drop': a_registration.registrar_print_add_drop,
             })
 
     return jsonify({
