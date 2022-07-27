@@ -241,9 +241,9 @@ def get_charges():
     session = period_query.session
     season = period_query.season
 
-@registration.get('/my-registrations')
+@registration.get('/my-finished-registrations')
 # @jwt_required()
-def get_my_registrations():
+def get_my_finished_registrations():
     
     studentid = request.args.get('studentid')
 
