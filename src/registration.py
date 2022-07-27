@@ -250,11 +250,14 @@ def get_my_finished_registrations():
     registrations = Registration.query.filter(db.and_(Registration.student_id==studentid,
     Registration.status=='complete')).first()
 
+
     data=[]
     if registrations is not None:
         for a_registration in registrations:
+            period = Period.query.filter(db.and_(Period.semester==a_registration.semester,
+            Period.session==a_registration.session,Period.season==a_registration.season)).first()
             data.append({
-                'id': a_registration.id,
+                'id': period.id,
                 'semester': a_registration.semester,
                 'session': a_registration.session,
                 'season': a_registration.season,
