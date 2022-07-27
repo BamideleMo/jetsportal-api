@@ -1405,7 +1405,7 @@ def update_print_state():
 
 
 @registration.post('/update-add-drop-print-state')
-def update_print_state():
+def update_add_drop_print_state():
     reg_id = request.json['reg_id']
     who = request.json['who']
 
