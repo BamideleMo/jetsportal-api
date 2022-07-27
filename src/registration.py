@@ -241,6 +241,30 @@ def get_charges():
     session = period_query.session
     season = period_query.season
 
+@registration.get('/my-registrations')
+# @jwt_required()
+def get_my_registrations():
+    
+    studentid = request.args.get('studentid')
+
+    registrations = Registration.query.filter(db.and_(Registration.student_id==studentid,
+    Registration.status=='complete')).first()
+
+    data=[]
+
+    for a_registration in registrations:
+        data.append({
+            'id': a_registration.id,
+            'semester': a_registration.semester,
+            'session': a_registration.session,
+            'season': a_registration.season,
+        })
+
+    return jsonify({
+        "registrations": data,
+    }), HTTP_200_OK
+    
+
 @registration.get('/')
 # @jwt_required()
 def get_registration():
@@ -1082,6 +1106,91 @@ def all_registrations():
         'session': period.session,
         'season': period.season
     }), HTTP_200_OK
+       
+@registration.get("/all-add-drop")
+# @jwt_required()
+def all_add_drop():
+
+    pid = request.args.get('pid')
+
+    period = Period.query.filter(db.and_(Period.id == pid)).first()
+
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.semester == period.semester,Registration.session==period.session,
+        Registration.season==period.season,Registration.add_drop_status=='complete')).order_by(cast(Registration.finished_id,Integer).asc()).all()
+    
+    data1=[]
+    data2=[]
+    data3=[]
+    data4=[]
+    
+    for a_registration in all_registrations:
+        user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
+        student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
+        
+        if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
+            data1.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+                'bursar_print': a_registration.bursar_print,
+                'registrar_print': a_registration.registrar_print,
+            })
+        if student.programme_category == 'PGDT Programme':
+            data2.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+                'bursar_print': a_registration.bursar_print,
+                'registrar_print': a_registration.registrar_print,
+            })
+        if student.programme_category == 'Bachelor of Arts Programme':
+            data3.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+                'bursar_print': a_registration.bursar_print,
+                'registrar_print': a_registration.registrar_print,
+            })
+        if student.programme_category == 'Diploma Programme':
+            data4.append({
+                'student_id': a_registration.student_id,
+                'dean': a_registration.dean,
+                'bursar': a_registration.bursar,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+                'status': a_registration.status,
+                'bursar_print': a_registration.bursar_print,
+                'registrar_print': a_registration.registrar_print,
+            })
+
+    return jsonify({
+        "registrations_ma": data1,
+        "registrations_pgdt": data2,
+        "registrations_ba": data3,
+        "registrations_dip": data4,
+        'semester': period.semester,
+        'session': period.session,
+        'season': period.season
+    }), HTTP_200_OK
+
 
 @registration.get("/get-my-registrations")
 # @jwt_required()

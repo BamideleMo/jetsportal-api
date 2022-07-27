@@ -1,3 +1,4 @@
+from operator import and_
 from flask import Blueprint,request,jsonify
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
@@ -18,7 +19,7 @@ def get_faculties():
     for a_faculty in all_faculty:
         data.append({
             'id': a_faculty.id,
-            'title': a_faculty.first_name,
+            'title': a_faculty.title,
             'username': a_faculty.username,
             'first_name': a_faculty.first_name,
             'last_name': a_faculty.last_name,
@@ -26,7 +27,7 @@ def get_faculties():
         })
     
     return jsonify({
-        "faculty": data,
+        "all_faculty": data,
     }),HTTP_200_OK
     
 @faculty.post('/allocate-course')
@@ -274,3 +275,52 @@ def get_resources():
         "resources": data,
     }), HTTP_200_OK
 
+@faculty.get("/")
+# @jwt_required()
+def get_a_faculty():
+
+    fid = request.args.get('id')
+    
+    faculty = User.query.filter(db.and_(User.user_category=='Faculty',User.id==fid)).first()
+    return jsonify({
+        'id': faculty.id,
+        'title': faculty.title,
+        'username': faculty.username,
+        'first_name': faculty.first_name,
+        'last_name': faculty.last_name,
+        'middle_name': faculty.middle_name,
+    }), HTTP_200_OK
+
+@faculty.post('/edit')
+def edit_faculty():
+    id = request.json['faculty_id']
+    title = request.json['title']
+    first_name = request.json['first_name']
+    middle_name = request.json['middle_name']
+    last_name = request.json['last_name']
+
+    faculty = User.query.filter(db.and_(User.user_category=='Faculty',User.id==id)).first()
+
+    if title is None:
+        pass
+    else:
+        faculty.title=title    
+        db.session.commit()
+    if first_name is None:
+        pass
+    else:
+        faculty.first_name=first_name    
+        db.session.commit()
+    if middle_name is None:
+        pass
+    else:
+        faculty.middle_name=middle_name    
+        db.session.commit()
+    if last_name is None:
+        pass
+    else:
+        faculty.last_name=last_name    
+        db.session.commit()
+    return jsonify({
+        'message': "Done",
+    }),HTTP_200_OK

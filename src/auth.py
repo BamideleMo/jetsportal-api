@@ -136,13 +136,12 @@ def login():
             else:
                 if user.password == '1234':
                     return jsonify({
-                        'error':'You NEED to change password. Click Forgot Password below.'
+                        'error':'You NEED to reset your password to continue. Click Forgot Password below to do that.'
                     }), HTTP_401_UNAUTHORIZED
                 else:
                     return jsonify({
                         'error':'Password is NOT correct.'
-                    }), HTTP_401_UNAUTHORIZED
-    
+                    }), HTTP_401_UNAUTHORIZED    
     else:
         return jsonify({
             'error':'User with: ' + username + ' is NOT created.'
