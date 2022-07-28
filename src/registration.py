@@ -1222,8 +1222,8 @@ def get_new_students():
                 'programme': student.programme,
                 'ledger_no': student.ledger_no,
                 'admission_yr': student.admission_year,
-                'registration_status': registration.status,
-                'phone': registration.phone_number,
+                'registration_status': a_registration.status,
+                'phone': a_registration.phone_number,
             })
         if student.programme_category == 'Masters Programme':
             data1.append({
@@ -1235,8 +1235,8 @@ def get_new_students():
                 'programme': student.programme,
                 'ledger_no': student.ledger_no,
                 'admission_yr': student.admission_year,
-                'registration_status': registration.status,
-                'phone': registration.phone_number,
+                'registration_status': a_registration.status,
+                'phone': a_registration.phone_number,
             })
         if student.programme_category == 'PGDT Programme':
             data2.append({
@@ -1248,8 +1248,8 @@ def get_new_students():
                 'programme': student.programme,
                 'ledger_no': student.ledger_no,
                 'admission_yr': student.admission_year,
-                'registration_status': registration.status,
-                'phone': registration.phone_number,
+                'registration_status': a_registration.status,
+                'phone': a_registration.phone_number,
             })
         if student.programme_category == 'Bachelor of Arts Programme':
             data3.append({
@@ -1261,8 +1261,8 @@ def get_new_students():
                 'programme': student.programme,
                 'ledger_no': student.ledger_no,
                 'admission_yr': student.admission_year,
-                'registration_status': registration.status,
-                'phone': registration.phone_number,
+                'registration_status': a_registration.status,
+                'phone': a_registration.phone_number,
             })
         if student.programme_category == 'Diploma Programme':
             data4.append({
@@ -1274,8 +1274,8 @@ def get_new_students():
                 'programme': student.programme,
                 'ledger_no': student.ledger_no,
                 'admission_yr': student.admission_year,
-                'registration_status': registration.status,
-                'phone': registration.phone_number,
+                'registration_status': a_registration.status,
+                'phone': a_registration.phone_number,
             })
 
     return jsonify({
