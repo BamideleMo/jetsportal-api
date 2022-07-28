@@ -333,7 +333,7 @@ def delete_faculty():
     
     # db.session.delete(faculty)     
     # db.session.commit()
-    print(faculty)
+    print(faculty.last_name)
     
     return jsonify({
         "message": 'Done',
