@@ -1220,6 +1220,10 @@ def get_new_students():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
+                'ledger_no': student.ledger_no,
+                'admission_yr': student.admission_year,
+                'registration_status': registration.status,
+                'phone': registration.phone_number,
             })
         if student.programme_category == 'Masters Programme':
             data1.append({
@@ -1229,6 +1233,10 @@ def get_new_students():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
+                'ledger_no': student.ledger_no,
+                'admission_yr': student.admission_year,
+                'registration_status': registration.status,
+                'phone': registration.phone_number,
             })
         if student.programme_category == 'PGDT Programme':
             data2.append({
@@ -1238,6 +1246,10 @@ def get_new_students():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
+                'ledger_no': student.ledger_no,
+                'admission_yr': student.admission_year,
+                'registration_status': registration.status,
+                'phone': registration.phone_number,
             })
         if student.programme_category == 'Bachelor of Arts Programme':
             data3.append({
@@ -1247,6 +1259,10 @@ def get_new_students():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
+                'ledger_no': student.ledger_no,
+                'admission_yr': student.admission_year,
+                'registration_status': registration.status,
+                'phone': registration.phone_number,
             })
         if student.programme_category == 'Diploma Programme':
             data4.append({
@@ -1256,6 +1272,10 @@ def get_new_students():
                 'middle_name': user1.middle_name,
                 'last_name': user1.last_name,
                 'programme': student.programme,
+                'ledger_no': student.ledger_no,
+                'admission_yr': student.admission_year,
+                'registration_status': registration.status,
+                'phone': registration.phone_number,
             })
 
     return jsonify({
