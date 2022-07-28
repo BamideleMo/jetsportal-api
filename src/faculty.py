@@ -324,3 +324,17 @@ def edit_faculty():
     return jsonify({
         'message': "Done",
     }),HTTP_200_OK
+
+@faculty.get("/delete")
+def delete_faculty():
+    faculty_id = request.args.get('fid')
+    
+    faculty = User.query.filter(db.and_(User.id==faculty_id,User.user_category=='Faculty')).first()
+    
+    # db.session.delete(faculty)     
+    # db.session.commit()
+    print(faculty)
+    
+    return jsonify({
+        "message": 'Done',
+    }), HTTP_200_OK
