@@ -1200,7 +1200,7 @@ def get_new_students():
 
     all_registrations = Registration.query.filter(db.and_(
         Registration.semester == period.semester,Registration.session==period.session,
-        Registration.season==period.season,Registration.fresh=='new')).order_by(cast(Registration.finished_id,Integer).asc()).all()
+        Registration.season==period.season,Registration.fresh=='new')).order_by(cast(Registration.student_id,Integer).asc()).all()
     
     data1=[]
     data2=[]
