@@ -325,7 +325,7 @@ def edit_faculty():
         'message': "Done",
     }),HTTP_200_OK
 
-@faculty.get("/delete")
+@faculty.post("/delete")
 def delete_faculty():
     faculty_id = request.args.get('fid')
     
