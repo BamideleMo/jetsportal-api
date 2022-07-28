@@ -331,9 +331,8 @@ def delete_faculty():
     
     faculty = User.query.filter(db.and_(User.id==faculty_id,User.user_category=='Faculty')).first()
     
-    # db.session.delete(faculty)     
-    # db.session.commit()
-    print(faculty.last_name)
+    db.session.delete(faculty)     
+    db.session.commit()
     
     return jsonify({
         "message": 'Done',
