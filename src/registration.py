@@ -1189,7 +1189,85 @@ def all_add_drop():
         'session': period.session,
         'season': period.season
     }), HTTP_200_OK
+       
+@registration.get("/new-students")
+# @jwt_required()
+def get_new_students():
 
+    pid = request.args.get('pid')
+
+    period = Period.query.filter(db.and_(Period.id == pid)).first()
+
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.semester == period.semester,Registration.session==period.session,
+        Registration.season==period.season,Registration.fresh=='new')).order_by(cast(Registration.finished_id,Integer).asc()).all()
+    
+    data1=[]
+    data2=[]
+    data3=[]
+    data4=[]
+    data5=[]
+    
+    for a_registration in all_registrations:
+        user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
+        student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
+        
+        if student.programme_category == 'Master of Divinity Programme':
+            data5.append({
+                'student_id': a_registration.student_id,
+                'dean_add_drop': a_registration.dean_add_drop,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+            })
+        if student.programme_category == 'Masters Programme':
+            data1.append({
+                'student_id': a_registration.student_id,
+                'dean_add_drop': a_registration.dean_add_drop,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+            })
+        if student.programme_category == 'PGDT Programme':
+            data2.append({
+                'student_id': a_registration.student_id,
+                'dean_add_drop': a_registration.dean_add_drop,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+            })
+        if student.programme_category == 'Bachelor of Arts Programme':
+            data3.append({
+                'student_id': a_registration.student_id,
+                'dean_add_drop': a_registration.dean_add_drop,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+            })
+        if student.programme_category == 'Diploma Programme':
+            data4.append({
+                'student_id': a_registration.student_id,
+                'dean_add_drop': a_registration.dean_add_drop,
+                'first_name': user1.first_name,
+                'middle_name': user1.middle_name,
+                'last_name': user1.last_name,
+                'programme': student.programme,
+            })
+
+    return jsonify({
+        "registrations_ma": data1,
+        "registrations_pgdt": data2,
+        "registrations_ba": data3,
+        "registrations_dip": data4,
+        "registrations_mdiv": data5,
+        'semester': period.semester,
+        'session': period.session,
+        'season': period.season
+    }), HTTP_200_OK
 
 @registration.get("/get-my-registrations")
 # @jwt_required()
