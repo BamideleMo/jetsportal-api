@@ -53,9 +53,15 @@ def get_student_wallet():
     studentId = user.username
     
     wallet_query = Wallet.query.filter_by(student_id=studentId).first()
-    return jsonify({
-        'id': wallet_query.id,
-        'amount': wallet_query.amount,
-        'student_id': wallet_query.student_id,
-    }), HTTP_200_OK
+    if wallet_query is not None:
+        return jsonify({
+            'message':'available',
+            'id': wallet_query.id,
+            'amount': wallet_query.amount,
+            'student_id': wallet_query.student_id,
+        }), HTTP_200_OK
+    else:
+        return jsonify({
+            'message':'unavailable',
+        }), HTTP_200_OK
 
