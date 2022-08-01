@@ -368,7 +368,6 @@ class Availablestudentids(db.Model):
     student_id=db.Column(db.Text, unique=True, nullable=False)
     programme_category=db.Column(db.Text,nullable=False)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
-
     
     def __repr__(self) -> str:
         return 'Availablestudentids>>>{self.id}'
@@ -386,3 +385,12 @@ class Learningresources(db.Model):
     def __repr__(self) -> str:
         return 'Learningresources>>>{self.id}'
 
+class Ledgernumbers(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    ledger_no=db.Column(db.Text,nullable=False)
+    used=db.Column(db.Text,default='no')
+    created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
+
+    
+    def __repr__(self) -> str:
+        return 'Ledgernumbers>>>{self.id}'

@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Allocatedcourses, Courses, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
+from src.database import Affiliationfees, Allocatedcourses, Courses, Ledgernumbers, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -634,6 +634,34 @@ def get_all_receipts():
 
     return jsonify({
         "receipts": data,
+    }), HTTP_200_OK
+
+@admin.post('/generate-ledger-numbers')
+def generate_ledger_numbers():
+
+    start = request.json['start']
+    code = request.json['code']
+    range = request.json['range']
+
+    count = 0
+    data = []
+
+    while (count <= int(range)):
+        ledger_no = str(code)+"/"+str(start)
+        # data.append({
+        #     'ledger_no': ledger_no,
+        #     'count': count,
+        # })
+        generate_ledger_no=Ledgernumbers(ledger_no=ledger_no)
+        db.session.add(generate_ledger_no)    
+        db.session.commit()
+
+        start = int(start) + 1
+        count = count + 1
+    
+    return jsonify({
+        "ledger_nos": data,
+        "count": count,
     }), HTTP_200_OK
 
 @admin.get('/fix')
