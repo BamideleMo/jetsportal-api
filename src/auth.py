@@ -30,11 +30,11 @@ def create_profile():
 
         print(programme_category)
 
-        if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
-            return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
+        # if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
+        #     return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
-        if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
-            return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
+        # if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
+        #     return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
 
         if programme_category == 'Diploma Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
