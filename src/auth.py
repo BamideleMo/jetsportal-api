@@ -64,9 +64,9 @@ def create_profile():
         db.session.commit()
 
         # update_used_ledger = Ledgernumbers(ledger_no==ledger_no).first()
-        update_used_ledger = Ledgernumbers.query.filter_by(ledger_no=ledger_no).first()
-        update_used_ledger.used = 'yes'
-        db.session.commit()
+        # update_used_ledger = Ledgernumbers.query.filter_by(ledger_no=ledger_no).first()
+        # update_used_ledger.used = 'yes'
+        # db.session.commit()
         
         
 
