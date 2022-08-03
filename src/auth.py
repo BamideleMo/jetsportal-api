@@ -31,8 +31,8 @@ def create_profile():
         if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
             return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
-        if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no)).first() is None:
-            return jsonify({'error':"Invalid Ledger Number."}), HTTP_400_BAD_REQUEST
+        # if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no)).first() is None:
+        #     return jsonify({'error':"Invalid Ledger Number."}), HTTP_400_BAD_REQUEST
 
         if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
             return jsonify({'error':"Ledger Number Already Used."}), HTTP_409_CONFLICT
