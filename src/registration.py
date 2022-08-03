@@ -1206,7 +1206,7 @@ def get_new_students():
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        print(user1.student_id)
+        print(user1.username)
         if student.programme_category == 'Master of Divinity Programme':
             data5.append({
                 'student_id': a_registration.student_id,
