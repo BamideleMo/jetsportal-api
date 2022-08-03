@@ -23,7 +23,6 @@ def complete_profile():
     name_of_pastor = request.json['name_of_pastor']
     work_fulltime = request.json['work_fulltime']
     ministry = request.json['ministry']
-    admission_year = request.json['admission_year']
     affiliation_status=request.json['affiliation_status']
     summer_only=request.json['summer_only']
 
@@ -38,7 +37,6 @@ def complete_profile():
     one_user.local_church=local_church
     one_user.name_of_pastor=name_of_pastor
     one_user.work_fulltime=work_fulltime
-    one_user.admission_year=admission_year
     one_user.affiliation_status=affiliation_status
     one_user.ministry=ministry
     one_user.summer_only=summer_only
