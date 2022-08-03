@@ -77,6 +77,7 @@ def get_awaiting_dean():
             'programme': one_student.programme,
             'current_level': awaiting_dean.level,
             'who': 'dean',
+            'fresh': awaiting_dean.fresh,
         })
     return jsonify({
         "awaitings_dean": data,
@@ -132,6 +133,7 @@ def get_awaiting_bursar():
             'current_level': awaiting_bursar.level,
             'ledger_no': one_student2.ledger_no,
             'who': 'bursar',
+            'fresh': awaiting_bursar.fresh,
         })
     
     return jsonify({
