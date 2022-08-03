@@ -148,7 +148,7 @@ class Period(db.Model):
 
 class Registration(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    student_id=db.Column(db.Text, unique=True, nullable=False)
+    student_id=db.Column(db.Text, nullable=False)
     fresh=db.Column(db.Text)
     level=db.Column(db.Text)
     semester=db.Column(db.String(100), nullable=False)
