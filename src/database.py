@@ -58,28 +58,44 @@ class Student(db.Model):
             department = "DME"
         if self.programme == 'Diploma of Theology - Biblical Studies':
             department = "DBS"
-        if self.programme == 'Bachelor of Arts - Youth Ministry':
+        if self.programme == 'BA in Theology (Youth Ministry)':
             department = "YM"
-        if self.programme == 'Bachelor of Arts - Pastoral Studies' or self.programme == 'Master of Arts - Pastoral Studies':
+        if self.programme == 'BA in Theology (Pastoral Studies)' or self.programme == 'MA in Theology (Pastoral Studies)':
             department = "PS"
-        if self.programme == 'Bachelor of Arts - Biblical Studies':
+        if self.programme == 'BA in Theology (Biblical Studies)':
             department = "BS"
-        if self.programme == 'Bachelor of Arts - Education' or self.programme == 'Master of Arts - Christian Education':
-            department = "CE"
-        if self.programme == 'Bachelor of Arts - Missions and Evangelism' or self.programme == 'Master of Arts - Missions and Evangelism':
+        if self.programme == 'BA in Theology (Educational Studies)':
+            department = "ES"
+        if self.programme == 'BA in Theology (Missions and Evangelism)':
             department = "ME"
         if self.programme == 'Post-Graduate Diploma of Theology':
             department = "PGDT"
-        if self.programme == 'Master of Arts - Theological Studies':
+        if self.programme == 'BA in Theology (Theological Studies)':
             department = "TS"
-        if self.programme == 'Master of Arts - Biblical Studies (New Testament Track)':
-            department = "NT"
-        if self.programme == 'Master of Arts - Biblical Studies (Old Testament Track)':
+        if self.programme == 'MA in Theology (Biblical Studies, OT)':
             department = "OT"
-        if self.programme == 'Master of Arts - Leadership and Administration':
+        if self.programme == 'MA in Theology (Biblical Studies, NT)':
+            department = "NT"
+        if self.programme == 'MA in Theology (Systematic Theology)':
+            department = "ST"
+        if self.programme == 'MA in Theology (Church History and Historical Theology)':
+            department = "CH"
+        if self.programme == 'MA in Theology (Christian Ethics and Public Theology)':
+            department = "CP"
+        if self.programme == 'MA in Theology (Christian Apologetics)':
+            department = "CA"
+        if self.programme == 'MA in Theology (Christian Education)':
+            department = "CE"
+        if self.programme == 'MA in Theology (Mission and Intercultural Studies)':
+            department = "MI"
+        if self.programme == 'MA in Theology (Youth Ministry)':
+            department = "YM"
+        if self.programme == 'MA in Theology (Leadership and Administration)':
             department = "LA"
-        if self.programme == 'Master of Arts - Psychology and Biblical Counselling':
-            department = "PBC"
+        if self.programme == 'MA in Theology (Biblical Counseling and Psychology)':
+            department = "BP"
+        if self.programme == 'MA in Theology (Peace and Conflict Studies)':
+            department = "PC"
         if self.programme == 'Master of Divinity':
             department = "MD"
 
@@ -200,6 +216,8 @@ class Newstudentcharges(db.Model):
     matriculation_undergraduate=db.Column(db.Text)
     id_card=db.Column(db.Text)
     actea=db.Column(db.Text)
+    department=db.Column(db.Text)
+    sug=db.Column(db.Text)
     created_at = db.Column(db.String(120), default=(datetime.now().strftime("%d.%m.%Y")))
     updated_at = db.Column(db.String(120), onupdate=(datetime.now().strftime("%d.%m.%Y")))
 

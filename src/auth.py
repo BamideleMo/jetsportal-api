@@ -13,9 +13,9 @@ CORS(auth)
 
 @auth.post('/create-profile') #Create a user profile
 def create_profile():
-    first_name = request.json['first_name']
-    middle_name = request.json['middle_name']
-    last_name = request.json['last_name']
+    first_name = ((request.json['first_name']).lower()).capitalize()
+    middle_name = ((request.json['middle_name']).lower()).capitalize()
+    last_name = ((request.json['last_name']).lower()).capitalize()
     user_category = request.json['user_category']
 
     if request.json['user_category'] == 'Student':
@@ -28,13 +28,14 @@ def create_profile():
 
         # return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
 
-        print(programme_category)
+        if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
+            return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
 
-        # if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
-        #     return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
+        if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no)).first() is None:
+            return jsonify({'error':"Invalid Ledger Number."}), HTTP_400_BAD_REQUEST
 
-        # if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
-        #     return jsonify({'error':"Invalid Ledger Number."}), HTTP_409_CONFLICT
+        if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
+            return jsonify({'error':"Ledger Number Already Used."}), HTTP_409_CONFLICT
 
         if programme_category == 'Diploma Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
@@ -51,23 +52,23 @@ def create_profile():
         if programme_category == 'Masters Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
             username = '6' + str(int(last_student_id.student_id) + 1)
+
+            print(last_student_id.student_id)
         
         if programme_category == 'Master of Divinity Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
             username = '7' + str(int(last_student_id.student_id) + 1)
 
-        last_student_id.student_id = username
+        last_student_id.student_id = int(last_student_id.student_id) + 1
         db.session.commit()
 
         create_student=Student(student_id=username,admission_year=admission_year,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
         db.session.add(create_student)    
         db.session.commit()
 
-        # update_used_ledger = Ledgernumbers(ledger_no==ledger_no).first()
-        # update_used_ledger = Ledgernumbers.query.filter_by(ledger_no=ledger_no).first()
-        # update_used_ledger.used = 'yes'
-        # db.session.commit()
-        
+        update_used_ledger = Ledgernumbers.query.filter_by(ledger_no=ledger_no).first()
+        update_used_ledger.used = 'yes'
+        db.session.commit()
         
 
     if request.json['user_category'] == 'Faculty':
@@ -150,7 +151,7 @@ def login():
                     }), HTTP_401_UNAUTHORIZED    
     else:
         return jsonify({
-            'error':'User with: ' + username + ' is NOT created.'
+            'error':'User with: ' + username + " does NOT exist."
         }), HTTP_401_UNAUTHORIZED
 
 @auth.put("/<string:id>")

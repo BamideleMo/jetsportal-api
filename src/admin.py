@@ -2,7 +2,7 @@ from flask import Blueprint,request,jsonify
 from flask_jwt_extended.view_decorators import jwt_required
 from src import registration
 from src.constants.http_status_codes import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_200_OK
-from src.database import Affiliationfees, Allocatedcourses, Courses, Ledgernumbers, Period, Pickedcourses, Receiptlog, Registration, Student, User, Wallet,db
+from src.database import Affiliationfees, Allocatedcourses, Courses, Ledgernumbers, Newstudentcharges, Period, Pickedcourses, Receiptlog, Registration, Returningstudentcharges, Student, User, Wallet,db
 from flask_jwt_extended import create_access_token,create_refresh_token, jwt_required, get_jwt_identity
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -663,6 +663,60 @@ def generate_ledger_numbers():
         "ledger_nos": data,
         "count": count,
     }), HTTP_200_OK
+
+@admin.post('/post-admin-charges')
+def post_admin_charges():
+
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    matriculation_postgraduate = request.json['matriculation_postgraduate']
+    matriculation_undergraduate = request.json['matriculation_undergraduate']
+    id_card = request.json['id_card']
+    actea = request.json['actea']
+    department_newstudents = request.json['department_newstudents']
+    department_oldstudents = request.json['department_oldstudents']
+    sug_newstudents = request.json['sug_newstudents']
+    sug_oldstudents = request.json['sug_oldstudents']
+    admin = request.json['admin']
+    exam = request.json['exam']
+    library = request.json['library']
+    ict = request.json['ict']
+    ecwa_dev = request.json['ecwa_dev']
+    campus_dev = request.json['campus_dev']
+    insurance = request.json['insurance']
+
+    if Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==semester,Newstudentcharges.session==session,Newstudentcharges.season==season)).first() is not None:
+        return jsonify({'error':"Charges for Semester, Session & Season entered already exist."}), HTTP_409_CONFLICT
+    
+    newstudentcharges = Newstudentcharges(semester=semester,session=session,season=season,
+    matriculation_postgraduate=matriculation_postgraduate,
+    matriculation_undergraduate=matriculation_undergraduate,
+    id_card=id_card,
+    actea=actea,
+    department=department_newstudents,
+    sug=sug_newstudents)
+    db.session.add(newstudentcharges)        
+    db.session.commit()
+
+    returningstudentcharges = Returningstudentcharges(semester=semester,session=session,season=season,
+    admin=admin,
+    exam=exam,
+    library=library,
+    ict=ict,
+    ecwa_dev=ecwa_dev,
+    campus_dev=campus_dev,
+    late=0,
+    insurance=insurance,
+    sug = sug_oldstudents,
+    department = department_oldstudents
+    )
+    db.session.add(returningstudentcharges)        
+    db.session.commit()
+    
+    return jsonify({
+        'message': "Success"
+    }),HTTP_201_CREATED
 
 @admin.get('/fix')
 def fix():
