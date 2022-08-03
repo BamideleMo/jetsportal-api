@@ -55,7 +55,7 @@ def start_registration():
             'campus_dev': returning_student_charges_query.campus_dev,
             'insurance': returning_student_charges_query.insurance,
             'late': returning_student_charges_query.late,
-            'total': total,
+            'total': total
         }
     elif (int(level) >=5 and fresh =='new'):
         total = int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(newstudentcharges_query.department) + int(newstudentcharges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
