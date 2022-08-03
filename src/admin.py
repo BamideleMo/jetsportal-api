@@ -647,7 +647,7 @@ def generate_ledger_numbers():
     data = []
 
     while (count <= int(range)):
-        ledger_no = str(code)+"/"+str(start)
+        ledger_no = '0'+str(code)+"/"+str(start)
         # data.append({
         #     'ledger_no': ledger_no,
         #     'count': count,

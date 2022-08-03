@@ -53,7 +53,6 @@ def create_profile():
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
             username = '6' + str(int(last_student_id.student_id) + 1)
 
-            print(last_student_id.student_id)
         
         if programme_category == 'Master of Divinity Programme':
             last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
