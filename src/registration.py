@@ -1379,15 +1379,24 @@ def get_enrollment_stats():
     count_ba_ce = 0
     count_ba_ym = 0
     count_ba_bs = 0
+    count_ba_ts = 0
     count_pgdt = 0
     count_ma_ps = 0
     count_ma_me = 0
+    count_ma_mi = 0
     count_ma_pbc = 0
+    count_ma_bp = 0
     count_ma_nt = 0
     count_ma_ot = 0
     count_ma_ce = 0
     count_ma_ts = 0
+    count_ma_st = 0
+    count_ma_ch = 0
+    count_ma_cp = 0
+    count_ma_ca = 0
     count_ma_la = 0
+    count_ma_ym = 0
+    count_ma_pc = 0
     count_mdiv = 0
     for a_complete_registration in all_complete_registrations:
         student = Student.query.filter(db.and_(
@@ -1402,47 +1411,74 @@ def get_enrollment_stats():
         if student.programme_category == 'Diploma Programme' and student.programme == 'Biblical Studies':
             count_dip_bs = count_dip_bs + 1
         
-        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Missions and Evangelism':
+        if student.programme_category == 'Bachelor of Arts Programme' and (student.programme == 'Bachelor of Arts - Missions and Evangelism' or student.programme == 'BA in Theology (Missions and Evangelism)'):
             count_ba_me = count_ba_me + 1
         
-        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Pastoral Studies':
+        if student.programme_category == 'Bachelor of Arts Programme' and (student.programme == 'Bachelor of Arts - Pastoral Studies' or student.programme == 'BA in Theology (Pastoral Studies)'):
             count_ba_ps = count_ba_ps + 1
         
-        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Education':
+        if student.programme_category == 'Bachelor of Arts Programme' and (student.programme == 'Bachelor of Arts - Education' or student.programme == 'BA in Theology (Educational Studies)'):
             count_ba_ce = count_ba_ce + 1
         
-        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Youth Ministry':
+        if student.programme_category == 'Bachelor of Arts Programme' and (student.programme == 'Bachelor of Arts - Youth Ministry' or student.programme == 'BA in Theology (Youth Ministry)'):
             count_ba_ym = count_ba_ym + 1
         
-        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'Bachelor of Arts - Biblical Studies':
+        if student.programme_category == 'Bachelor of Arts Programme' and (student.programme == 'Bachelor of Arts - Biblical Studies' or student.programme == 'BA in Theology (Biblical Studies)'):
             count_ba_bs = count_ba_bs + 1
         
+        if student.programme_category == 'Bachelor of Arts Programme' and student.programme == 'BA in Theology (Theological Studies)':
+            count_ba_ts = count_ba_ts + 1
+
         if student.programme_category == 'PGDT Programme' and student.programme == 'Post-Graduate Diploma of Theology':
             count_pgdt = count_pgdt + 1
         
-        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Pastoral Studies':
+        if student.programme_category == 'Masters Programme' and (student.programme == 'Master of Arts - Pastoral Studies' or student.programme == 'MA in Theology (Pastoral Studies)'):
             count_ma_ps = count_ma_ps + 1
         
         if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Missions and Evangelism':
             count_ma_me = count_ma_me + 1
         
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Mission and Intercultural Studies)':
+            count_ma_mi = count_ma_mi + 1
+        
         if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Psychology and Biblical Counselling':
             count_ma_pbc = count_ma_pbc + 1
         
-        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Biblical Studies (New Testament Track)':
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Biblical Counseling and Psychology)':
+            count_ma_bp = count_ma_bp + 1
+        
+        if student.programme_category == 'Masters Programme' and (student.programme == 'Master of Arts - Biblical Studies (New Testament Track)' or student.programme == 'MA in Theology (Biblical Studies, NT)'):
             count_ma_nt = count_ma_nt + 1
         
-        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Biblical Studies (Old Testament Track)':
+        if student.programme_category == 'Masters Programme' and (student.programme == 'Master of Arts - Biblical Studies (Old Testament Track)' or student.programme == 'MA in Theology (Biblical Studies, OT)'):
             count_ma_ot = count_ma_ot + 1
         
-        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Christian Education':
+        if student.programme_category == 'Masters Programme' and (student.programme == 'Master of Arts - Christian Education' or student.programme == 'MA in Theology (Christian Education)'):
             count_ma_ce = count_ma_ce + 1
         
         if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Theological Studies':
             count_ma_ts = count_ma_ts + 1
         
-        if student.programme_category == 'Masters Programme' and student.programme == 'Master of Arts - Leadership and Administration':
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Systematic Theology)':
+            count_ma_st = count_ma_st + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Church History and Historical Theology)':
+            count_ma_ch = count_ma_ch + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Christian Ethics and Public Theology)':
+            count_ma_cp = count_ma_cp + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Christian Apologetics)':
+            count_ma_ca = count_ma_ca + 1
+        
+        if student.programme_category == 'Masters Programme' and (student.programme == 'Master of Arts - Leadership and Administration' or student.programme == 'MA in Theology (Leadership and Administration)'):
             count_ma_la = count_ma_la + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Youth Ministry)':
+            count_ma_ym = count_ma_ym + 1
+        
+        if student.programme_category == 'Masters Programme' and student.programme == 'MA in Theology (Peace and Conflict Studies)':
+            count_ma_pc = count_ma_pc + 1
         
         if student.programme_category == 'Master of Divinity Programme' and student.programme == 'Master of Divinity':
             count_mdiv = count_mdiv + 1
@@ -1457,15 +1493,24 @@ def get_enrollment_stats():
             'count_ba_ce':count_ba_ce,
             'count_ba_ym':count_ba_ym,
             'count_ba_bs':count_ba_bs,
+            'count_ba_ts': count_ba_ts,
             'count_pgdt':count_pgdt,
             'count_ma_ps':count_ma_ps,
             'count_ma_me': count_ma_me,
+            'count_ma_mi': count_ma_mi,
             'count_ma_pbc': count_ma_pbc,
+            'count_ma_bp': count_ma_bp,
             'count_ma_nt':count_ma_nt,
             'count_ma_ot':count_ma_ot,
             'count_ma_ce':count_ma_ce,
             'count_ma_ts':count_ma_ts,
+            'count_ma_st':count_ma_st,
+            'count_ma_ch':count_ma_ch,
+            'count_ma_cp':count_ma_cp,
+            'count_ma_ca':count_ma_ca,
             'count_ma_la':count_ma_la,
+            'count_ma_ym':count_ma_ym,
+            'count_ma_pc':count_ma_pc,
             'count_mdiv':count_mdiv,
         'semester': period.semester,
         'session': period.session,
