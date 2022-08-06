@@ -346,7 +346,7 @@ def get_courses():
     }),HTTP_200_OK
  
 @admin.post('/allocate-course')
-def change_password():
+def allocate_course():
     semester = request.json['semester']
     session = request.json['session']
     season = request.json['season']
