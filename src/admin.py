@@ -345,6 +345,24 @@ def get_courses():
         "courses": data,
     }),HTTP_200_OK
  
+@admin.post('/allocate-course')
+def change_password():
+    semester = request.json['semester']
+    session = request.json['session']
+    season = request.json['season']
+    course = request.json['course']
+    lecturer = request.json['lecturer']
+
+    allocated = Allocatedcourses(semester=semester,session=session,
+    season=season,code=course,username=lecturer)
+    db.session.add(allocated)     
+    db.session.commit()
+
+    return jsonify({
+        'message': "Success",
+    }),HTTP_201_CREATED
+
+
 @admin.get("/get-allocated-courses")
 # @jwt_required()
 def get_allocated_courses():
