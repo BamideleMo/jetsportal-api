@@ -101,7 +101,7 @@ class Student(db.Model):
 
         if self.programme_category == 'Diploma Programme' or self.programme_category == 'Bachelor of Arts Programme':
             level = "UG"
-        if self.programme_category == 'PGDT Programme' or self.programme_category == 'Masters Programme':
+        if self.programme_category == 'PGDT Programme' or self.programme_category == 'Masters Programme' or self.programme_category == 'Master of Divinity':
             level = "PG"
 
         string = str(self.admission_year)
