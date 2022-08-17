@@ -823,7 +823,7 @@ def fix():
             
             
             data.append({
-                'charges': seminary_charges,
+                'charges': one_user.seminary_charges,
                 'student id': a_registration.student_id,
             })
 
