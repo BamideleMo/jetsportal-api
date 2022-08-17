@@ -748,12 +748,11 @@ def fix():
         if a_registration.status == 'complete':
             pass
         else:
-            a_registration.seminary_charges.late = 5000
             # l[late] = 
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
-                'charges': a_registration.seminary_charges,
+                'charges': a_registration.seminary_charges.late,
             })
     
     return jsonify({
