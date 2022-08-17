@@ -751,7 +751,7 @@ def fix():
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
-                'charges': a_registration.seminary_charges.late,
+                'charges': a_registration.seminary_charges,
             })
     
     return jsonify({
