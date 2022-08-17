@@ -745,7 +745,7 @@ def fix():
     
     data = []
     for a_registration in all_registrations:
-        l = a_registration.seminary_charges.late
+        l = a_registration.seminary_charges
         if a_registration.status == 'complete':
             pass
         else:
