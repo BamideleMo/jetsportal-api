@@ -755,6 +755,7 @@ def fix():
             a_registration.seminary_charges['late']="5000"
             a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000
 
+            db.session.delete(a_registration) 
 
             data.append({
                 'student_id': a_registration.student_id,
