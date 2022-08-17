@@ -741,41 +741,21 @@ def post_admin_charges():
 @admin.get('/fix')
 def fix():
     
-    # all_students = Student.query.filter()
-    all_registrations = Registration.query.filter(db.and_(Registration.status=='complete')).all()
-    # data=[]
-
+    all_registrations = Registration.query.filter(db.and_(Registration.status!='complete')).all()
+    
+    data = []
     for a_registration in all_registrations:
         if a_registration.status == 'complete':
-            
-            closing_bal = a_registration.closing_balance
-            
-            wallet = Wallet.query.filter(db.and_(Wallet.student_id==a_registration.student_id)).first()
-
-            print(wallet.amount)
-            print(closing_bal)
-            print(a_registration.student_id)
-            print("XXXXXXXXXXXXXXX")
-            # wallet.amount = closing_bal
-            # db.session.commit()
-            
-        else:
             pass
-            # status1 = User.query.filter(db.and_(User.username==a_student.student_id)).first()
-            # print(status1)
-            # if status1 is None:
-            #     pass
-            # else:
-            #     data.append({
-            #         'id': a_student.id,
-            #         'student_id': a_student.student_id,
-            #         'admission': a_student.admission_year,
-            #         'programme': a_student.programme,
-            #         'email': a_student.email,
-            #         'status': status1.profile_status,
-            #     })
+        else:
+            
+            data.append({
+                'student_id': a_registration.student_id,
+                'status': a_registration.status,
+                'charges': a_registration.seminary_charges
+            })
     
     return jsonify({
-        # "message": data,
+        "message": data,
         "mess": "all done",
     }),HTTP_200_OK
