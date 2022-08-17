@@ -741,7 +741,7 @@ def post_admin_charges():
 @admin.get('/fix')
 def fix():
     
-    all_registrations = Registration.query.filter(db.and_(Registration.semester=='1st',Registration.session=='2022/2023',Registration.season=='regular')).all()
+    all_registrations = Registration.query.filter(db.and_(Registration.semester=='1st',Registration.session=='2022/2023',Registration.season=='regular',Registration.status!='complete')).all()
     
     data = []
     for a_registration in all_registrations:
@@ -755,7 +755,8 @@ def fix():
             a_registration.seminary_charges['late']="5000"
             a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000
 
-            db.session.delete(a_registration) 
+            a_registration.seminary_charges = a_registration.seminary_charges
+            db.session.commit()
 
             data.append({
                 'student_id': a_registration.student_id,
