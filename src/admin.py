@@ -745,15 +745,17 @@ def fix():
     
     data = []
     for a_registration in all_registrations:
-        l = a_registration.seminary_charges['late']
-        l = 5000
+        # l = a_registration.seminary_charges['late']
+        # l = 5000
+        a_registration.seminary_charges['late']=5000    
+        # db.session.commit()
         if a_registration.status == 'complete':
             pass
         else:
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
-                'l': l,
+                'seminary_charges': a_registration.seminary_charges,
             })
     
     return jsonify({
