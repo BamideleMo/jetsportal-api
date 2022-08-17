@@ -749,7 +749,7 @@ def fix():
         # l = 5000
         a_registration.seminary_charges['late']="5000"    
         a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000    
-        db.session.commit()
+        # db.session.commit()
         if a_registration.status == 'complete':
             pass
         else:
