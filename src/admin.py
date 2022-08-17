@@ -749,81 +749,81 @@ def fix():
         if a_registration.status == 'complete':
             pass
         else:
-            # one_user = Registration.query.filter(db.and_(Registration.student_id==a_registration.student_id,
-            # Registration.semester==a_registration.semester,Registration.session==a_registration.session,
-            # Registration.season==a_registration.season)).first()
+            one_user = Registration.query.filter(db.and_(Registration.student_id==a_registration.student_id,
+            Registration.semester==a_registration.semester,Registration.session==a_registration.session,
+            Registration.season==a_registration.season)).first()
  
-            # newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==a_registration.semester,
-            # Newstudentcharges.session==a_registration.session,
-            # Newstudentcharges.season==a_registration.season)).first()
+            newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==a_registration.semester,
+            Newstudentcharges.session==a_registration.session,
+            Newstudentcharges.season==a_registration.season)).first()
 
-            # returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==a_registration.semester,
-            # Returningstudentcharges.session==a_registration.session,Returningstudentcharges.season==a_registration.season)).first()
+            returning_student_charges_query = Returningstudentcharges.query.filter(db.and_(Returningstudentcharges.semester==a_registration.semester,
+            Returningstudentcharges.session==a_registration.session,Returningstudentcharges.season==a_registration.season)).first()
 
 
-            # if(int(a_registration.level) <= 4 and a_registration.fresh=='new'):
-            #     total = int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(newstudentcharges_query.department) + int(newstudentcharges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
-            #     seminary_charges = {
-            #         'matric': newstudentcharges_query.matriculation_undergraduate,
-            #         'id_card': newstudentcharges_query.id_card,
-            #         'actea': newstudentcharges_query.actea,
-            #         'department': newstudentcharges_query.department,
-            #         'sug': newstudentcharges_query.sug,
-            #         'admin': returning_student_charges_query.admin,
-            #         'exam': returning_student_charges_query.exam,
-            #         'library': returning_student_charges_query.library,
-            #         'ict': returning_student_charges_query.ict,
-            #         'ecwa_dev': returning_student_charges_query.ecwa_dev,
-            #         'campus_dev': returning_student_charges_query.campus_dev,
-            #         'insurance': returning_student_charges_query.insurance,
-            #         'late': returning_student_charges_query.late,
-            #         'total': total
-            #     }
-            # elif (int(a_registration.level) >=5 and a_registration.fresh =='new'):
-            #     total = int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(newstudentcharges_query.department) + int(newstudentcharges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
-            #     seminary_charges = {
-            #         'matric': newstudentcharges_query.matriculation_postgraduate,
-            #         'id_card': newstudentcharges_query.id_card,
-            #         'actea': newstudentcharges_query.actea,
-            #         'department': newstudentcharges_query.department,
-            #         'sug': newstudentcharges_query.sug,
-            #         'admin': returning_student_charges_query.admin,
-            #         'exam': returning_student_charges_query.exam,
-            #         'library': returning_student_charges_query.library,
-            #         'ict': returning_student_charges_query.ict,
-            #         'ecwa_dev': returning_student_charges_query.ecwa_dev,
-            #         'campus_dev': returning_student_charges_query.campus_dev,
-            #         'insurance': returning_student_charges_query.insurance,
-            #         'late': returning_student_charges_query.late,
-            #         'total': total,
-            #     }
-            # else:
-            #     total = 0 + 0 + 0 + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
-            #     seminary_charges = {
-            #         'matric': 0,
-            #         'id_card': 0,
-            #         'actea': 0,
-            #         'department': returning_student_charges_query.department,
-            #         'sug': returning_student_charges_query.sug,
-            #         'admin': returning_student_charges_query.admin,
-            #         'exam': returning_student_charges_query.exam,
-            #         'library': returning_student_charges_query.library,
-            #         'ict': returning_student_charges_query.ict,
-            #         'ecwa_dev': returning_student_charges_query.ecwa_dev,
-            #         'campus_dev': returning_student_charges_query.campus_dev,
-            #         'insurance': returning_student_charges_query.insurance,
-            #         'late': returning_student_charges_query.late,
-            #         'total': total,
-            #     }
+            if(int(a_registration.level) <= 4 and a_registration.fresh=='new'):
+                total = int(newstudentcharges_query.matriculation_undergraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(newstudentcharges_query.department) + int(newstudentcharges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
+                seminary_charges = {
+                    'matric': newstudentcharges_query.matriculation_undergraduate,
+                    'id_card': newstudentcharges_query.id_card,
+                    'actea': newstudentcharges_query.actea,
+                    'department': newstudentcharges_query.department,
+                    'sug': newstudentcharges_query.sug,
+                    'admin': returning_student_charges_query.admin,
+                    'exam': returning_student_charges_query.exam,
+                    'library': returning_student_charges_query.library,
+                    'ict': returning_student_charges_query.ict,
+                    'ecwa_dev': returning_student_charges_query.ecwa_dev,
+                    'campus_dev': returning_student_charges_query.campus_dev,
+                    'insurance': returning_student_charges_query.insurance,
+                    'late': returning_student_charges_query.late,
+                    'total': total
+                }
+            elif (int(a_registration.level) >=5 and a_registration.fresh =='new'):
+                total = int(newstudentcharges_query.matriculation_postgraduate) + int(newstudentcharges_query.id_card) + int(newstudentcharges_query.actea) + int(newstudentcharges_query.department) + int(newstudentcharges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
+                seminary_charges = {
+                    'matric': newstudentcharges_query.matriculation_postgraduate,
+                    'id_card': newstudentcharges_query.id_card,
+                    'actea': newstudentcharges_query.actea,
+                    'department': newstudentcharges_query.department,
+                    'sug': newstudentcharges_query.sug,
+                    'admin': returning_student_charges_query.admin,
+                    'exam': returning_student_charges_query.exam,
+                    'library': returning_student_charges_query.library,
+                    'ict': returning_student_charges_query.ict,
+                    'ecwa_dev': returning_student_charges_query.ecwa_dev,
+                    'campus_dev': returning_student_charges_query.campus_dev,
+                    'insurance': returning_student_charges_query.insurance,
+                    'late': returning_student_charges_query.late,
+                    'total': total,
+                }
+            else:
+                total = 0 + 0 + 0 + int(returning_student_charges_query.department) + int(returning_student_charges_query.sug) + int(returning_student_charges_query.admin) + int(returning_student_charges_query.exam) + int(returning_student_charges_query.library) + int(returning_student_charges_query.ict) + int(returning_student_charges_query.ecwa_dev) + int(returning_student_charges_query.campus_dev) + int(returning_student_charges_query.insurance) + int(returning_student_charges_query.late)
+                seminary_charges = {
+                    'matric': 0,
+                    'id_card': 0,
+                    'actea': 0,
+                    'department': returning_student_charges_query.department,
+                    'sug': returning_student_charges_query.sug,
+                    'admin': returning_student_charges_query.admin,
+                    'exam': returning_student_charges_query.exam,
+                    'library': returning_student_charges_query.library,
+                    'ict': returning_student_charges_query.ict,
+                    'ecwa_dev': returning_student_charges_query.ecwa_dev,
+                    'campus_dev': returning_student_charges_query.campus_dev,
+                    'insurance': returning_student_charges_query.insurance,
+                    'late': returning_student_charges_query.late,
+                    'total': total,
+                }
 
             
 
-            # one_user.seminary_charges = seminary_charges
-            # db.session.commit()
+            one_user.seminary_charges = seminary_charges
+            db.session.commit()
             
             
             data.append({
-                'charges': a_registration.seminary_charges,
+                'charges': seminary_charges,
                 'student id': a_registration.student_id,
             })
 
