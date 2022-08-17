@@ -741,7 +741,7 @@ def post_admin_charges():
 @admin.get('/fix')
 def fix():
     
-    all_registrations = Registration.query.filter(db.and_(Registration.status!='complete')).all()
+    all_registrations = Registration.query.filter().all()
     
     data = []
     for a_registration in all_registrations:
