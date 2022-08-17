@@ -755,9 +755,6 @@ def fix():
             a_registration.seminary_charges['late']="5000"
             a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000
 
-            a_registration.seminary_charges = a_registration.seminary_charges
-            db.session.commit()
-
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
