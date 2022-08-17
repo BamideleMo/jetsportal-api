@@ -830,6 +830,11 @@ def fix():
             db.session.add(registration)     
             db.session.commit()
 
+            the_registration = Registration.query.filter(db.and_(Registration.semester=='04422',Registration.semester=='1st',Registration.session=='2022/2023',Registration.season=='regular')).first()
+            data.append({
+                'Charges': the_registration.semester_charges,
+            })
+
     return jsonify({
         "message": data,
         "mess": "all done",
