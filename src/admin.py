@@ -756,11 +756,11 @@ def fix():
             a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000
             
             # db.session.delete(a_registration)     
-            # db.session.commit()
+            db.session.commit()
 
             # reg=Registration(student_id=a_registration.student_id,semester='1st',session='2022/2023',season='regular',seminary_charges=a_registration.seminary_charges)
             # db.session.add(reg)    
-            # db.session.commit() 
+            # db.session.commit()
             
             data.append({
                 'student_id': a_registration.student_id,
