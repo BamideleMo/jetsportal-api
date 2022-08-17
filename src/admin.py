@@ -748,7 +748,6 @@ def fix():
         if a_registration.status == 'complete':
             pass
         else:
-            # l[late] = 
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
