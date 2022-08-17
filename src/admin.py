@@ -752,16 +752,7 @@ def fix():
             # one_user = Registration.query.filter(db.and_(Registration.student_id==a_registration.student_id,
             # Registration.semester==a_registration.semester,Registration.session==a_registration.session,
             # Registration.season==a_registration.season)).first()
-            
-            # if one_user:
-            #     db.session.delete(one_user)    
-            #     db.session.commit()
-            
-            # denomination_query = Student.query.filter(Student.student_id==a_registration.student_id).first()
-            # denomination = denomination_query.denomination
-
-            # # get student's seminary charges
-            
+ 
             # newstudentcharges_query = Newstudentcharges.query.filter(db.and_(Newstudentcharges.semester==a_registration.semester,
             # Newstudentcharges.session==a_registration.session,
             # Newstudentcharges.season==a_registration.season)).first()
@@ -825,14 +816,15 @@ def fix():
             #         'total': total,
             #     }
 
-            # registration=Registration(student_id=a_registration.student_id,fresh=a_registration.fresh,level=a_registration.level,semester=a_registration.semester,session=a_registration.session,season=a_registration.season,denomination=denomination,seminary_charges=seminary_charges)
-            # db.session.add(registration)     
-            # db.session.commit()
+            
 
-            # the_registration = Registration.query.filter(db.and_(Registration.semester=='04422',Registration.semester=='1st',Registration.session=='2022/2023',Registration.season=='regular')).first()
+            # one_user.seminary_charges = seminary_charges
+            # db.session.commit()
+            
             
             data.append({
                 'charges': a_registration.seminary_charges,
+                'student id': a_registration.student_id,
             })
 
     return jsonify({
