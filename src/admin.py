@@ -747,12 +747,13 @@ def fix():
     for a_registration in all_registrations:
         # l = a_registration.seminary_charges['late']
         # l = 5000
-        a_registration.seminary_charges['late']="5000"    
-        a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000    
-        # db.session.commit()
+
         if a_registration.status == 'complete':
             pass
         else:
+            a_registration.seminary_charges['late']="5000"    
+            a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000    
+            db.session.commit()
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
