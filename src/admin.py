@@ -745,13 +745,14 @@ def fix():
     
     data = []
     for a_registration in all_registrations:
+        
         if a_registration.status == 'complete':
             pass
         else:
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
-                'charges': a_registration.seminary_charges,
+                'charges': a_registration.seminary_charges.late,
             })
     
     return jsonify({
