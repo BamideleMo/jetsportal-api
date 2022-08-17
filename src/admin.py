@@ -751,9 +751,11 @@ def fix():
         if a_registration.status == 'complete':
             pass
         else:
-            a_registration.seminary_charges['late']="5000"    
+            a_registration.seminary_charges.remove('late')
+            # a_registration.seminary_charges['late']="5000"
             a_registration.seminary_charges['total']= a_registration.seminary_charges['total'] + 5000
-            
+
+
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
