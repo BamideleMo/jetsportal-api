@@ -741,14 +741,13 @@ def post_admin_charges():
 @admin.get('/fix')
 def fix():
     
-    all_registrations = Registration.query.filter().all()
+    all_registrations = Registration.query.filter(db.and_(Registration.semester=='1st',Registration.session=='2022/2023',Registration.season=='regular')).all()
     
     data = []
     for a_registration in all_registrations:
         if a_registration.status == 'complete':
             pass
         else:
-            
             data.append({
                 'student_id': a_registration.student_id,
                 'status': a_registration.status,
