@@ -429,8 +429,8 @@ def get_wallet_balance():
     student_id = request.args.get('id')
 
     one_user = Wallet.query.filter(db.and_(Wallet.student_id==student_id)).first()
-    person = User.query.filter(db.and_(User.username==one_user.student_id)).first()
-    student = Student.query.filter(db.and_(Student.student_id==one_user.student_id)).first()
+    person = User.query.filter(db.and_(User.username==student_id)).first()
+    student = Student.query.filter(db.and_(Student.student_id==student_id)).first()
 
     return jsonify({
         "student_id": student_id,
