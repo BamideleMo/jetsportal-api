@@ -176,7 +176,6 @@ def get_class_list():
         Addedcourses.season==period.season,
         Addedcourses.course_code.any(code),
     )).all()
-
     for added_course in added_courses:
             count = count + 1
             registration = Registration.query.filter(Registration.student_id==course.student_id,
@@ -186,6 +185,8 @@ def get_class_list():
             Registration.add_drop_status=='complete',
             ).first()
             if registration:
+                print("XXXXXXXXXXXXXXXCCCCCCCCCCCCCCCC")
+                print(added_course.student_id)
                 user = User.query.filter(User.username==added_course.student_id).first()
                 student = Student.query.filter(Student.student_id==added_course.student_id).first()
                 
