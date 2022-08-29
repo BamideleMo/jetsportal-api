@@ -184,7 +184,7 @@ def get_class_list():
             Registration.season==period.season,
             Registration.add_drop_status=='complete',
             ).first()
-            if registration:
+            if registration is not None:
                 print("XXXXXXXXXXXXXXXCCCCCCCCCCCCCCCC")
                 print(added_course.student_id)
                 user = User.query.filter(User.username==added_course.student_id).first()
@@ -200,6 +200,8 @@ def get_class_list():
                     'sex': student.sex,
                     'course_status': 'Added',
                 })
+            else:
+                print("NOOOOOOPPPPPCCCCCCCCCCCCCCCC")
 
     return jsonify({
         "students": data,
