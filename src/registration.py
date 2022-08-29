@@ -1044,8 +1044,7 @@ def all_registrations():
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        print('XXXXYYYYYYYYYYYZZZZZZZZZZZZZZZ')
-        print(a_registration.student_id)
+        
         if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
             data1.append({
                 'student_id': a_registration.student_id,
@@ -1223,6 +1222,7 @@ def get_new_students():
                 'admission_yr': student.admission_year,
                 'registration_status': a_registration.status,
                 'phone': student.phone_number,
+                'email': student.email,
             })
         if student.programme_category == 'Masters Programme':
             data1.append({
@@ -1236,6 +1236,7 @@ def get_new_students():
                 'admission_yr': student.admission_year,
                 'registration_status': a_registration.status,
                 'phone': student.phone_number,
+                'email': student.email,
             })
         if student.programme_category == 'PGDT Programme':
             data2.append({
@@ -1249,6 +1250,7 @@ def get_new_students():
                 'admission_yr': student.admission_year,
                 'registration_status': a_registration.status,
                 'phone': student.phone_number,
+                'email': student.email,
             })
         if student.programme_category == 'Bachelor of Arts Programme':
             data3.append({
@@ -1262,6 +1264,7 @@ def get_new_students():
                 'admission_yr': student.admission_year,
                 'registration_status': a_registration.status,
                 'phone': student.phone_number,
+                'email': student.email,
             })
         if student.programme_category == 'Diploma Programme':
             data4.append({
@@ -1275,6 +1278,7 @@ def get_new_students():
                 'admission_yr': student.admission_year,
                 'registration_status': a_registration.status,
                 'phone': student.phone_number,
+                'email': student.email,
             })
 
     return jsonify({
