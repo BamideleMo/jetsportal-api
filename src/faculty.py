@@ -142,8 +142,6 @@ def get_class_list():
             Droppedcourses.course_code.any(code),
         )).first()
         if dropped_course:
-            # don't append becuase it was dropped
-            print(course.student_id)
             pass
         else:
             count = count + 1
@@ -178,7 +176,7 @@ def get_class_list():
     )).all()
     for added_course in added_courses:
             count = count + 1
-            registration = Registration.query.filter(Registration.student_id==course.student_id,
+            registration = Registration.query.filter(Registration.student_id==added_course.student_id,
             Registration.semester==period.semester,
             Registration.session==period.session,
             Registration.season==period.season,
