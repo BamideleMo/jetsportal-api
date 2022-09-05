@@ -1575,3 +1575,30 @@ def update_add_drop_print_state():
             'error':"Invalid Registration"
         }), HTTP_400_BAD_REQUEST
 
+@registration.get("/fix-email-new-students")
+# @jwt_required()
+def fix_new_students_email():
+
+    all_registrations = Registration.query.filter(db.and_(
+        Registration.semester == '1st',Registration.session=='2022/2023',
+        Registration.season=='regular',Registration.fresh=='new',Registration.status=='complete')).order_by(cast(Registration.student_id,Integer).asc()).all()
+    
+    data=[]
+    
+    for a_registration in all_registrations:
+        user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
+        student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
+        
+        newEmail = user1.first_name+'.'+a_registration.student_id+'@jets.edu.ng'
+        # student.email = newEmail
+        # db.session.commit()
+        data.append({
+                'email': newEmail,
+                'first_name': user1.first_name,
+                'ID': user1.username,
+        }) 
+
+    return jsonify({
+        "Status": data
+    }), HTTP_200_OK
+
