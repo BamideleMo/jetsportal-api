@@ -1590,8 +1590,10 @@ def fix_new_students_email():
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
         
         newEmail = ((user1.first_name+'.'+a_registration.student_id+'@jets.edu.ng').replace(" ", "")).lower()
-        # student.email = newEmail
-        # db.session.commit()
+        
+        student.email = newEmail
+        db.session.commit()
+        
         data.append({
                 'email': newEmail,
                 'first_name': user1.first_name,
