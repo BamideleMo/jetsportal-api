@@ -384,6 +384,7 @@ def get_allocated_courses():
         a_course = Courses.query.filter(Courses.code == allocated_course.code ).first()
         print(allocated_course.username)
         print(a_user.id)
+        print(allocated_course.code)
         data.append({
             'id': allocated_course.id,
             'first_name': a_user.first_name,
