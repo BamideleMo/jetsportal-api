@@ -25,6 +25,7 @@ def create_profile():
         phone_number = request.json['phone_number']
         ledger_no = request.json['ledger_no']
         admission_year = request.json['admission_year']
+        username = request.json['student_id']
 
         # return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
 
@@ -37,29 +38,29 @@ def create_profile():
         # if Ledgernumbers.query.filter(db.and_(Ledgernumbers.ledger_no==ledger_no,Ledgernumbers.used=='yes')).first() is not None:
         #     return jsonify({'error':"Ledger Number Already Used."}), HTTP_409_CONFLICT
 
-        if programme_category == 'Diploma Programme':
-            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
-            username = '0' + str(int(last_student_id.student_id) + 1)
+        # if programme_category == 'Diploma Programme':
+        #     last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
+        #     username = '0' + str(int(last_student_id.student_id) + 1)
 
-        if programme_category == 'Bachelor of Arts Programme':
-            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
-            username = '0' + str(int(last_student_id.student_id) + 1)
+        # if programme_category == 'Bachelor of Arts Programme':
+        #     last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='undergraduate').first()
+        #     username = '0' + str(int(last_student_id.student_id) + 1)
 
-        if programme_category == 'PGDT Programme':
-            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
-            username = '5' + str(int(last_student_id.student_id) + 1)
+        # if programme_category == 'PGDT Programme':
+        #     last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
+        #     username = '5' + str(int(last_student_id.student_id) + 1)
 
-        if programme_category == 'Masters Programme':
-            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
-            username = '6' + str(int(last_student_id.student_id) + 1)
+        # if programme_category == 'Masters Programme':
+        #     last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
+        #     username = '6' + str(int(last_student_id.student_id) + 1)
 
         
-        if programme_category == 'Master of Divinity Programme':
-            last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
-            username = '7' + str(int(last_student_id.student_id) + 1)
+        # if programme_category == 'Master of Divinity Programme':
+        #     last_student_id = Availablestudentids.query.filter(Availablestudentids.programme_category=='postgraduate').first()
+        #     username = '7' + str(int(last_student_id.student_id) + 1)
 
-        last_student_id.student_id = int(last_student_id.student_id) + 1
-        db.session.commit()
+        # last_student_id.student_id = int(last_student_id.student_id) + 1
+        # db.session.commit()
 
         create_student=Student(student_id=username,admission_year=admission_year,ledger_no=ledger_no,phone_number=phone_number,programme=programme,programme_category=programme_category)
         db.session.add(create_student)    
