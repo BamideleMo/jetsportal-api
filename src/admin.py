@@ -67,6 +67,8 @@ def get_awaiting_dean():
         one_student = Student.query.filter(Student.student_id ==  awaiting_dean.student_id).first()
         one_user = User.query.filter(User.username ==  awaiting_dean.student_id).first()
         period = Period.query.filter(db.and_(Period.semester ==  awaiting_dean.semester,Period.session ==  awaiting_dean.session,Period.season ==  awaiting_dean.season)).first()
+        print("YYYYYYYYYYYY")
+        print(awaiting_dean.student_id)
         data.append({
             'id': awaiting_dean.id,
             'period_id': period.id,
