@@ -67,8 +67,6 @@ def get_awaiting_dean():
         one_student = Student.query.filter(Student.student_id ==  awaiting_dean.student_id).first()
         one_user = User.query.filter(User.username ==  awaiting_dean.student_id).first()
         period = Period.query.filter(db.and_(Period.semester ==  awaiting_dean.semester,Period.session ==  awaiting_dean.session,Period.season ==  awaiting_dean.season)).first()
-        print("YYYYYYYYYYYY")
-        print(awaiting_dean.student_id)
         data.append({
             'id': awaiting_dean.id,
             'period_id': period.id,
@@ -124,6 +122,8 @@ def get_awaiting_bursar():
         one_student2 = Student.query.filter(Student.student_id ==  awaiting_bursar.student_id).first()
         one_user2 = User.query.filter(User.username ==  awaiting_bursar.student_id).first()
         period2 = Period.query.filter(db.and_(Period.semester ==  awaiting_bursar.semester,Period.session ==  awaiting_bursar.session,Period.season ==  awaiting_bursar.season)).first()
+        print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+        print(awaiting_bursar.student_id)
         data.append({
             'id': awaiting_bursar.id,
             'period_id': period2.id,
@@ -223,9 +223,7 @@ def update_from_bursar():
     
     wallet = Wallet.query.filter(db.and_(Wallet.student_id==student_id,
     Wallet.status=='confirmed')).first()
-    print(student_id)
-    print(wallet)
-    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXYYYYYY")
+    
     if wallet: 
         period_query = Period.query.filter(Period.id==period_id).first()
 
