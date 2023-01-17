@@ -402,9 +402,14 @@ def get_picked_courses():
                 one_lecturer = User.query.filter(db.and_(
                 User.username==one_course_lecturer.username)).first()
 
-                lecturer_last_name = one_lecturer.last_name
-                lecturer_first_name = one_lecturer.first_name
-                lecturer_title = one_lecturer.title
+                if one_lecturer:
+                    lecturer_last_name = one_lecturer.last_name
+                    lecturer_first_name = one_lecturer.first_name
+                    lecturer_title = one_lecturer.title
+                else:
+                    lecturer_last_name = ''
+                    lecturer_first_name = ''
+                    lecturer_title = ''
             else:
                 lecturer_last_name = ''
                 lecturer_first_name = ''
@@ -668,7 +673,6 @@ def remove_a_course():
     db.session.add(picked_added_course)    
     db.session.commit() 
 
-    print(one_user.course_code)
         
     return jsonify({
         'message': "Course(s) removed",
