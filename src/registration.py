@@ -383,7 +383,6 @@ def get_picked_courses():
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
            
             print("VVVVVVVVVVVVVV")
-            print(course_info.code)
             print(a_picked_course)
             if(course_info.hours == 'P/F'):
                 hours = 1
