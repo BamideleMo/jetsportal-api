@@ -382,8 +382,6 @@ def get_picked_courses():
             if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
            
-            print("VVVVVVVVVVVVVV")
-            print(a_picked_course)
             if(course_info.hours == 'P/F'):
                 hours = 1
                 cost_per_hr = 7500

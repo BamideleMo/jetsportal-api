@@ -199,7 +199,8 @@ def get_class_list():
                 })
             else:
                 pass
-
+                print("XXXXXXXXUUUUUUU")
+                print(title.title)
     return jsonify({
         "students": data,
         "students2": data2,
