@@ -124,6 +124,7 @@ def get_awaiting_bursar():
         period2 = Period.query.filter(db.and_(Period.semester ==  awaiting_bursar.semester,Period.session ==  awaiting_bursar.session,Period.season ==  awaiting_bursar.season)).first()
         print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
         print(awaiting_bursar.student_id)
+        print(one_user2.username)
         data.append({
             'id': awaiting_bursar.id,
             'period_id': period2.id,
