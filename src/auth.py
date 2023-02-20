@@ -30,7 +30,7 @@ def create_profile():
         # return jsonify({'error':"Temporarily unavailable."}), HTTP_409_CONFLICT
 
         if Student.query.filter_by(ledger_no=ledger_no).first() is not None:
-            return jsonify({'error':"User already exist."}), HTTP_409_CONFLICT
+            return jsonify({'error':"User exist."}), HTTP_409_CONFLICT
 
         if User.query.filter_by(username=username).first() is not None:
             return jsonify({'error':"Duplicate user."}), HTTP_409_CONFLICT
