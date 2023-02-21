@@ -381,11 +381,7 @@ def get_picked_courses():
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
             if(student_level.denomination == 'Non-ECWA' and (student_level.programme_category == 'PGDT Programme' or student_level.programme_category == 'Masters Programme' or student_level.programme_category == 'Master of Divinity Programme')):
                 cost_per_hour_query = Costperhour.query.filter(db.and_(Costperhour.denomination == 'Non-ECWA',Costperhour.level == 'PG',Costperhour.semester == period_query.semester,Costperhour.session == period_query.session,Costperhour.season == period_query.season)).first()
-            print(studentid)
-            print(periodid)
-            print(course_info.code)
-            print(a_picked_course)
-            print("KKKKKKKKKKKKK")
+           
             
             if(course_info.hours == 'P/F'):
                 hours = 1
@@ -1050,7 +1046,7 @@ def all_registrations():
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        print("FFFFFFFFFFFFFFFFFFFFFF)
+        print("FFFFFFFFFFFFFFFFFFFFFF")
         print(a_registration.student_id)
         if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
             data1.append({
