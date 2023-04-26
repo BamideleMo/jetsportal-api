@@ -1310,6 +1310,7 @@ def get_my_registrations():
         period = Period.query.filter(db.and_(
         Period.semester == a_registration.semester,Period.session == a_registration.session,
         Period.season == a_registration.season)).first()
+        print(a_registration.semester)
         data.append({
             'id': a_registration.id,
             'student_id': a_registration.student_id,
