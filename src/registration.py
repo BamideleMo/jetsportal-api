@@ -1311,6 +1311,9 @@ def get_my_registrations():
         Period.semester == a_registration.semester,Period.session == a_registration.session,
         Period.season == a_registration.season)).first()
         print(a_registration.semester)
+        print(a_registration.session)
+        print(a_registration.season)
+        print(a_registration.id)
         data.append({
             'id': a_registration.id,
             'student_id': a_registration.student_id,
