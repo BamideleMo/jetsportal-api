@@ -1057,7 +1057,6 @@ def all_registrations():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
-                'total_sem_charges': a_registration.seminary_charges.total,
                 'opening_bal': a_registration.opening_balance,
                 'closing_bal': a_registration.opening_balance,
                 'bursar_print': a_registration.bursar_print,
