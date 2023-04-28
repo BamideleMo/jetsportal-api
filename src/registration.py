@@ -1046,8 +1046,7 @@ def all_registrations():
     for a_registration in all_registrations:
         user1 = User.query.filter(db.and_(User.username == a_registration.student_id)).first()
         student = Student.query.filter(db.and_(Student.student_id == a_registration.student_id)).first()
-        print("FFFFFFFFFFFFFFFFFFFFFF")
-        print(a_registration.student_id)
+        
         if student.programme_category == 'Masters Programme' or student.programme_category == 'Master of Divinity Programme':
             data1.append({
                 'student_id': a_registration.student_id,
@@ -1058,6 +1057,9 @@ def all_registrations():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
+                'total_sem_charges': a_registration.seminary_charges.total,
+                'opening_bal': a_registration.opening_balance,
+                'closing_bal': a_registration.opening_balance,
                 'bursar_print': a_registration.bursar_print,
                 'registrar_print': a_registration.registrar_print,
             })
