@@ -1058,7 +1058,7 @@ def all_registrations():
                 'programme': student.programme,
                 'status': a_registration.status,
                 'opening_bal': a_registration.opening_balance,
-                'closing_bal': a_registration.opening_balance,
+                'closing_bal': a_registration.closing_balance,
                 'bursar_print': a_registration.bursar_print,
                 'registrar_print': a_registration.registrar_print,
             })
@@ -1072,6 +1072,8 @@ def all_registrations():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
+                'opening_bal': a_registration.opening_balance,
+                'closing_bal': a_registration.closing_balance,
                 'bursar_print': a_registration.bursar_print,
                 'registrar_print': a_registration.registrar_print,
             })
@@ -1085,6 +1087,8 @@ def all_registrations():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
+                'opening_bal': a_registration.opening_balance,
+                'closing_bal': a_registration.closing_balance,
                 'bursar_print': a_registration.bursar_print,
                 'registrar_print': a_registration.registrar_print,
             })
@@ -1098,6 +1102,8 @@ def all_registrations():
                 'last_name': user1.last_name,
                 'programme': student.programme,
                 'status': a_registration.status,
+                'opening_bal': a_registration.opening_balance,
+                'closing_bal': a_registration.closing_balance,
                 'bursar_print': a_registration.bursar_print,
                 'registrar_print': a_registration.registrar_print,
             })
